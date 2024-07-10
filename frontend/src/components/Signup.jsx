@@ -1,9 +1,8 @@
-import React , {useState} from 'react';
-import './Signup.css'; // Create a CSS file for styles
-import axios from 'axios';
+import React, { useState } from "react";
+import "./Signup.css"; // Create a CSS file for styles
+import axios from "axios";
 
 function Signup() {
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
@@ -17,8 +16,12 @@ function Signup() {
       return;
     }
     const response = await axios
-      .post("http://localhost:5000/auth/createuser",
-         { name, email, role, password})
+      .post("http://localhost:5000/auth/createuser", {
+        name,
+        email,
+        role,
+        password,
+      })
       .then((response) => {
         console.log(response.data);
         alert("Account has been created successfully!");
@@ -34,20 +37,37 @@ function Signup() {
         <form>
           <label>
             Name
-            <input type="text" name="name" value={name} 
-            onChange={}/>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
           </label>
           <label>
             Email
-            <input type="email" name="email"  />
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </label>
           <label>
             Password
-            <input type="password" name="password" />
+            <input type="password" name="password" value={password}
+             onChange={(e)=>{setPassword(e.target.value)}
+            }/>
           </label>
           <label>
             Confirm Password
-            <input type="password" name="confirmPassword" />
+            <input type="password" name="confirmPassword" value={confirmPassword} 
+           onChange={(e)=>{setConfirmPassword(e.target.value)}  
+          }/>
           </label>
           <div>
             <input type="radio" id="doctor" name="role" value="doctor" />
@@ -57,7 +77,9 @@ function Signup() {
           </div>
           <button type="submit">Signup</button>
         </form>
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <p>
+          Already have an account? <a href="/login">Login</a>
+        </p>
       </div>
     </div>
   );
