@@ -61,7 +61,7 @@ router.post(
       console.log(error);
       res.json({ success: false });
     }
-  }
+  },
 );
 
 // Route 2: Authenticate a User using: POST "/api/auth/login".No login required
@@ -113,7 +113,7 @@ router.post(
       console.log(error.message);
       res.status(500).send("Internal Server Error...!!");
     }
-  }
+  },
 );
 
 module.exports = router;
