@@ -67,10 +67,10 @@ exports.login = [
         }
 
         try {
-            const {email, password} = req.body;
+            const {email, password, role} = req.body;
             const user = await User.findOne({email});
 
-            if (!user) {
+            if (!user || user.role !== role) {
                 success = false;
                 return res.status(404).json({success, message: "User not found"});
             }
