@@ -1,14 +1,26 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = "ThisIsAJWTSecretKey";
 
 exports.register = async (req, res) => {
+  let success = false;
   try {
     const { name, email, password, role } = req.body;
+    let user = await User.findOne({ email: req.body.email });
+    if (user) {
+      success = false;
+      return res.status(400).json({
+        success,
+        error: "Sorry a user with this email already exists...",
+      });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword, role });
     await newUser.save();
-    res.status(201).json(newUser);
+    const authToken = jwt.sign(data, JWT_SECRET);
+    success = true;
+    res.status(201).json(success, authToken);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
