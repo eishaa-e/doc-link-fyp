@@ -4,7 +4,11 @@ module.exports = {
     "node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "light-orchid": "#BB90DB",
+      },
+    },
   },
   plugins: [require("flowbite/plugin")],
 };

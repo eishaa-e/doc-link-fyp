@@ -19,11 +19,8 @@ const Navbar = () => {
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
           <div className="flex items-center">
             <img className="w-12 mr-3" src={logo} alt="Logo" />
-            <span
-              style={{ fontSize: "2rem", color: "#BB90DB" }}
-              className="text-2xl font-bold whitespace-nowrap"
-            >
-              Doc Link
+            <span className=" text-light-orchid text-3xl font-bold whitespace-nowrap">
+              DOC LINK
             </span>
           </div>
           <div className="flex items-center space-x-3">
