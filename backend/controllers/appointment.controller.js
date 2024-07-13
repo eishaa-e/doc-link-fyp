@@ -1,5 +1,7 @@
 const Appointment = require("../models/appointment.model");
 
+// TODO: time slot check validation
+
 exports.bookAppointment = async (req, res) => {
   try {
     const { patient_id, doctor_id, date, time_slot } = req.body;
