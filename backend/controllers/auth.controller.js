@@ -44,8 +44,11 @@ exports.register = [
                 await newDoctor.save();
             }
 
-            const data = {user: {id: newUser.id, role: newUser.role}};
-            const authToken = jwt.sign(data, JWT_SECRET);
+            const authToken = jwt.sign({
+                id: newUser.id,
+                role: newUser.role,
+                email: newUser.email
+            }, JWT_SECRET, {expiresIn: "1h"});
             res.status(201).json({success: true, authToken, role: newUser.role});
         } catch (error) {
             res.status(500).json({error: error.message});
@@ -74,8 +77,12 @@ exports.login = [
                 return res.status(400).json({success: false, message: "Invalid credentials"});
             }
 
-            const token = jwt.sign({id: user._id, role: user.role}, JWT_SECRET, {expiresIn: "1h"});
-            res.json({success: true, token, role: user.role});
+            const authToken = jwt.sign({
+                id: user._id,
+                role: user.role,
+                email: user.email
+            }, JWT_SECRET, {expiresIn: "1h"});
+            res.json({success: true, authToken, role: user.role});
         } catch (error) {
             res.status(500).json({error: error.message});
         }

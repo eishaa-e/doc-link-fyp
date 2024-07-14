@@ -3,7 +3,9 @@ const User = require("../models/user.model");
 
 exports.getDoctorProfile = async (req, res) => {
     try {
-        const doctor = await Doctor.findOne({user_id: req.user.id});
+        const doctor = await Doctor.findOne({user_id: req.user.id}).populate('user_id', 'email');
+        // const doctor = await Doctor.findOne({user_id: req.user.id}).populate('user', 'email');
+
         if (!doctor) return res.status(404).json({message: 'Doctor not found'});
         res.status(200).json(doctor);
     } catch (error) {
@@ -25,6 +27,7 @@ exports.updateDoctorProfile = async (req, res) => {
 
     try {
         const user = await User.findById(id);
+        console.log("user: ", req.user)
         if (!user) {
             return res.status(404).json({message: 'User not found'});
         }

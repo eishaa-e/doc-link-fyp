@@ -3,7 +3,7 @@ import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 import {Link, useNavigate} from "react-router-dom";
 
-function Signup() {
+const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
@@ -18,16 +18,21 @@ function Signup() {
             return;
         }
         const response = await axios
-            .post("http://localhost:5000/api/auth/createuser", {
-                name,
+            .post("http://localhost:5000/api/auth/register", {
                 email,
                 role,
                 password,
             })
             .then((response) => {
                 console.log(response.data);
-                alert("Account has been created successfully!");
-                navigate("/login");
+                localStorage.setItem("authToken", response.data.authToken);
+                localStorage.setItem('role', role);
+                if (role === 'doctor') {
+                    navigate('/doctor/create-profile');
+                } else {
+                    alert("Patient has been created successfully!");
+                    navigate('/');
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -42,25 +47,6 @@ function Signup() {
                 <div className="flex flex-col justify-center items-center">
                     <img className="w-16 mb-3" src={logo} alt="asd" srcset=""/>
                     <h2 className="text-4xl font-bold text-center mb-5">DOC LINK</h2>
-                </div>
-                <div className="mb-5">
-                    <label
-                        htmlFor="name"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Your name
-                    </label>
-                    <input
-                        type="name"
-                        id="name"
-                        value={name}
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="John Doe"
-                        required
-                    />
                 </div>
                 <div className="mb-5">
                     <label
