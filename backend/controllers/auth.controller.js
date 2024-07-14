@@ -21,38 +21,32 @@ const validateLogin = [
 exports.register = [
     ...validateRegister,
     async (req, res) => {
-        let success = false;
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({success, errors: errors.array()});
+            return res.status(400).json({success: false, errors: errors.array()});
         }
 
         try {
-            const {email, password, role, ...profileData} = req.body;
+            const {email, password, role} = req.body;
             let user = await User.findOne({email});
             if (user) {
-                return res.status(400).json({
-                    success,
-                    error: "Sorry, a user with this email already exists...",
-                });
+                return res.status(400).json({success: false, error: "Sorry, a user with this email already exists..."});
             }
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = new User({email, password: hashedPassword, role});
             await newUser.save();
 
             if (role === 'patient') {
-                const newPatient = new Patient({user_id: newUser._id, ...profileData});
+                const newPatient = new Patient({user_id: newUser._id});
                 await newPatient.save();
             } else if (role === 'doctor') {
-                const newDoctor = new Doctor({user_id: newUser._id, ...profileData});
+                const newDoctor = new Doctor({user_id: newUser._id});
                 await newDoctor.save();
             }
 
             const data = {user: {id: newUser.id, role: newUser.role}};
             const authToken = jwt.sign(data, JWT_SECRET);
-            success = true;
-            res.status(201).json({success, authToken});
+            res.status(201).json({success: true, authToken, role: newUser.role});
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -62,11 +56,9 @@ exports.register = [
 exports.login = [
     ...validateLogin,
     async (req, res) => {
-        let success = false;
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({success, errors: errors.array()});
+            return res.status(400).json({success: false, errors: errors.array()});
         }
 
         try {
@@ -74,17 +66,16 @@ exports.login = [
             const user = await User.findOne({email});
 
             if (!user || user.role !== role) {
-                return res.status(404).json({success, message: "User not found"});
+                return res.status(404).json({success: false, message: "User not found"});
             }
 
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                return res.status(400).json({success, message: "Invalid credentials"});
+                return res.status(400).json({success: false, message: "Invalid credentials"});
             }
 
             const token = jwt.sign({id: user._id, role: user.role}, JWT_SECRET, {expiresIn: "1h"});
-            success = true;
-            res.json({success, token});
+            res.json({success: true, token, role: user.role});
         } catch (error) {
             res.status(500).json({error: error.message});
         }
@@ -108,3 +99,18 @@ exports.getProfile = async (req, res) => {
         res.status(500).json({message: 'Server error'});
     }
 };
+
+exports.getUser = async (req, res) => {
+    const {id} = req.user;
+
+    try {
+        const user = await User.findById(id); // Corrected to findById(id)
+        if (!user) {
+            return res.status(404).json({success: false, message: "User not found"});
+        }
+        res.status(200).json({success: true, user});
+    } catch (error) {
+        res.status(500).json({message: 'Server error'});
+    }
+};
+
