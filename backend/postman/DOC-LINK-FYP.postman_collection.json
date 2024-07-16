@@ -1,318 +1,550 @@
 {
-  "info": {
-    "_postman_id": "dded6e92-3e51-4a62-bbf7-971a7fd17440",
-    "name": "DOC-LINK-FYP",
-    "description": "Collection of all API endpoints for the final year project.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "17189786"
-  },
-  "item": [
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "Register",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"johnpat@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"patient\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{host}}/api/auth/register",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "register"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Login",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"doctor\"\n}   ",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{host}}/api/auth/login",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Profile",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{host}}/api/auth/profile",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "auth",
-                "profile"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Patient",
-      "item": [
-        {
-          "name": "Update Patient Profile",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"John Doe\",\n    \"dob\": \"1990-01-01\",\n    \"gender\": \"male\",\n    \"phone\": \"1234567890\",\n    \"city\": \"New York\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{host}}/api/patients/profile",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "patients",
-                "profile"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Doctor",
-      "item": [
-        {
-          "name": "Update Doctor Profile",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Dr. Jane Doe\",\n    \"dob\": \"1980-05-15\",\n    \"gender\": \"female\",\n    \"phone\": \"0987654321\",\n    \"city\": \"Los Angeles\",\n    \"specialization\": \"Cardiology\",\n    \"education\": \"Harvard Medical School\",\n    \"experience\": \"10 years\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{host}}/api/doctors/profile",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "doctors",
-                "profile"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Appointments",
-      "item": [
-        {
-          "name": "Book Appointment",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"patient_id\": \"patientId\",\n    \"doctor_id\": \"doctorId\",\n    \"date\": \"2024-07-12\",\n    \"time_slot\": \"10:00 AM\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{host}}/api/appointments/book",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "appointments",
-                "book"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Appointments",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{host}}/api/appointments/:userId",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "appointments",
-                ":userId"
-              ],
-              "variable": [
-                {
-                  "key": "userId",
-                  "value": ""
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Chatbot",
-      "item": [
-        {
-          "name": "Interact with Chatbot",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"user_id\": \"userId\",\n    \"message\": \"Hello, how can you help me?\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{host}}/api/chatbot/interact",
-              "host": [
-                "{{host}}"
-              ],
-              "path": [
-                "api",
-                "chatbot",
-                "interact"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Medical Image",
-      "item": [
-        {
-          "name": "Upload Medical Image",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "multipart/form-data"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "user_id",
-                  "value": "userId",
-                  "type": "text"
-                },
-                {
-                  "key": "image",
-                  "type": "file",
-                  "src": "path/to/image.jpg"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{modelHost}}/predict",
-              "host": [
-                "{{modelHost}}"
-              ],
-              "path": [
-                "predict"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "bccc5b0a-9edd-49c9-bac7-1f8a964705bf",
+		"name": "DOC-LINK-FYP",
+		"description": "Collection of all API endpoints for the final year project.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17189786"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"johndoc@gmail.com\",\n    \"password\": \"password123\",\n    \"role\": \"doctor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/register?",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resp = pm.response.json()",
+									"pm.collectionVariables.set(\"authToken\", resp.authToken)",
+									"pm.environment.set(\"authToken\", resp.authToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"johndoc@gmail.com\",\n    \"password\": \"password123\",\n    \"role\": \"doctor\"\n}   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/auth/profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Update Patient Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Patient\",\n    \"dob\": \"1990-08-15\",\n    \"gender\": \"male\",\n    \"phone\": \"1234567890\",\n    \"city\": \"lahore\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/patients/update-profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"update-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Patients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/patients/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Patient Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/patients/get-profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"patients",
+								"get-profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "Update Doctor Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Dr. John Doe\",\n    \"dob\": \"1980-05-15\",\n    \"gender\": \"male\",\n    \"phone\": \"0987654321\",\n    \"city\": \"Lahore\",\n    \"specialization\": \"Cardiology\",\n    \"education\": \"Harvard Medical School\",\n    \"experience\": \"10 years\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/doctors/update-profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								"update-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Doctor Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/doctors/get-profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								"get-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Doctors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/doctors/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"doctors",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "Book Appointment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"patient_id\": \"patientId\",\n    \"doctor_id\": \"doctorId\",\n    \"date\": \"2024-07-12\",\n    \"time_slot\": \"10:00 AM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/appointments/book",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Appointments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/appointments/:userId",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"appointments",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chatbot",
+			"item": [
+				{
+					"name": "Interact with Chatbot",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"userId\",\n    \"message\": \"Hello, how can you help me?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/chatbot/interact",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"chatbot",
+								"interact"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Medical Image",
+			"item": [
+				{
+					"name": "Upload Medical Image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "userId",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "path/to/image.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{modelHost}}/predict",
+							"host": [
+								"{{modelHost}}"
+							],
+							"path": [
+								"predict"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": ""
+		}
+	]
 }
