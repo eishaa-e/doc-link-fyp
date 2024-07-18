@@ -123,50 +123,71 @@ const Navbar = () => {
                     </div>
 
                     <div className="flex items-center flex-col md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                        <button type="button"
-                                className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-                                data-dropdown-placement="bottom"
-                                onClick={toggleDropdown}
-                        >
-                            <span className="sr-only">Open user menu</span>
-                            <img className="w-8 h-8 rounded-full"
-                                 src="https://plus.unsplash.com/premium_photo-1681996484614-6afde0d53071?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                 alt="user photo"/>
-                        </button>
-
-                        {isDropdownOpen && (
-                            <div
-                                className="z-100 fixed my-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-                                id="user-dropdown">
-                                <div className="px-4 py-3">
-                                    <span
-                                        className="block text-sm text-gray-900 dark:text-white">{userInfo?.name}</span>
-                                    <span
-                                        className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userInfo.user_id.email}</span>
+                        {!isUserLoggedIn ?
+                            (
+                                <div>
+                                    <Link to="/login"
+                                          className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        Login
+                                    </Link>
+                                    <Link to="/signup"
+                                          className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        Signup
+                                    </Link>
                                 </div>
-                                <ul className="py-2" aria-labelledby="user-menu-button">
-                                    <li>
-                                        <Link to=""
-                                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
-                                    </li>
-                                    <li>
-                                        <Link to=""
-                                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</Link>
-                                    </li>
-                                    <li>
-                                        <Link to=""
-                                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</Link>
-                                    </li>
-                                    <li>
-                                        <button onClick={handleLogout}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                                            out
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        )}
+                            ) : (
+                                <div>
+                                    <button type="button"
+                                            className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                            id="user-menu-button" aria-expanded="false"
+                                            data-dropdown-toggle="user-dropdown"
+                                            data-dropdown-placement="bottom"
+                                            onClick={toggleDropdown}
+                                    >
+                                        <span className="sr-only">Open user menu</span>
+                                        <img className="w-8 h-8 rounded-full"
+                                             src="https://plus.unsplash.com/premium_photo-1681996484614-6afde0d53071?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                             alt="user photo"/>
+                                    </button>
+
+                                    {isDropdownOpen && (
+                                        <div
+                                            className="z-100 fixed my-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                                            id="user-dropdown">
+                                            {userInfo &&
+                                                <div className="px-4 py-3">
+                                    <span
+                                        className="block text-sm text-gray-900 dark:text-white">{userInfo.name}</span>
+                                                    <span
+                                                        className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userInfo.user_id.email}</span>
+                                                </div>
+                                            }
+                                            <ul className="py-2" aria-labelledby="user-menu-button">
+                                                <li>
+                                                    <Link to=""
+                                                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to=""
+                                                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to=""
+                                                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</Link>
+                                                </li>
+                                                <li>
+                                                    <button onClick={handleLogout}
+                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                                                        out
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            )
+                        }
+
                     </div>
                     <button
                         data-collapse-toggle="navbar-user"
