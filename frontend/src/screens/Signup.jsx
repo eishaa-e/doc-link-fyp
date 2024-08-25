@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const Signup = () => {
     const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ const Signup = () => {
                 localStorage.setItem("authToken", response.data.authToken);
                 localStorage.setItem('role', role);
                 if (role === 'doctor') {
-                    navigate('/doctor/create-profile');
+                    navigate('/doctor/profile-form');
                 } else {
                     alert("Patient has been created successfully!");
                     navigate('/');
@@ -49,7 +49,7 @@ const Signup = () => {
                 className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl"
             >
                 <div className="flex flex-col justify-center items-center">
-                    <img className="w-16 mb-3" src={logo} alt="asd" srcset="" />
+                    <img className="w-16 mb-3" src={logo} alt="asd" srcset=""/>
                     <h2 className="text-4xl font-bold text-center mb-5">DOC LINK</h2>
                 </div>
                 <div className="mb-5">

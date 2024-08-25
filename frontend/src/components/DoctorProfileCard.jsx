@@ -1,9 +1,12 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const DoctorProfileCard = () => {
+const DoctorProfileCard = ({ doctor }) => {
+    if (!doctor) return null; // Safety check
+    console.log("coming docs: ", doctor);
+    const { name, specialization, education } = doctor; // Destructure the doctor object
     return (
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex justify-center items-center" >
             <div
                 className="w-2/3 px-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex p-5 justify-between items-center">
@@ -18,14 +21,14 @@ const DoctorProfileCard = () => {
 
                         <div className="flex flex-col items-center">
                             <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-                                Name
+                                Name: {name}
                             </h5>
                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                          Specialization
-                        </span>
+                                Specialization: {specialization}
+                            </span>
                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                          Education
-                        </span>
+                                Education: {education}
+                            </span>
                         </div>
                     </div>
 
@@ -53,7 +56,7 @@ const DoctorProfileCard = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

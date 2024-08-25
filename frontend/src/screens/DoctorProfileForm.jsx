@@ -4,7 +4,9 @@ import logo from "../assets/doc-link-icon.png";
 import {useNavigate} from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const CreateDoctorProfile = () => {
+const DoctorProfileForm = () => {
+    const authToken = localStorage.getItem("authToken")
+
     const [name, setName] = useState("");
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState()
@@ -13,13 +15,12 @@ const CreateDoctorProfile = () => {
     const [specialization, setSpecialization] = useState()
     const [education, setEducation] = useState()
     const [experience, setExperience] = useState()
-
     const navigate = useNavigate()
-    const [authToken, setAuthToken] = useState()
+    const [loading, setLoading] = useState(true)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios
+        await axios
             .put("http://localhost:5000/api/doctors/update-profile", {
                 name,
                 dob,
@@ -43,13 +44,45 @@ const CreateDoctorProfile = () => {
                 console.error(error);
             });
     };
+
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const getDoctorProfile = async () => {
+        await axios.get(`http://localhost:5000/api/doctors/get-profile`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + authToken,
+            }
+        }).then((response) => {
+            setName(response.data?.name)
+            setDob(formatDate(response.data?.dob))
+            setGender(response.data?.gender)
+            setPhone(response.data?.phone)
+            setCity(response.data?.city)
+            setSpecialization(response.data?.specialization)
+            setEducation(response.data?.education)
+            setExperience(response.data?.experience)
+            setLoading(false)
+        }).catch((error) => {
+            console.error("Error fetching patient profile: ", error);
+            setLoading(false);
+        })
+    }
+
+
     useEffect(() => {
-        setAuthToken(localStorage.getItem("authToken"))
+        getDoctorProfile()
     }, []);
     return (
         <div>
             <Navbar/>
-            <div className="w-full bg-fuchsia-100 flex justify-center items-center">
+            <div className="w-full h-screen bg-fuchsia-100 flex justify-center items-center">
                 <form
                     onSubmit={handleSubmit}
                     className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl"
@@ -258,4 +291,4 @@ const CreateDoctorProfile = () => {
     );
 }
 
-export default CreateDoctorProfile;
+export default DoctorProfileForm;
