@@ -1,14 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState({})
+    const [errorFlag, setErrorFlag] = useState(false)
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
@@ -17,13 +18,14 @@ const Signup = () => {
             alert("Passwords do not match");
             return;
         }
-        const response = await axios
+        await axios
             .post("http://localhost:5000/api/auth/register", {
                 email,
                 role,
                 password,
             })
             .then((response) => {
+                setErrorFlag(false)
                 console.log(response.data);
                 localStorage.setItem("authToken", response.data.authToken);
                 localStorage.setItem('role', role);
@@ -34,8 +36,10 @@ const Signup = () => {
                     navigate('/');
                 }
             })
-            .catch((error) => {
-                console.error(error);
+            .catch((err) => {
+                setErrorFlag(true)
+                setError(err?.response?.data?.errors[0])
+                console.error(err);
             });
     };
     return (
@@ -45,7 +49,7 @@ const Signup = () => {
                 className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl"
             >
                 <div className="flex flex-col justify-center items-center">
-                    <img className="w-16 mb-3" src={logo} alt="asd" srcset=""/>
+                    <img className="w-16 mb-3" src={logo} alt="asd" srcset="" />
                     <h2 className="text-4xl font-bold text-center mb-5">DOC LINK</h2>
                 </div>
                 <div className="mb-5">
@@ -140,6 +144,15 @@ const Signup = () => {
                         </label>
                     </div>
                 </div>
+
+                {errorFlag && (
+                    <div className="flex justify-center my-2">
+                        <p id="filled_error_help" className=" text-xs font-medium text-red-600 dark:text-red-400">
+                            {error.msg}
+                        </p>
+                    </div>
+                )
+                }
 
                 <button
                     type="submit"
