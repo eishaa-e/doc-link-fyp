@@ -2,9 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const DoctorProfileCard = ({ doctor }) => {
-    if (!doctor) return null; // Safety check
-    console.log("coming docs: ", doctor);
-    const { name, specialization, education } = doctor; // Destructure the doctor object
+    if (!doctor) return null;
+
+    const { _id, name, specialization, education } = doctor; // Destructure the doctor object
+
     return (
         <div className="w-full flex justify-center items-center" >
             <div
@@ -41,7 +42,7 @@ const DoctorProfileCard = ({ doctor }) => {
                                 Book Appointment
                             </Link>
                             <Link
-                                to="/"
+                                to={`/doctor/${_id}`}
                                 className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-fuchsia-100 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             >
                                 View Profile
