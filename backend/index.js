@@ -6,6 +6,7 @@ const chatbotRoutes = require('./routes/chatbot.routes');
 const medicalImageRoutes = require('./routes/medicalImage.routes');
 const patientRoutes = require('./routes/patient.routes');
 const doctorRoutes = require('./routes/doctor.routes');
+const feedbackRoutes = require('./routes/feedback.routes');
 const connectToMongo = require("./db");
 const cors = require("cors");
 const port = 5000;
@@ -23,6 +24,7 @@ app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/medical-image', medicalImageRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 
 app.get("/", (req, res) => {
