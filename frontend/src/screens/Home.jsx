@@ -1,12 +1,13 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import img from "../assets/img.png";
+import { FeedbackCard } from "../components/FeedbackCard";
 
 function Home() {
   return (
     <div>
       <Navbar />
-      <div className="w-full h-screen text-black bg-fuchsia-100 flex flex-col items-center justify-center">
+      <div className="w-full h-screen text-black bg-white flex flex-col items-center justify-center">
         <div className="flex flex-col md:flex-row justify-center w-full max-w-6xl">
           <div className="flex-1">
             <h1 className="text-4xl font-bold">
@@ -25,6 +26,9 @@ function Home() {
           <div className="flex-1 md:mt-0">
             <img src={img} alt="Health illustration" className="w-11/12" />
           </div>
+        </div>
+        <div className="w-full my-5 p-10 flex justify-center align-middle">
+          <FeedbackCard />
         </div>
       </div>
     </div>
