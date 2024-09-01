@@ -50,10 +50,6 @@ export const Feedback = () => {
                 <hr className="w-40 h-1 bg-white border-0 rounded my-2"/>
             </div>
             <div className="w-full p-4 flex justify-center align-middle text-center">
-                {/*{feedback?.map((feedback) => (*/}
-                {/*    <FeedbackCard feedback={feedback}/>*/}
-                {/*))}*/}
-
                 {feedback.length > 0 && (
                     <FeedbackCard feedback={feedback[currentIndex]}/>
                 )}

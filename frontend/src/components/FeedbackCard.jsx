@@ -3,14 +3,6 @@ import StarRating from "./StarRating";
 
 const FeedbackCard = ({feedback}) => {
 
-    const handleRatingChange = (rating) => {
-        // const newProfileSkills = [...profileInfo.profileSkills];
-        // newProfileSkills[index].rating = rating;
-        // setProfileInfo({
-        //     ...profileInfo,
-        //     profileSkills: newProfileSkills,
-        // });
-    };
 
     return (
         <div
@@ -35,9 +27,8 @@ const FeedbackCard = ({feedback}) => {
                     <div className="mt-2">
                         <StarRating
                             rating={feedback.rating}
-                            onRatingChange={(rating) =>
-                                handleRatingChange(rating)
-                            }
+                            onRatingChange={() => {
+                            }}
                         />
                     </div>
                 </div>
@@ -49,7 +40,7 @@ const FeedbackCard = ({feedback}) => {
                     <path
                         d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
                 </svg>
-                <p className="text-lg font-normal">
+                <p className="text-sm font-normal">
                     {feedback.comment}
                 </p>
             </div>
