@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import logo from "../assets/doc-link-icon.png";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -24,11 +25,26 @@ const Navbar = () => {
         const token = await localStorage.getItem("authToken");
         const role = await localStorage.getItem("role");
 
-        setAuthToken(token);
-        setCurrentUserRole(role);
+        if (!token) {
+            setIsUserLoggedIn(false);
+            return;
+        }
 
-        if (token) {
-            setIsUserLoggedIn(true);
+        try {
+            const decodedToken = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+
+            if (decodedToken.exp < currentTime) {
+                setIsUserLoggedIn(false);
+                localStorage.removeItem("authToken");
+            } else {
+                setAuthToken(token);
+                setCurrentUserRole(role);
+                setIsUserLoggedIn(true);
+            }
+        } catch (error) {
+            console.error("Error decoding token:", error);
+            setIsUserLoggedIn(false);
         }
     };
 
@@ -164,7 +180,7 @@ const Navbar = () => {
                                     <span
                                         className="block text-sm text-gray-900 dark:text-white">{userInfo.name}</span>
                                 <span
-                                    className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userInfo.user_id.email}</span>
+                                    className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userInfo.email}</span>
                             </div>}
                             <ul className="py-2" aria-labelledby="user-menu-button">
                                 <li>
