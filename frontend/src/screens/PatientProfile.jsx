@@ -4,22 +4,22 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
-const DoctorProfile = () => {
+const PatientProfile = () => {
   const { id } = useParams();
-  const [doctor, setDoctor] = useState([]);
+  const [patient, setPatient] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const getDoctor = async () => {
+  const getPatient = async () => {
     await axios
-      .get(`http://localhost:5000/api/doctors/get-profile/${id}`, {
+      .get(`http://localhost:5000/api/patients/get-profile/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       })
       .then((response) => {
         setLoading(false);
-        setDoctor(response.data);
+        setPatient(response.data);
       })
       .catch((err) => {
         console.error(err);
@@ -27,7 +27,7 @@ const DoctorProfile = () => {
   };
 
   useEffect(() => {
-    getDoctor();
+    getPatient();
   }, []);
 
   if (loading) {
@@ -38,7 +38,7 @@ const DoctorProfile = () => {
     <div>
       <Navbar />
       <div className="w-full flex flex-col items-center text-black bg-fuchsia-100">
-        <h2 className="text-6xl font-bold my-5"> Doctor </h2>
+        <h2 className="text-6xl font-bold my-5"> Patient </h2>
         <div className="w-full flex flex-col justify-center items-center gap-5">
           <div className="w-full flex justify-center items-center rounded-lg">
             <div className="w-3/5 my-5 flex justify-center border-gray-400 rounded-lg shadow-lg">
@@ -58,20 +58,20 @@ const DoctorProfile = () => {
                       Profile
                     </h2>
                     <h3 className="mb-1 text-3xl font-bold text-gray-900 dark:text-white">
-                      {doctor.name}
+                      {patient.name}
                     </h3>
                     <p className="text-lg text-gray-800 dark:text-gray-400">
-                      {doctor.education}
+                      {patient.education}
                     </p>
                     <p className="text-lg text-gray-500 dark:text-gray-400">
-                      {doctor.city}
+                      {patient.city}
                     </p>
                   </div>
 
                   <div className="mb-5">
                     <h2 className="font-medium text-xl my-2">Specialization</h2>
                     <h3 className="mb-1 text-lg font-medium text-gray-500 dark:text-white">
-                      {doctor.specialization}
+                      {patient.specialization}
                     </h3>
                   </div>
 
@@ -80,14 +80,14 @@ const DoctorProfile = () => {
                       Experience
                     </h2>
                     <h3 className="mb-1 text-lg font-medium text-gray-600 dark:text-white">
-                      {doctor.experience}
+                      {patient.experience}
                     </h3>
                   </div>
 
                   <div className="mb-5">
                     <h2 className="font-medium bold text-xl my-2">Contact</h2>
                     <h3 className="mb-1 text-lg font-medium text-gray-600 dark:text-white">
-                      {doctor.phone}
+                      {patient.phone}
                     </h3>
                   </div>
 
@@ -95,13 +95,7 @@ const DoctorProfile = () => {
                     <div className="flex mt-4 md:mt-6">
                       <div className="flex items-center gap-5">
                         <Link
-                          to="/"
-                          className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                          Book Appointment
-                        </Link>
-                        <Link
-                          to="/doctor/update-profile"
+                          to="/patient/profile-form"
                           className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                           Update Profile
@@ -127,4 +121,4 @@ const DoctorProfile = () => {
   );
 };
 
-export default DoctorProfile;
+export default PatientProfile;
