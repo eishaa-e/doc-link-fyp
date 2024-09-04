@@ -1,13 +1,11 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+
 import img from "../assets/img.png";
 import { Feedback } from "../components/Feedback";
-import { Footer } from "../components/Footer";
 
 function Home() {
   return (
     <div>
-      <Navbar />
       <div className="w-full text-black bg-white flex flex-col items-center justify-center">
         <div className="flex flex-col md:flex-row justify-center w-full max-w-6xl mt-20">
           <div className="flex-1">
@@ -32,7 +30,6 @@ function Home() {
           <Feedback />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

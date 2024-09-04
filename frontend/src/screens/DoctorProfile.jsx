@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
@@ -36,7 +35,6 @@ const DoctorProfile = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="w-full flex flex-col items-center text-black bg-fuchsia-100">
         <h2 className="text-6xl font-bold my-5"> Doctor </h2>
         <div className="w-full flex flex-col justify-center items-center gap-5">

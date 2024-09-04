@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -28,7 +27,6 @@ function Login() {
   };
   return (
     <div>
-      <Navbar />
       <div className="w-full h-screen bg-fuchsia-100 flex justify-center items-center">
         <form
           onSubmit={handleSubmit}

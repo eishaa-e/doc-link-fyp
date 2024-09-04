@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../components/Navbar";
 import logo from "../assets/doc-link-icon.png";
 
 const PatientProfileForm = () => {
@@ -82,7 +81,6 @@ const PatientProfileForm = () => {
   }
   return (
     <div>
-      <Navbar />
       <div className="w-full h-screen bg-fuchsia-100 flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
