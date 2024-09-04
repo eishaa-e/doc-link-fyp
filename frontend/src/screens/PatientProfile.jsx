@@ -1,122 +1,193 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
 
 const PatientProfile = () => {
-  const { id } = useParams();
-  const [patient, setPatient] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+    const {id} = useParams();
+    const [patient, setPatient] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-  const getPatient = async () => {
-    await axios
-      .get(`http://localhost:5000/api/patients/get-profile/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      })
-      .then((response) => {
-        setLoading(false);
-        setPatient(response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+    const getPatient = async () => {
+        await axios
+            .get(`http://localhost:5000/api/patients/get-profile/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                },
+            })
+            .then((response) => {
+                setLoading(false);
+                setPatient(response.data);
+                console.log("Patient - Profile: ", response.data)
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
 
-  useEffect(() => {
-    getPatient();
-  }, []);
+    const formatDate = (date) => {
+        if (date === null) return "";
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+        const dateObj = new Date(date);
 
-  return (
-    <div>
-      <div className="w-full flex flex-col items-center text-black bg-fuchsia-100">
-        <h2 className="text-6xl font-bold my-5"> Patient </h2>
-        <div className="w-full flex flex-col justify-center items-center gap-5">
-          <div className="w-full flex justify-center items-center rounded-lg">
-            <div className="w-3/5 my-5 flex justify-center border-gray-400 rounded-lg shadow-lg">
-              <div className="w-1/2 p-10 py-20 bg-white flex justify-center align-middle">
-                <div className="flex justify-center rounded-full items-center md:flex-row ">
-                  <img
-                    className=" mb-3 rounded-lg shadow-lg"
-                    src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Bonnie image"
-                  />
-                </div>
-              </div>
-              <div className="w-1/2 p-10 py-20 bg-fuchsia-200">
-                <div className="flex flex-col">
-                  <div className="mb-5">
-                    <h2 className="font-medium bold text-xl my-2 text-gray-500">
-                      Profile
-                    </h2>
-                    <h3 className="mb-1 text-3xl font-bold text-gray-900 dark:text-white">
-                      {patient.name}
-                    </h3>
-                    <p className="text-lg text-gray-800 dark:text-gray-400">
-                      {patient.education}
-                    </p>
-                    <p className="text-lg text-gray-500 dark:text-gray-400">
-                      {patient.city}
-                    </p>
-                  </div>
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+        const day = String(dateObj.getDate()).padStart(2, "0");
 
-                  <div className="mb-5">
-                    <h2 className="font-medium text-xl my-2">Specialization</h2>
-                    <h3 className="mb-1 text-lg font-medium text-gray-500 dark:text-white">
-                      {patient.specialization}
-                    </h3>
-                  </div>
+        return `${year}-${month}-${day}`;
+    };
 
-                  <div className="mb-5">
-                    <h2 className="font-medium bold text-xl my-2">
-                      Experience
-                    </h2>
-                    <h3 className="mb-1 text-lg font-medium text-gray-600 dark:text-white">
-                      {patient.experience}
-                    </h3>
-                  </div>
+    useEffect(() => {
+        getPatient();
+    }, []);
 
-                  <div className="mb-5">
-                    <h2 className="font-medium bold text-xl my-2">Contact</h2>
-                    <h3 className="mb-1 text-lg font-medium text-gray-600 dark:text-white">
-                      {patient.phone}
-                    </h3>
-                  </div>
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
-                  <div>
-                    <div className="flex mt-4 md:mt-6">
-                      <div className="flex items-center gap-5">
-                        <Link
-                          to="/patient/profile-form"
-                          className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                          Update Profile
-                        </Link>
-                        <Link
-                          onClick={() => {
-                            navigate(-1);
-                          }}
-                          className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-fuchsia-100 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        >
-                          Back
-                        </Link>
-                      </div>
+    return (
+        <div className="w-full mx-auto bg-white p-20 flex justify-center items-start">
+            <div
+                className="w-1/2 bg-fuchsia-100 shadow-lg rounded-lg p-6 mb-8 flex justify-center items-center gap-16">
+                <div className="w-5/12 flex flex-col justify-center items-center mb-4 border-r-2 border-gray-300">
+                    <img
+                        src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Patient"
+                        className="w-32 h-32 rounded-full mr-4 mb-5"
+                    />
+                    <h2 className="text-3xl font-bold">{patient.name}</h2>
+                    <p className="text-lg text-gray-500 mt-2">{patient.email}</p>
+
+                    <div className="flex flex-col justify-center items-center mt-5">
+                        <p className="text-xl font-medium text-gray-500">Appointments</p>
+                        <div className="grid grid-cols-2 my-3">
+                            <div className="flex flex-col justify-center items-center border-r-2 border-gray-300 pr-5">
+                                <p className="text-4xl font-bold text-center">5</p>
+                                <h2 className="text-xl font-medium text-gray-500">Past</h2>
+                            </div>
+                            <div className="flex flex-col justify-center items-center pl-5">
+                                <p className="text-4xl font-bold text-center">2</p>
+                                <h2 className="text-xl font-medium text-gray-500">Upcoming</h2>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+
+
+                    <Link to="/patient/profile-form"
+                          className="w-1/2 text-center bg-light-orchid text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600">
+                        Update Profile
+                    </Link>
                 </div>
-              </div>
+
+                <div className="grid grid-cols-2 gap-10">
+                    <div>
+                        <p className="font-medium text-gray-500">Gender</p>
+                        <p className="font-semibold">{patient.gender.toUpperCase()}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">Birthday</p>
+                        <p className="font-semibold">{formatDate(patient.dob)}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">Phone number</p>
+                        <p className="font-semibold">{patient.phone}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">Address</p>
+                        <p className="font-semibold">{patient.address || "Abc Street, Xyz Town"}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">City</p>
+                        <p className="font-semibold">{patient.city}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">ZIP Code</p>
+                        <p className="font-semibold">{patient.zipcode || "123456"}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">Registration date</p>
+                        <p className="font-semibold">{formatDate(patient.registeredAt)}</p>
+                    </div>
+                    <div>
+                        <p className="text-gray-500">Member status</p>
+                        <p className="font-semibold">{patient.status}</p>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div className="w-2/5 mx-auto bg-fuchsia-100 shadow-lg rounded-lg p-6">
+                <div className="flex mb-4">
+                    <button
+                        className="px-4 py-2 font-semibold text-blue-500 border-b-2 border-blue-500 focus:outline-none">
+                        Upcoming appointments
+                    </button>
+                    <button className="px-4 py-2 font-semibold text-gray-500 hover:text-blue-500 focus:outline-none">
+                        Past appointments
+                    </button>
+                    <button className="px-4 py-2 font-semibold text-gray-500 hover:text-blue-500 focus:outline-none">
+                        Medical records
+                    </button>
+                </div>
+                <div>
+                    <div className="flex items-center my-5 bg-white p-4 rounded-xl">
+                        <div className="w-1/4 text-sm">
+                            <p className="font-semibold">01 Jun '20</p>
+                            <p className="text-gray-500">09:00 AM</p>
+                        </div>
+                        <div className="flex-1 flex items-center">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
+                            <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
+                                <p className="font-semibold">Consultation</p>
+                                <p className="">Dr. Arkady Ch.</p>
+                            </div>
+                            <div className="text-right ml-4">
+                                <p className="text-gray-500">Type</p>
+                                <p className="font-semibold">Cardiologist</p>
+                            </div>
+                        </div>
+                        <button className="text-blue-500 hover:underline ml-4">Button</button>
+                    </div>
+                    <div className="flex items-center my-5 bg-white p-4 rounded-xl">
+                        <div className="w-1/4 text-sm">
+                            <p className="font-semibold">04 Jun '20</p>
+                            <p className="text-gray-500">09:00 AM</p>
+                        </div>
+                        <div className="flex-1 flex items-center">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
+                            <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
+                                <p className="font-semibold">Treatment Procedure</p>
+                                <p className="">Dr. Arkady Ch.</p>
+                            </div>
+                            <div className="text-right ml-4">
+                                <p className="text-gray-500">Type</p>
+                                <p className="font-semibold">Dermatologist</p>
+                            </div>
+                        </div>
+                        <button className="text-blue-500 hover:underline ml-4">Button</button>
+                    </div>
+                    <div className="flex items-center my-5 bg-white p-4 rounded-xl">
+                        <div className="w-1/4 text-sm">
+                            <p className="font-semibold">04 Jun '20</p>
+                            <p className="text-gray-500">09:00 AM</p>
+                        </div>
+                        <div className="flex-1 flex items-center">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
+                            <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
+                                <p className="font-semibold">Treatment Procedure</p>
+                                <p className="">Dr. Arkady Ch.</p>
+                            </div>
+                            <div className="text-right ml-4">
+                                <p className="text-gray-500">Type</p>
+                                <p className="font-semibold">Dermatologist</p>
+                            </div>
+                        </div>
+                        <button className="text-blue-500 hover:underline ml-4">Button</button>
+                    </div>
+
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default PatientProfile;
