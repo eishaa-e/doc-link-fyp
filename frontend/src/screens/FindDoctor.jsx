@@ -32,22 +32,20 @@ const FindDoctor = () => {
     }
 
     return (
-        <div>
-            <div className="w-full h-screen flex flex-col items-center text-black bg-white">
-                <h2 className="text-6xl font-bold my-5"> Choose the Doctor </h2>
-                <div className="w-full flex flex-col justify-center items-center gap-5">
-                    {doctors &&
-                        doctors.map((doctor, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className="w-2/3 flex justify-center items-center text-center"
-                                >
-                                    <DoctorProfileCard doctor={doctor}/>
-                                </div>
-                            );
-                        })}
-                </div>
+        <div className="w-full my-10 flex flex-col items-center text-black bg-white">
+            <h2 className="text-6xl font-bold my-5"> Choose the Doctor </h2>
+            <div className="w-full flex flex-col justify-center items-center gap-5">
+                {doctors &&
+                    doctors.map((doctor, index) => {
+                        return (
+                            <div
+                                key={index}
+                                className="w-2/3 flex justify-center items-center text-center"
+                            >
+                                <DoctorProfileCard doctor={doctor}/>
+                            </div>
+                        );
+                    })}
             </div>
         </div>
     );

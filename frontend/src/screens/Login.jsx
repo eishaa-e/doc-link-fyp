@@ -28,10 +28,10 @@ function Login() {
     };
     return (
         <div>
-            <div className="w-full h-screen bg-fuchsia-100 flex justify-center items-center">
+            <div className="w-full my-20 bg-white flex justify-center items-center">
                 <form
                     onSubmit={handleSubmit}
-                    className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl"
+                    className="w-1/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
                 >
                     <div className="flex flex-col justify-center items-center">
                         <img className="w-16 mb-3" src={logo} alt="Logo"/>
@@ -113,7 +113,7 @@ function Login() {
 
                     <button
                         type="submit"
-                        className="w-full text-black bg-fuchsia-200 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        className="w-full text-white bg-light-orchid hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     >
                         Login
                     </button>
