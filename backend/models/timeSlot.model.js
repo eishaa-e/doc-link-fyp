@@ -7,9 +7,9 @@ const TimeSlotSchema = new Schema({
         required: true,
         enum: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
     },
-    startTime: {type: String, required: true}, // Format: "HH:mm"
-    endTime: {type: String, required: true},   // Format: "HH:mm"
-    isBooked: {type: Boolean, default: false}, // Available slot for that day/time
+    startTime: {type: String, required: true},
+    endTime: {type: String, required: true},
+    isBooked: {type: Boolean, default: false},
 }, {_id: false});
 
 module.exports = TimeSlotSchema;

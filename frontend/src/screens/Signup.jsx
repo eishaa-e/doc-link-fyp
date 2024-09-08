@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 import {Link, useNavigate} from "react-router-dom";
+import signImage from "../assets/signup-image.png";
 
 const Signup = () => {
     const [email, setEmail] = useState("");
@@ -42,8 +43,9 @@ const Signup = () => {
                 console.error(err);
             });
     };
+
     return (
-        <div className="w-full my-20 bg-white flex justify-center items-center">
+        <div className="w-full my-20 bg-white flex justify-center items-center gap-16">
             <form
                 onSubmit={handleSubmit}
                 className="w-1/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
@@ -170,6 +172,7 @@ const Signup = () => {
                     </Link>
                 </p>
             </form>
+            <img src={signImage} alt="" className="w-5/12"/>
         </div>
     );
 }

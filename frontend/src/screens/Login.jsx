@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 import {Link, useNavigate} from "react-router-dom";
+import loginImage from "../assets/login-image.png";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -28,7 +29,8 @@ function Login() {
     };
     return (
         <div>
-            <div className="w-full my-20 bg-white flex justify-center items-center">
+            <div className="w-full my-20 px-32 bg-white flex justify-center gap-16 items-center">
+                <img src={loginImage} alt="" className="w-5/12"/>
                 <form
                     onSubmit={handleSubmit}
                     className="w-1/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
@@ -52,7 +54,7 @@ function Login() {
                                 setEmail(e.target.value);
                             }}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="name@flowbite.com"
+                            placeholder="email@gmail.com"
                             required
                         />
                     </div>
@@ -71,6 +73,7 @@ function Login() {
                                 setPassword(e.target.value);
                             }}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="********"
                             required
                         />
                     </div>

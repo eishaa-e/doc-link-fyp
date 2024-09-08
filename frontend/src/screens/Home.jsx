@@ -1,6 +1,6 @@
 import React from "react";
 
-import img from "../assets/img.png";
+import img from "../assets/home-image.png";
 import {Feedback} from "../components/Feedback";
 
 function Home() {
