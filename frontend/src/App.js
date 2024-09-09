@@ -10,6 +10,7 @@ import DoctorProfile from "./screens/DoctorProfile";
 import PatientProfile from "./screens/PatientProfile";
 import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import ContactUs from "./screens/ContactUs";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           />
           <Route path="/doctor/:id" element={<DoctorProfile />} />
           <Route path="/patient/:id" element={<PatientProfile />} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
         <Footer />
       </BrowserRouter>
