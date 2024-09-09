@@ -11,6 +11,7 @@ import PatientProfile from "./screens/PatientProfile";
 import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import ContactUs from "./screens/ContactUs";
+import BookAppointment from "./screens/BookAppointment";
 
 function App() {
   return (
@@ -31,6 +32,10 @@ function App() {
           <Route path="/doctor/:id" element={<DoctorProfile />} />
           <Route path="/patient/:id" element={<PatientProfile />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route
+            path="/doctor/:doctorId/book-appointment"
+            element={<BookAppointment />}
+          />
         </Routes>
         <Footer />
       </BrowserRouter>

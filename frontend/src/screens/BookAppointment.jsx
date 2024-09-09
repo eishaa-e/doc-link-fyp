@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 
-const PatientProfileForm = () => {
+const BookAppointment = () => {
   const authToken = localStorage.getItem("authToken");
+  const { doctorId } = useParams();
+
+  const [doctorInfo, setDoctorInfo] = useState({});
+  const [patientInfo, setPatientInfo] = useState({});
+
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState();
@@ -12,6 +17,17 @@ const PatientProfileForm = () => {
   const [city, setCity] = useState();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+
+  const getDoctorInfo = async () => {
+    axios
+      .get(`http://localhost:5000/api/doctors/${doctorId}`)
+      .then((response) => {
+        setDoctorInfo(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,7 +89,7 @@ const PatientProfileForm = () => {
   };
   useEffect(() => {
     getPatientProfile();
-    console.log("name: ", name);
+    getDoctorInfo();
   }, []);
 
   if (loading) {
@@ -83,7 +99,7 @@ const PatientProfileForm = () => {
     <div className="w-full py-10 bg-white flex justify-center items-center">
       <form
         onSubmit={handleSubmit}
-        className="w-1/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
+        className="w-2/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
       >
         <div className="flex flex-col justify-center items-center">
           <img className="w-16 mb-3" src={logo} alt="asd" srcset="" />
@@ -233,4 +249,4 @@ const PatientProfileForm = () => {
   );
 };
 
-export default PatientProfileForm;
+export default BookAppointment;
