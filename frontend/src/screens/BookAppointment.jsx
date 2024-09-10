@@ -20,38 +20,16 @@ const BookAppointment = () => {
 
   const getDoctorInfo = async () => {
     axios
-      .get(`http://localhost:5000/api/doctors/${doctorId}`)
+      .get(`http://localhost:5000/api/doctors/get-profile/${doctorId}`, {
+        headers: {
+          Authorization: "Bearer " + authToken,
+        },
+      })
       .then((response) => {
+        setLoading(false);
         setDoctorInfo(response.data);
       })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await axios
-      .put(
-        "http://localhost:5000/api/patients/update-profile",
-        {
-          name,
-          dob,
-          gender,
-          phone,
-          city,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + authToken,
-          },
-        },
-      )
-      .then((response) => {
-        console.log(response.data);
-        navigate("/");
-      })
       .catch((error) => {
         console.error(error);
       });
@@ -65,186 +43,122 @@ const BookAppointment = () => {
     return `${year}-${month}-${day}`;
   };
 
-  const getPatientProfile = async () => {
-    await axios
-      .get(`http://localhost:5000/api/patients/get-profile`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authToken,
-        },
-      })
-      .then((response) => {
-        console.log("Patient Profile here: ", response);
-        setName(response.data?.name);
-        setDob(formatDate(response.data?.dob));
-        setGender(response.data?.gender);
-        setPhone(response.data?.phone);
-        setCity(response.data?.city);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching patient profile: ", error);
-        setLoading(false);
-      });
-  };
+  const [selectedSlot, setSelectedSlot] = useState(null);
+
+  const availableSlots = [
+    "06:30 PM",
+    "06:45 PM",
+    "07:00 PM",
+    "07:15 PM",
+    "07:30 PM",
+    "07:45 PM",
+    "08:00 PM",
+    "08:15 PM",
+    "08:30 PM",
+    "08:45 PM",
+    "09:00 PM",
+    "09:15 PM",
+    "09:30 PM",
+    "09:45 PM",
+    "10:00 PM",
+    "10:15 PM",
+    "10:30 PM",
+    "10:45 PM",
+  ];
+
   useEffect(() => {
-    getPatientProfile();
     getDoctorInfo();
   }, []);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
-    <div className="w-full py-10 bg-white flex justify-center items-center">
-      <form
-        onSubmit={handleSubmit}
-        className="w-2/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
-      >
-        <div className="flex flex-col justify-center items-center">
-          <img className="w-16 mb-3" src={logo} alt="asd" srcset="" />
-          <h2 className="text-4xl font-bold text-center mb-5">DOC LINK</h2>
-          <h1 className="text-2xl font-semibold text-center mb-5">
-            Patient Profile Form
-          </h1>
+    <div className="min-h-screen bg-white flex flex-col items-center p-6">
+      {/* Patient Info */}
+      {/* <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
+        <h2 className="text-2xl font-bold mb-4">Patient Information</h2>
+        <div className="mb-2">
+          <strong>Name:</strong> {patientInfo.name}
         </div>
-        <div className="mb-5">
-          <label
-            htmlFor="name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your name
-          </label>
-          <input
-            type="name"
-            id="name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="John Doe"
-            required
-          />
+        <div className="mb-2">
+          <strong>City:</strong> {patientInfo.city}
         </div>
-        <div className="mb-5">
-          <label
-            htmlFor="name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your phone number
-          </label>
-          <input
-            type="number"
-            id="phone"
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="12544589657"
-            required
-          />
+        <div className="mb-2">
+          <strong>Gender:</strong> {patientInfo.gender}
         </div>
-        <div className="mb-5">
-          <label
-            htmlFor="dob"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your Date of Birth
-          </label>
-          <input
-            type="date"
-            id="dob"
-            value={dob}
-            onChange={(e) => {
-              setDob(e.target.value);
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-          />
+        <div className="mb-2">
+          <strong>Phone:</strong> {patientInfo.phone}
         </div>
-        <div className="mb-5">
-          <label
-            htmlFor="city"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your city
-          </label>
-          <input
-            type="text"
-            id="city"
-            value={city}
-            onChange={(e) => {
-              setCity(e.target.value);
-            }}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Lahore"
-            required
+        <div className="mb-2">
+          <strong>Email:</strong> {patientInfo.email}
+        </div>
+      </div> */}
+
+      {/* Doctor Info */}
+      <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
+        <div className="flex items-center">
+          <img
+            src="/path/to/doctor-image.jpg"
+            alt="Doctor"
+            className="w-16 h-16 rounded-full mr-4"
           />
+          <div>
+            <h2 className="text-2xl font-bold">{doctorInfo.name}</h2>
+            <p>{doctorInfo.specialization} (Online)</p>
+            <p>
+              <strong>Experience:</strong> {doctorInfo.experience}
+            </p>
+            <p>
+              <strong>Fee:</strong> Rs. {doctorInfo.fee}
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 text-blue-500">
+          <a href="#" className="hover:underline">
+            Change Clinic
+          </a>
+        </div>
+      </div>
+
+      {/* Available Slots */}
+      <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Available Slots</h2>
+        <div className="flex space-x-2 overflow-x-auto pb-2">
+          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded">
+            Today, 10
+          </button>
+          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded hover:bg-gray-100">
+            Sep, 11
+          </button>
+          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded hover:bg-gray-100">
+            Sep, 12
+          </button>
+          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded hover:bg-gray-100">
+            Sep, 13
+          </button>
         </div>
 
-        <div className="flex items-center mb-4 justify-center gap-4">
-          <div>
-            <input
-              id="doctor"
-              type="radio"
-              value="male"
-              name="gender"
-              checked={gender === "male"}
-              onChange={(e) => setGender(e.target.value)}
-              className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="male"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        <div className="grid grid-cols-3 gap-3 mt-4">
+          {availableSlots.map((slot, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedSlot(slot)}
+              className={`py-2 px-4 rounded border ${selectedSlot === slot ? "bg-light-orchid text-white" : "bg-white"} hover:bg-fuchsia-300`}
             >
-              Male
-            </label>
-          </div>
-          <div>
-            <input
-              id="doctor"
-              type="radio"
-              value="female"
-              name="gender"
-              checked={gender === "female"}
-              onChange={(e) => setGender(e.target.value)}
-              className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="female"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Female
-            </label>
-          </div>
-          <div>
-            <input
-              id="doctor"
-              type="radio"
-              value="other"
-              name="gender"
-              checked={gender === "other"}
-              onChange={(e) => setGender(e.target.value)}
-              className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              htmlFor="other"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
-              Other
-            </label>
-          </div>
+              {slot}
+            </button>
+          ))}
         </div>
+      </div>
 
-        <button
-          type="submit"
-          className="w-full text-white bg-light-orchid hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        >
-          Save Profile
-        </button>
-      </form>
+      {/* Pay Online Option */}
+      <div className="mt-4">
+        <a href="#" className="text-blue-500 hover:underline">
+          Pay Online & Get Up to 40% off
+        </a>
+      </div>
     </div>
   );
 };
