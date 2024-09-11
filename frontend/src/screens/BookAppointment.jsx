@@ -1,166 +1,188 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import axios from "axios";
-import logo from "../assets/doc-link-icon.png";
 
 const BookAppointment = () => {
-  const authToken = localStorage.getItem("authToken");
-  const { doctorId } = useParams();
+    const authToken = localStorage.getItem("authToken");
+    const {doctorId} = useParams();
 
-  const [doctorInfo, setDoctorInfo] = useState({});
-  const [patientInfo, setPatientInfo] = useState({});
+    const [doctorInfo, setDoctorInfo] = useState({});
+    const [patientInfo, setPatientInfo] = useState({});
+    const [appointmentDate, setAppointmentDate] = useState("")
 
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState();
-  const [phone, setPhone] = useState();
-  const [city, setCity] = useState();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-  const getDoctorInfo = async () => {
-    axios
-      .get(`http://localhost:5000/api/doctors/get-profile/${doctorId}`, {
-        headers: {
-          Authorization: "Bearer " + authToken,
-        },
-      })
-      .then((response) => {
-        setLoading(false);
-        setDoctorInfo(response.data);
-      })
+    const getDoctorInfo = async () => {
+        await axios
+            .get(`http://localhost:5000/api/doctors/get-profile/${doctorId}`, {
+                headers: {
+                    Authorization: "Bearer " + authToken,
+                },
+            })
+            .then((response) => {
+                setLoading(false);
+                setDoctorInfo(response.data);
+                console.log("doc Info: ", response.data)
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+    const getPatientInfo = async () => {
+        await axios.get(
+            "http://localhost:5000/api/patients/get-profile",
+            {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            },
+        ).then((response) => {
+            setLoading(false)
+            setPatientInfo(response.data);
+        }).catch((error) => {
+            console.error(error);
+        })
+    }
 
-  const formatDate = (isoDate) => {
-    const date = new Date(isoDate);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
 
-  const [selectedSlot, setSelectedSlot] = useState(null);
+    const [selectedSlot, setSelectedSlot] = useState(null);
 
-  const availableSlots = [
-    "06:30 PM",
-    "06:45 PM",
-    "07:00 PM",
-    "07:15 PM",
-    "07:30 PM",
-    "07:45 PM",
-    "08:00 PM",
-    "08:15 PM",
-    "08:30 PM",
-    "08:45 PM",
-    "09:00 PM",
-    "09:15 PM",
-    "09:30 PM",
-    "09:45 PM",
-    "10:00 PM",
-    "10:15 PM",
-    "10:30 PM",
-    "10:45 PM",
-  ];
+    const availableSlots = [
+        "06:30 PM",
+        "07:00 PM",
+        "07:30 PM",
+        "08:00 PM",
+        "08:30 PM",
+        "09:00 PM",
+        "09:30 PM",
+        "10:00 PM",
+        "10:30 PM",
+        "11:00 PM",
+        "11:30 PM",
+        "12:00 PM",
+        "12:30 PM",
+        "01:00 PM",
+        "01:30 PM",
+        "02:00 PM",
+        "02:30 PM",
+        "03:00 PM",
+        "03:30 PM",
+        "04:00 PM",
+        "04:30 PM",
+        "05:00 PM",
+        "05:30 PM",
+        "06:00 PM",
+        "06:30 PM",
+    ];
 
-  useEffect(() => {
-    getDoctorInfo();
-  }, []);
+    useEffect(() => {
+        getDoctorInfo();
+        getPatientInfo();
+    }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
-  return (
-    <div className="min-h-screen bg-white flex flex-col items-center p-6">
-      {/* Patient Info */}
-      {/* <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">Patient Information</h2>
-        <div className="mb-2">
-          <strong>Name:</strong> {patientInfo.name}
+    return (
+        <div className="min-h-screen bg-white flex flex-col items-center p-6">
+            <div className="flex flex-col justify-center items-center mt-4 mb-10">
+                <h2 className="text-center text-3xl font-bold">BOOK APPOINTMENT</h2>
+                <hr className="w-1/2 h-1 bg-gray-800 my-2"/>
+            </div>
+            <div className="flex w-full max-w-6xl justify-between items-start gap-10">
+                <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
+                    <h2 className="text-2xl font-bold mb-4">Patient Information</h2>
+                    <div className="mb-2">
+                        <strong>Name:</strong> {patientInfo.name}
+                    </div>
+                    <div className="mb-2">
+                        <strong>City:</strong> {patientInfo.city}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Gender:</strong> {patientInfo.gender}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Phone:</strong> {patientInfo.phone}
+                    </div>
+                    <div className="mb-2">
+                        <strong>Email:</strong> {patientInfo.email}
+                    </div>
+                </div>
+
+                <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
+                    <div className="flex items-center">
+                        <div>
+                            <h2 className="text-2xl font-bold">{doctorInfo.name}</h2>
+                            <p className="mb-2">{doctorInfo.specialization}</p>
+                            <div className="mb-2">
+                                <strong>Experience:</strong> {doctorInfo.experience}
+                            </div>
+                            <div className="mb-2">
+                                <strong>City:</strong> {doctorInfo.city}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Gender:</strong> {doctorInfo.gender}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Phone:</strong> {doctorInfo.phone}
+                            </div>
+                            <div className="mb-2">
+                                <strong>Education:</strong> {doctorInfo.education}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="w-full max-w-6xl bg-fuchsia-100 rounded-lg shadow-lg p-6">
+                <h2 className="text-2xl font-bold">Choose Available Slot</h2>
+
+                <div className="relative z-0 w-1/4 my-8">
+                    <input
+                        type="text"
+                        name="appointmentDate"
+                        id="appointmentDate"
+                        value={appointmentDate}
+                        onChange={(e) => {
+                            setAppointmentDate(e.target.value);
+                        }}
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                    />
+                    <label
+                        htmlFor="appointmentDate"
+                        className="peer-focus:font-medium absolute text-lg text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                        Select Appointment Date
+                    </label>
+                </div>
+
+                <div className="grid grid-cols-6 gap-3 mt-4">
+                    {availableSlots.map((slot, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setSelectedSlot(slot)}
+                            className={`py-2 px-4 rounded border ${selectedSlot === slot ? "bg-light-orchid text-white" : "bg-white"} hover:bg-fuchsia-300`}
+                        >
+                            {slot}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
         </div>
-        <div className="mb-2">
-          <strong>City:</strong> {patientInfo.city}
-        </div>
-        <div className="mb-2">
-          <strong>Gender:</strong> {patientInfo.gender}
-        </div>
-        <div className="mb-2">
-          <strong>Phone:</strong> {patientInfo.phone}
-        </div>
-        <div className="mb-2">
-          <strong>Email:</strong> {patientInfo.email}
-        </div>
-      </div> */}
-
-      {/* Doctor Info */}
-      <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
-        <div className="flex items-center">
-          <img
-            src="/path/to/doctor-image.jpg"
-            alt="Doctor"
-            className="w-16 h-16 rounded-full mr-4"
-          />
-          <div>
-            <h2 className="text-2xl font-bold">{doctorInfo.name}</h2>
-            <p>{doctorInfo.specialization} (Online)</p>
-            <p>
-              <strong>Experience:</strong> {doctorInfo.experience}
-            </p>
-            <p>
-              <strong>Fee:</strong> Rs. {doctorInfo.fee}
-            </p>
-          </div>
-        </div>
-        <div className="mt-4 text-blue-500">
-          <a href="#" className="hover:underline">
-            Change Clinic
-          </a>
-        </div>
-      </div>
-
-      {/* Available Slots */}
-      <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Available Slots</h2>
-        <div className="flex space-x-2 overflow-x-auto pb-2">
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded">
-            Today, 10
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded hover:bg-gray-100">
-            Sep, 11
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded hover:bg-gray-100">
-            Sep, 12
-          </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded hover:bg-gray-100">
-            Sep, 13
-          </button>
-        </div>
-
-        <div className="grid grid-cols-3 gap-3 mt-4">
-          {availableSlots.map((slot, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedSlot(slot)}
-              className={`py-2 px-4 rounded border ${selectedSlot === slot ? "bg-light-orchid text-white" : "bg-white"} hover:bg-fuchsia-300`}
-            >
-              {slot}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Pay Online Option */}
-      <div className="mt-4">
-        <a href="#" className="text-blue-500 hover:underline">
-          Pay Online & Get Up to 40% off
-        </a>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default BookAppointment;

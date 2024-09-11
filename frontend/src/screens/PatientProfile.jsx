@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import axios from "axios";
 
 const PatientProfile = () => {
     const {id} = useParams();
     const [patient, setPatient] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     const getPatient = async () => {
         await axios
