@@ -95,8 +95,8 @@ const BookAppointment = () => {
     return (
         <div className="min-h-screen bg-white flex flex-col items-center p-6">
             <div className="flex flex-col justify-center items-center mt-4 mb-10">
-                <h2 className="text-center text-3xl font-bold">BOOK APPOINTMENT</h2>
-                <hr className="w-1/2 h-1 bg-gray-800 my-2"/>
+                <h2 className="text-center text-4xl font-bold mb-4">BOOK APPOINTMENT</h2>
+                <hr className="w-1/2 h-1 bg-gray-800"/>
             </div>
             <div className="flex w-full max-w-6xl justify-between items-start gap-10">
                 <div className="w-full max-w-lg bg-fuchsia-100 rounded-lg shadow-lg p-6 mb-6">
