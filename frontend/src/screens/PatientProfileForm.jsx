@@ -33,8 +33,8 @@ const PatientProfileForm = () => {
         },
       )
       .then((response) => {
-        console.log(response.data);
         navigate("/");
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
