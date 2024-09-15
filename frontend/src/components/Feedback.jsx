@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import FeedbackCard from "./FeedbackCard";
+import axiosInstance from "../services/axiosInterceptor";
+import Notifier from "../services/Notifier";
 
 export const Feedback = () => {
     const [feedback, setFeedback] = useState({});
@@ -8,16 +9,15 @@ export const Feedback = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const getFeedback = async () => {
-        await axios
-            .get("http://localhost:5000/api/feedback/")
+        await axiosInstance.get("/feedback")
             .then((response) => {
                 setLoading(false);
                 setFeedback(response.data);
-                console.log("Feedback: ", response.data);
             })
             .catch((err) => {
                 console.error(err);
                 console.log("Error fetching feedback", err);
+                Notifier.error("Failed to fetch feedbacks!")
             });
     };
 
@@ -61,7 +61,7 @@ export const Feedback = () => {
                 >
                     <svg className="w-6 h-6 text-light-orchid" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                               d="M5 12h14M5 12l4-4m-4 4 4 4"/>
                     </svg>
 

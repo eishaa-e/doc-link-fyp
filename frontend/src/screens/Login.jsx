@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 import {Link, useNavigate} from "react-router-dom";
 import loginImage from "../assets/login-image.png";
+import axiosInstance from "../services/axiosInterceptor";
+import Notifier from "../services/Notifier";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -12,18 +13,18 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios
-            .post("http://localhost:5000/api/auth/login", {email, password, role})
+        await axiosInstance.post("/auth/login", {email, password, role})
             .then((response) => {
                 if (response.data.success) {
                     localStorage.setItem("authToken", response.data.authToken);
                     localStorage.setItem("role", role);
-                    console.log(response.data);
                     navigate("/");
                     window.location.reload();
+                    Notifier.error("Login Successful!");
                 }
             })
             .catch((error) => {
+                Notifier.error("Invalid Credentials!");
                 console.error(error);
             });
     };
