@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
+import axiosInstance from "../services/axiosInterceptor";
 
 const PatientProfileForm = () => {
   const authToken = localStorage.getItem("authToken");
@@ -15,9 +16,9 @@ const PatientProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios
+    await axiosInstance
       .put(
-        "http://localhost:5000/api/patients/update-profile",
+        "/patients/update-profile",
         {
           name,
           dob,
@@ -28,7 +29,6 @@ const PatientProfileForm = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + authToken,
           },
         },
       )
@@ -50,11 +50,10 @@ const PatientProfileForm = () => {
   };
 
   const getPatientProfile = async () => {
-    await axios
-      .get(`http://localhost:5000/api/patients/get-profile`, {
+    await axiosInstance
+      .get(`/patients/get-profile`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + authToken,
         },
       })
       .then((response) => {
