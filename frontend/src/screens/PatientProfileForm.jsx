@@ -11,8 +11,22 @@ const PatientProfileForm = () => {
   const [gender, setGender] = useState();
   const [phone, setPhone] = useState();
   const [city, setCity] = useState();
+  const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +39,7 @@ const PatientProfileForm = () => {
           gender,
           phone,
           city,
+          profileImage,
         },
         {
           headers: {
@@ -63,6 +78,7 @@ const PatientProfileForm = () => {
         setGender(response.data?.gender);
         setPhone(response.data?.phone);
         setCity(response.data?.city);
+        setProfileImage(response.data?.profileImage);
         setLoading(false);
       })
       .catch((error) => {
@@ -220,6 +236,31 @@ const PatientProfileForm = () => {
             </label>
           </div>
         </div>
+
+        <div className="mb-5">
+          <label
+            htmlFor="profileImage"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Profile Image
+          </label>
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </div>
+
+        {profileImage && (
+          <div className="mb-5">
+            <img
+              src={profileImage}
+              alt="Profile Preview"
+              className="w-24 h-24 rounded-full"
+            />
+          </div>
+        )}
 
         <button
           type="submit"
