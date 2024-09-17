@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import FeedbackCard from "./FeedbackCard";
 import axiosInstance from "../services/axiosInterceptor";
-import Notifier from "../services/Notifier";
 
 export const Feedback = () => {
     const [feedback, setFeedback] = useState({});
@@ -17,7 +16,6 @@ export const Feedback = () => {
             .catch((err) => {
                 console.error(err);
                 console.log("Error fetching feedback", err);
-                Notifier.error("Failed to fetch feedbacks!")
             });
     };
 

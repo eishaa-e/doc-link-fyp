@@ -116,3 +116,29 @@ exports.addFeedback = async (req, res) => {
         res.status(500).json({message: "Server error", error});
     }
 };
+
+exports.uploadProfileImage = async (req, res) => {
+    try {
+        const {id} = req.user;
+        const {profileImage} = req.body;
+
+        const updatedDoctor = await Doctor.findOneAndUpdate(
+            {user_id: id},
+            {profileImage},
+            {new: true},
+        );
+
+        if (!updatedDoctor) {
+            return res.status(404).json({message: "Doctor not found"});
+        }
+
+        res
+            .status(200)
+            .json({
+                message: "Profile image updated successfully",
+                doctor: updatedDoctor,
+            });
+    } catch (error) {
+        res.status(500).json({message: "Server error", error});
+    }
+};
