@@ -38,6 +38,7 @@ const Signup = () => {
                 }
             })
             .catch((err) => {
+                alert(err.response.data.errors[0].msg)
                 setErrorFlag(true)
                 setError(err)
                 console.error(err);
