@@ -46,7 +46,7 @@ const PatientProfile = () => {
     }
 
     return (
-        <div className="w-full max-w-7xl mx-auto bg-white my-10 justify-center items-start">
+        <div className="w-full max-w-7xl mx-auto bg-white my-10 flex justify-center items-start">
             <div className="w-1/2 bg-fuchsia-100 shadow-lg rounded-lg p-6 mb-8 flex justify-center items-center gap-12">
                 <div className="w-5/12 flex flex-col justify-center items-center mb-4 border-r-2 border-gray-300">
                     <img
