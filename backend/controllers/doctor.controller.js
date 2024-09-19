@@ -87,31 +87,59 @@ exports.getDoctorProfileById = async (req, res) => {
 
 exports.addFeedback = async (req, res) => {
     try {
-        const {doctorId} = req.params; // Doctor ID from the URL
-        const {user_id, rating, comment} = req.body; // Feedback data from request body
+        const {doctorId} = req.params;
+        const {rating, comment} = req.body;
+        const {id, role} = req.user
 
-        // Find the doctor by ID
+        if (role !== "patient") {
+            return res.status(400).json({message: "Only patient can give feedback to doctor."});
+        }
+
         const doctor = await Doctor.findById(doctorId);
         if (!doctor) {
             return res.status(404).json({message: "Doctor not found"});
         }
 
-        // Create new feedback object (directly in the feedbacks array)
         const feedback = {
-            user_id,
+            user_id: id,
             rating,
             comment,
-            date: new Date() // Add date automatically
+            date: new Date()
         };
 
-        // Add feedback to the doctor's feedback array
         doctor.feedbacks.push(feedback);
-        await doctor.save(); // Save the updated doctor with the new feedback
+        await doctor.save();
 
         res.status(201).json({
             message: "Feedback added successfully",
             feedback,
         });
+    } catch (error) {
+        res.status(500).json({message: "Server error", error});
+    }
+};
+
+exports.uploadProfileImage = async (req, res) => {
+    try {
+        const {id} = req.user;
+        const {profileImage} = req.body;
+
+        const updatedDoctor = await Doctor.findOneAndUpdate(
+            {user_id: id},
+            {profileImage},
+            {new: true},
+        );
+
+        if (!updatedDoctor) {
+            return res.status(404).json({message: "Doctor not found"});
+        }
+
+        res
+            .status(200)
+            .json({
+                message: "Profile image updated successfully",
+                doctor: updatedDoctor,
+            });
     } catch (error) {
         res.status(500).json({message: "Server error", error});
     }

@@ -12,6 +12,9 @@ import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import ContactUs from "./screens/ContactUs";
 import BookAppointment from "./screens/BookAppointment";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Services from "./screens/Services";
 
 function App() {
   return (
@@ -36,8 +39,10 @@ function App() {
             path="/doctor/:doctorId/book-appointment"
             element={<BookAppointment />}
           />
+          <Route path="/services" element={<Services />} />
         </Routes>
         <Footer />
+        <ToastContainer />
       </BrowserRouter>
     </div>
   );

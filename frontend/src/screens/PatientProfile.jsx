@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../services/axiosInterceptor";
+import Loader from "../components/Loader";
 
 const PatientProfile = () => {
     const {id} = useParams();
@@ -8,16 +9,12 @@ const PatientProfile = () => {
     const [loading, setLoading] = useState(true);
 
     const getPatient = async () => {
-        await axios
-            .get(`http://localhost:5000/api/patients/get-profile/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-                },
-            })
+        await axiosInstance
+            .get(`/patients/get-profile/${id}`)
             .then((response) => {
                 setLoading(false);
                 setPatient(response.data);
-                console.log("Patient - Profile: ", response.data)
+                console.log("Patient - Profile: ", response.data);
             })
             .catch((err) => {
                 console.error(err);
@@ -41,16 +38,19 @@ const PatientProfile = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="w-full max-w-7xl mx-auto my-10 flex justify-center items-start">
+                <Loader/>
+            </div>
+        );
     }
 
     return (
         <div className="w-full max-w-7xl mx-auto bg-white my-10 flex justify-center items-start">
-            <div
-                className="w-1/2 bg-fuchsia-100 shadow-lg rounded-lg p-6 mb-8 flex justify-center items-center gap-12">
+            <div className="w-1/2 bg-fuchsia-100 shadow-lg rounded-lg p-6 mb-8 flex justify-center items-center gap-12">
                 <div className="w-5/12 flex flex-col justify-center items-center mb-4 border-r-2 border-gray-300">
                     <img
-                        src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src={patient.profileImage}
                         alt="Patient"
                         className="w-32 h-32 rounded-full mr-4 mb-5"
                     />
@@ -71,9 +71,10 @@ const PatientProfile = () => {
                         </div>
                     </div>
 
-
-                    <Link to="/patient/profile-form"
-                          className="text-center bg-light-orchid text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600">
+                    <Link
+                        to="/patient/profile-form"
+                        className="text-center bg-light-orchid text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600"
+                    >
                         Update Profile
                     </Link>
                 </div>
@@ -93,7 +94,9 @@ const PatientProfile = () => {
                     </div>
                     <div>
                         <p className="text-gray-500">Address</p>
-                        <p className="font-semibold">{patient.address || "Abc Street, Xyz Town"}</p>
+                        <p className="font-semibold">
+                            {patient.address || "Abc Street, Xyz Town"}
+                        </p>
                     </div>
                     <div>
                         <p className="text-gray-500">City</p>
@@ -144,7 +147,9 @@ const PatientProfile = () => {
                                 <p className="font-semibold">Cardiologist</p>
                             </div>
                         </div>
-                        <button className="text-blue-500 hover:underline ml-4">Button</button>
+                        <button className="text-blue-500 hover:underline ml-4">
+                            Button
+                        </button>
                     </div>
                     <div className="flex items-center my-5 bg-white p-4 rounded-xl">
                         <div className="w-1/4 text-sm">
@@ -162,7 +167,9 @@ const PatientProfile = () => {
                                 <p className="font-semibold">Dermatologist</p>
                             </div>
                         </div>
-                        <button className="text-blue-500 hover:underline ml-4">Button</button>
+                        <button className="text-blue-500 hover:underline ml-4">
+                            Button
+                        </button>
                     </div>
                     <div className="flex items-center my-5 bg-white p-4 rounded-xl">
                         <div className="w-1/4 text-sm">
@@ -180,9 +187,10 @@ const PatientProfile = () => {
                                 <p className="font-semibold">Dermatologist</p>
                             </div>
                         </div>
-                        <button className="text-blue-500 hover:underline ml-4">Button</button>
+                        <button className="text-blue-500 hover:underline ml-4">
+                            Button
+                        </button>
                     </div>
-
                 </div>
             </div>
         </div>

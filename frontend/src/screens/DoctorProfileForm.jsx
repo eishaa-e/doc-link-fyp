@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import logo from "../assets/doc-link-icon.png";
 import {useNavigate} from "react-router-dom";
+import axiosInstance from "../services/axiosInterceptor";
+import Notifier from "../services/Notifier";
 
 const DoctorProfileForm = () => {
     const authToken = localStorage.getItem("authToken");
@@ -11,23 +12,38 @@ const DoctorProfileForm = () => {
     const [gender, setGender] = useState();
     const [phone, setPhone] = useState();
     const [city, setCity] = useState();
+    const [profileImage, setProfileImage] = useState(null);
     const [specialization, setSpecialization] = useState();
     const [education, setEducation] = useState();
     const [experience, setExperience] = useState();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setProfileImage(reader.result);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios
+        await axiosInstance
             .put(
-                "http://localhost:5000/api/doctors/update-profile",
+                "/doctors/update-profile",
                 {
                     name,
                     dob,
                     gender,
                     phone,
                     city,
+                    profileImage,
                     specialization,
                     education,
                     experience,
@@ -35,16 +51,17 @@ const DoctorProfileForm = () => {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + authToken,
                     },
                 },
             )
             .then((response) => {
                 console.log(response.data);
                 navigate("/");
+                Notifier.success("Profile updated!");
             })
             .catch((error) => {
                 console.error(error);
+                Notifier.error("Error while updating profile!");
             });
     };
 
@@ -57,11 +74,10 @@ const DoctorProfileForm = () => {
     };
 
     const getDoctorProfile = async () => {
-        await axios
-            .get(`http://localhost:5000/api/doctors/get-profile`, {
+        await axiosInstance
+            .get(`/doctors/get-profile`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + authToken,
                 },
             })
             .then((response) => {
@@ -70,6 +86,7 @@ const DoctorProfileForm = () => {
                 setGender(response.data?.gender);
                 setPhone(response.data?.phone);
                 setCity(response.data?.city);
+                setProfileImage(response.data?.profileImage);
                 setSpecialization(response.data?.specialization);
                 setEducation(response.data?.education);
                 setExperience(response.data?.experience);
@@ -284,6 +301,32 @@ const DoctorProfileForm = () => {
                             </label>
                         </div>
                     </div>
+
+                    <div className="mb-5">
+                        <label
+                            htmlFor="profileImage"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                            Profile Image
+                        </label>
+                        <input
+                            type="file"
+                            id="profileImage"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                        />
+                    </div>
+
+                    {profileImage && (
+                        <div className="mb-5">
+                            <img
+                                src={profileImage}
+                                alt="Profile Preview"
+                                className="w-24 h-24 rounded-full"
+                            />
+                        </div>
+                    )}
+
 
                     <button
                         type="submit"

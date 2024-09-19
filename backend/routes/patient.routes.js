@@ -20,5 +20,10 @@ router.get(
   authenticateToken,
   patientController.getPatientProfileById,
 );
+router.put(
+  "/update-profile-image",
+  authenticateToken,
+  patientController.uploadProfileImage,
+);
 
 module.exports = router;

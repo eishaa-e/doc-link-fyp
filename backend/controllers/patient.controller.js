@@ -57,8 +57,11 @@ exports.updatePatientProfile = async (req, res) => {
 exports.getPatientProfileById = async (req, res) => {
     try {
         const {id} = req.params;
-        const patient = await Patient.findById(id).populate("user_id", "email date");
-        console.log("patient: ", patient)
+        const patient = await Patient.findById(id).populate(
+            "user_id",
+            "email date",
+        );
+        console.log("patient: ", patient);
         if (!patient) return res.status(404).json({message: "Patient not found"});
         const response = {
             _id: patient._id,
@@ -68,11 +71,38 @@ exports.getPatientProfileById = async (req, res) => {
             dob: patient.dob,
             gender: patient.gender,
             name: patient.name,
+            profileImage: patient.profileImage,
             phone: patient.phone,
-            registeredAt: patient.user_id.date
+            registeredAt: patient.user_id.date,
         };
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({message: "Server error"});
+    }
+};
+
+exports.uploadProfileImage = async (req, res) => {
+    try {
+        const {id} = req.user;
+        const {profileImage} = req.body;
+
+        const updatedPatient = await Patient.findOneAndUpdate(
+            {user_id: id},
+            {profileImage},
+            {new: true},
+        );
+
+        if (!updatedPatient) {
+            return res.status(404).json({message: "Patient not found"});
+        }
+
+        res
+            .status(200)
+            .json({
+                message: "Profile image updated successfully",
+                patient: updatedPatient,
+            });
+    } catch (error) {
+        res.status(500).json({message: "Server error", error});
     }
 };

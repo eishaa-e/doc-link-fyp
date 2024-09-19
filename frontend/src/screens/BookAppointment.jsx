@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../services/axiosInterceptor";
+import Notifier from "../services/Notifier";
+import Loader from "../components/Loader";
 
 const BookAppointment = () => {
     const authToken = localStorage.getItem("authToken");
@@ -13,35 +15,25 @@ const BookAppointment = () => {
     const [loading, setLoading] = useState(true);
 
     const getDoctorInfo = async () => {
-        await axios
-            .get(`http://localhost:5000/api/doctors/get-profile/${doctorId}`, {
-                headers: {
-                    Authorization: "Bearer " + authToken,
-                },
-            })
+        await axiosInstance.get(`/doctors/get-profile/${doctorId}`)
             .then((response) => {
                 setLoading(false);
                 setDoctorInfo(response.data);
-                console.log("doc Info: ", response.data)
             })
             .catch((error) => {
                 console.error(error);
+                Notifier.error("Failed to fetch doctor info!")
             });
     };
 
     const getPatientInfo = async () => {
-        await axios.get(
-            "http://localhost:5000/api/patients/get-profile",
-            {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            },
-        ).then((response) => {
+        await axiosInstance.get(
+            "/patients/get-profile").then((response) => {
             setLoading(false)
             setPatientInfo(response.data);
         }).catch((error) => {
             console.error(error);
+            Notifier.error("Failed to fetch patient info!")
         })
     }
 
@@ -89,7 +81,11 @@ const BookAppointment = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loader/>
+            </div>
+        );
     }
 
     return (

@@ -2,6 +2,7 @@ import React from "react";
 
 import img from "../assets/home-image.png";
 import {Feedback} from "../components/Feedback";
+import Services from "./Services";
 
 function Home() {
     return (
@@ -27,7 +28,10 @@ function Home() {
                         <img src={img} alt="Health illustration" className="w-11/12"/>
                     </div>
                 </div>
-                <div className="w-full my-5 p-10 flex justify-center align-middle">
+                <div className="w-full max-w-6xl my-5 p-10 flex justify-center align-middle">
+                    <Services/>
+                </div>
+                <div className="w-full max-w-6xl my-5 p-10 flex justify-center align-middle">
                     <Feedback/>
                 </div>
             </div>
