@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import axiosInstance from "../services/axiosInterceptor";
+import Loader from "../components/Loader";
+import StarRating from "../components/StarRating";
 
 const DoctorProfile = () => {
     const {id} = useParams();
@@ -8,6 +10,17 @@ const DoctorProfile = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const currentUserRole = localStorage.getItem("role");
+    const [feedback, setFeedback] = useState(
+        {
+            rating: 0,
+            comment: ""
+        }
+    );
+    const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
+
+    const toggleFeedbackForm = () => {
+        setIsFeedbackFormOpen(!isFeedbackFormOpen);
+    }
 
     const getDoctor = async () => {
         await axiosInstance
@@ -21,17 +34,57 @@ const DoctorProfile = () => {
             });
     };
 
+    const addFeedback = async (e) => {
+        e.preventDefault();
+        await axiosInstance
+            .post(
+                `/doctors/${id}/feedback`,
+                {rating: feedback.rating, comment: feedback.comment},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            )
+            .then((response) => {
+                setFeedback({rating: 0, comment: ""});
+            })
+            .catch((err) => {
+                console.error(err);
+                console.log("Error saving feedback", err);
+            });
+    };
+
+    const handleOnChange = (e) => {
+        const {name, value} = e.target;
+        setFeedback((prevFeedback) => ({
+            ...prevFeedback,
+            [name]: value,
+        }));
+    };
+
+    const handleRatingChange = (rating) => {
+        setFeedback((prevFeedback) => ({
+            ...prevFeedback,
+            rating,
+        }));
+    };
+
     useEffect(() => {
         getDoctor();
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="w-full max-w-7xl mx-auto my-10 flex justify-center items-start">
+                <Loader/>
+            </div>
+        );
     }
 
     return (
         <div>
-            <div className="w-full flex flex-col items-center text-black bg-white">
+            <div className="w-full  flex flex-col items-center text-black bg-white">
                 <h2 className="text-6xl font-bold my-5"> Doctor </h2>
                 <div className="w-full flex flex-col justify-center items-center gap-5">
                     <div className="w-full flex justify-center items-center rounded-lg">
@@ -102,6 +155,19 @@ const DoctorProfile = () => {
                                                         Update Profile
                                                     </Link>
                                                 ) : null}
+                                                {currentUserRole === "patient" ? (
+                                                    <>
+                                                        <button
+                                                            data-modal-target="authentication-modal"
+                                                            data-modal-toggle="authentication-modal"
+                                                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                                            type="button"
+                                                            onClick={toggleFeedbackForm}
+                                                        >
+                                                            Give Feedback
+                                                        </button>
+                                                    </>
+                                                ) : null}
                                                 <Link
                                                     onClick={() => {
                                                         navigate(-1);
@@ -113,6 +179,76 @@ const DoctorProfile = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    {
+                                        isFeedbackFormOpen && (
+                                            <div
+                                                id="authentication-modal"
+                                                tabIndex="-1"
+                                                aria-hidden="true"
+                                                className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+                                            >
+                                                <div
+                                                    className="relative w-full max-w-md p-4 mx-auto bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <div
+                                                        className="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                                            Give Feedback to Doctor
+                                                        </h3>
+                                                        <button
+                                                            type="button"
+                                                            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                            onClick={toggleFeedbackForm}
+                                                        >
+                                                            <svg
+                                                                className="w-3 h-3"
+                                                                aria-hidden="true"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                fill="none"
+                                                                viewBox="0 0 14 14"
+                                                            >
+                                                                <path
+                                                                    stroke="currentColor"
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth="2"
+                                                                    d="M1 1l6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                                                />
+                                                            </svg>
+                                                            <span className="sr-only">Close modal</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="p-6 space-y-6">
+                                                        <form
+                                                            className="w-full flex flex-col justify-center items-center p-5 rounded-xl"
+                                                        >
+                                                            <h2 className="text-xl font-bold"></h2>
+                                                            <textarea
+                                                                name="comment"
+                                                                rows="3"
+                                                                className="bg-fuchsia-100 w-full rounded-xl border-0"
+                                                                placeholder="Give us a review"
+                                                                value={feedback.comment}
+                                                                onChange={handleOnChange}
+                                                            ></textarea>
+                                                            <div className="mt-2">
+                                                                <StarRating
+                                                                    rating={feedback.rating}
+                                                                    onRatingChange={handleRatingChange}
+                                                                />
+                                                            </div>
+                                                            <button
+                                                                type="submit"
+                                                                onClick={addFeedback}
+                                                                className="w-24 mt-6 text-white bg-light-orchid hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
+                                                            >
+                                                                Submit
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>

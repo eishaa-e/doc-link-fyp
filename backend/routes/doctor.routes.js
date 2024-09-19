@@ -24,7 +24,7 @@ router.get(
     doctorController.getDoctorProfileById,
 );
 router.post(
-    "/doctors/:doctorId/feedback",
+    "/:doctorId/feedback",
     authenticateToken,
     doctorController.addFeedback,
 );

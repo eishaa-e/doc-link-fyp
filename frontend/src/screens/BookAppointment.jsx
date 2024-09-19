@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
+import Loader from "../components/Loader";
 
 const BookAppointment = () => {
     const authToken = localStorage.getItem("authToken");
@@ -80,7 +81,11 @@ const BookAppointment = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loader/>
+            </div>
+        );
     }
 
     return (

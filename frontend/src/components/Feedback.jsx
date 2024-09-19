@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import FeedbackCard from "./FeedbackCard";
 import axiosInstance from "../services/axiosInterceptor";
+import Loader from "./Loader";
 
 export const Feedback = () => {
     const [feedback, setFeedback] = useState({});
@@ -36,7 +37,11 @@ export const Feedback = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Loader/>
+            </div>
+        );
     }
 
     return (
