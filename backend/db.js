@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
-const mongoURI = "mongodb+srv://nisha:nisha@cluster0.yvh2u.mongodb.net/docLink";
+require('dotenv').config();  // Load environment variables from .env file
+
+const mongoURI = process.env.MONGO_URI;  // Get MongoDB URI from the environment variable
 
 const connectToMongo = () => {
   mongoose
-    .connect(mongoURI)
+    .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log("Connected to MongoDB Successfully");
     })
     .catch((err) => {
-      console.error(err);
+      console.error("MongoDB connection error:", err);
     });
 };
 
