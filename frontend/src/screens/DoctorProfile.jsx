@@ -155,7 +155,7 @@ const DoctorProfile = () => {
 
                         <div className="flex gap-2 items-baseline mt-10">
                             <Link
-                                to="/"
+                                to={`/doctor/${id}/book-appointment`}
                                 className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 Book Appointment

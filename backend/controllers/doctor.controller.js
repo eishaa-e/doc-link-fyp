@@ -78,8 +78,24 @@ exports.getDoctorProfileById = async (req, res) => {
     try {
         const {id} = req.params;
         const doctor = await Doctor.findById(id).populate("user_id", "email");
+        const response = {
+            _id: doctor._id,
+            user_id: doctor.user_id._id,
+            email: doctor.user_id.email,
+            city: doctor.city,
+            dob: doctor.dob,
+            education: doctor.education,
+            experience: doctor.experience,
+            gender: doctor.gender,
+            name: doctor.name,
+            phone: doctor.phone,
+            specialization: doctor.specialization,
+            profileImage: doctor.profileImage,
+            availableTimeSlots: doctor.availableTimeSlots,
+            feedbacks: doctor.feedbacks
+        }
         if (!doctor) return res.status(404).json({message: "Doctor not found"});
-        res.status(200).json(doctor);
+        res.status(200).json(response);
     } catch (error) {
         res.status(500).json({message: "Server error"});
     }
