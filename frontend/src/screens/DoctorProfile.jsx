@@ -4,6 +4,7 @@ import axiosInstance from "../services/axiosInterceptor";
 import Loader from "../components/Loader";
 import StarRating from "../components/StarRating";
 import DoctorFeedbackSlider from "../components/DoctorFeedbackSlider";
+import CommonService from "../services/CommonService";
 
 const DoctorProfile = () => {
     const {id} = useParams();
@@ -71,18 +72,6 @@ const DoctorProfile = () => {
         }));
     };
 
-    const formatDate = (date) => {
-        if (date === null) return "";
-
-        const dateObj = new Date(date);
-
-        const year = dateObj.getFullYear();
-        const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-        const day = String(dateObj.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
-    };
-
     useEffect(() => {
         getDoctor();
     }, []);
@@ -141,7 +130,7 @@ const DoctorProfile = () => {
                             </div>
                             <div>
                                 <p className="text-gray-500">Birthday</p>
-                                <p className="font-semibold">{formatDate(doctor.dob)}</p>
+                                <p className="font-semibold">{CommonService.formatDate(doctor.dob)}</p>
                             </div>
                             <div>
                                 <p className="text-gray-500">Phone number</p>
