@@ -11,8 +11,10 @@ const PatientProfile = () => {
     const [loading, setLoading] = useState(true);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const [pastAppointments, setPastAppointments] = useState([]);
+    const [cancelledAppointments, setCancelledAppointment] = useState([])
     const [upcomingSelected, setUpcomingSelected] = useState(true)
     const [pastSelected, setPastSelected] = useState(false)
+    const [cancelledSelected, setCancelledSelected] = useState(false)
 
     const getPatient = async () => {
         await axiosInstance
@@ -48,11 +50,22 @@ const PatientProfile = () => {
                 console.error(err);
             });
     }
+    const getCancelledAppointment = async () => {
+        await axiosInstance.get(`/appointments/patients/${id}?query=cancelled`)
+            .then((response) => {
+                setLoading(false);
+                setCancelledAppointment(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
 
     useEffect(() => {
         getPatient();
         getUpcomingAppointments();
         getPastAppointment();
+        getCancelledAppointment();
     }, []);
 
     if (loading) {
@@ -136,23 +149,37 @@ const PatientProfile = () => {
             </div>
 
             <div className="w-2/5 mx-auto bg-fuchsia-100 shadow-lg rounded-lg p-6">
-                <div className="flex mb-4">
+                <h2 className="text-2xl font-bold text-black my-2 text-center">
+                    Appointments
+                </h2>
+                <div className="flex mb-4 justify-between">
                     <button
                         className={`${upcomingSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
                         onClick={() => {
-                            setPastSelected(false)
                             setUpcomingSelected(true)
+                            setPastSelected(false)
+                            setCancelledSelected(false)
                         }}
                     >
-                        Upcoming appointments
+                        Upcoming
                     </button>
                     <button
                         className={`${pastSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
                         onClick={() => {
-                            setUpcomingSelected(false)
                             setPastSelected(true)
+                            setUpcomingSelected(false)
+                            setCancelledSelected(false)
                         }}>
-                        Past appointments
+                        Past
+                    </button>
+                    <button
+                        className={`${cancelledSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                        onClick={() => {
+                            setCancelledSelected(true)
+                            setUpcomingSelected(false)
+                            setPastSelected(false)
+                        }}>
+                        Cancelled
                     </button>
                 </div>
                 {upcomingSelected && (upcomingAppointments.length > 0 ? (upcomingAppointments?.map((appointment) => (
@@ -171,6 +198,15 @@ const PatientProfile = () => {
                 ))) : (
                     <div className="font-bold px-3 py-3 text-lg">
                         There are no past appointments.
+                    </div>
+                ))}
+                {cancelledSelected && (cancelledAppointments.length > 0 ? (cancelledAppointments?.map((appointment) => (
+                    <div key={appointment.id}>
+                        <AppointmentListItem appointment={appointment}/>
+                    </div>
+                ))) : (
+                    <div className="font-bold px-3 py-3 text-lg">
+                        There are no cancelled appointments.
                     </div>
                 ))}
             </div>
