@@ -193,7 +193,7 @@ const PatientProfile = () => {
                 ))}
                 {pastSelected && (pastAppointments.length > 0 ? (pastAppointments?.map((appointment) => (
                     <div key={appointment.id}>
-                        <AppointmentListItem appointment={appointment}/>
+                        <AppointmentListItem appointment={appointment} isPast={true}/>
                     </div>
                 ))) : (
                     <div className="font-bold px-3 py-3 text-lg">

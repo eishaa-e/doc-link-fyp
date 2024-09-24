@@ -5,6 +5,7 @@ import Loader from "../components/Loader";
 import StarRating from "../components/StarRating";
 import DoctorFeedbackSlider from "../components/DoctorFeedbackSlider";
 import CommonService from "../services/CommonService";
+import AppointmentListItem from "../components/AppointmentListItem";
 
 const DoctorProfile = () => {
     const {id} = useParams();
@@ -12,6 +13,17 @@ const DoctorProfile = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const currentUserRole = localStorage.getItem("role");
+
+    const [requestedAppointments, setRequestedAppointments] = useState([]);
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [pastAppointments, setPastAppointments] = useState([]);
+    const [cancelledAppointments, setCancelledAppointment] = useState([])
+
+    const [requestedSelected, setRequestedSelected] = useState(false)
+    const [upcomingSelected, setUpcomingSelected] = useState(true)
+    const [pastSelected, setPastSelected] = useState(false)
+    const [cancelledSelected, setCancelledSelected] = useState(false)
+
     const [feedback, setFeedback] = useState(
         {
             rating: 0,
@@ -57,6 +69,50 @@ const DoctorProfile = () => {
             });
     };
 
+    const getRequestedAppointments = async () => {
+        await axiosInstance.get(`/appointments/doctors/${id}?query=requested`)
+            .then((response) => {
+                setLoading(false);
+                setRequestedAppointments(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
+    const getUpcomingAppointments = async () => {
+        await axiosInstance.get(`/appointments/doctors/${id}?query=upcoming`)
+            .then((response) => {
+                setLoading(false);
+                setUpcomingAppointments(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
+    const getPastAppointment = async () => {
+        await axiosInstance.get(`/appointments/doctors/${id}?query=past`)
+            .then((response) => {
+                setLoading(false);
+                setPastAppointments(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
+    const getCancelledAppointment = async () => {
+        await axiosInstance.get(`/appointments/doctors/${id}?query=cancelled`)
+            .then((response) => {
+                setLoading(false);
+                setCancelledAppointment(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
     const handleOnChange = (e) => {
         const {name, value} = e.target;
         setFeedback((prevFeedback) => ({
@@ -74,6 +130,10 @@ const DoctorProfile = () => {
 
     useEffect(() => {
         getDoctor();
+        getRequestedAppointments();
+        getUpcomingAppointments();
+        getPastAppointment();
+        getCancelledAppointment();
     }, []);
 
     if (loading) {
@@ -143,21 +203,23 @@ const DoctorProfile = () => {
                         </div>
 
                         <div className="flex gap-2 items-baseline mt-10">
-                            <Link
-                                to={`/doctor/${id}/book-appointment`}
-                                className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                                Book Appointment
-                            </Link>
-                            {currentUserRole === "doctor" ? (
+                            {currentUserRole === "patient" &&
+                                <Link
+                                    to={`/doctor/${id}/book-appointment`}
+                                    className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                >
+                                    Book Appointment
+                                </Link>
+                            }
+                            {currentUserRole === "doctor" && (
                                 <Link
                                     to="/doctor/profile-form"
                                     className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 >
                                     Update Profile
                                 </Link>
-                            ) : null}
-                            {currentUserRole === "patient" ? (
+                            )}
+                            {currentUserRole === "patient" && (
                                 <>
                                     <button
                                         data-modal-target="authentication-modal"
@@ -169,7 +231,7 @@ const DoctorProfile = () => {
                                         Give Feedback
                                     </button>
                                 </>
-                            ) : null}
+                            )}
                             <Link
                                 onClick={() => {
                                     navigate(-1);
@@ -187,83 +249,90 @@ const DoctorProfile = () => {
             </div>
             {
                 currentUserRole !== "patient" ? (
-                    <div className="ml-5 w-5/12 mx-auto bg-fuchsia-100 shadow-lg rounded-lg p-6">
-                        <div className="flex mb-4">
+                    <div className="w-2/5 mx-auto bg-fuchsia-100 shadow-lg rounded-lg p-6">
+                        <h2 className="text-2xl font-bold text-black my-2 text-center">
+                            Appointments
+                        </h2>
+                        <div className="flex mb-4 justify-between">
                             <button
-                                className="px-4 py-2 font-semibold text-blue-500 border-b-2 border-blue-500 focus:outline-none">
-                                Upcoming appointments
+                                className={`${requestedSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                                onClick={() => {
+                                    setRequestedSelected(true)
+                                    setUpcomingSelected(false)
+                                    setPastSelected(false)
+                                    setCancelledSelected(false)
+                                }}
+                            >
+                                Requested
                             </button>
                             <button
-                                className="px-4 py-2 font-semibold text-gray-500 hover:text-blue-500 focus:outline-none">
-                                Past appointments
+                                className={`${upcomingSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                                onClick={() => {
+                                    setUpcomingSelected(true)
+                                    setPastSelected(false)
+                                    setCancelledSelected(false)
+                                    setRequestedSelected(false)
+                                }}
+                            >
+                                Upcoming
                             </button>
                             <button
-                                className="px-4 py-2 font-semibold text-gray-500 hover:text-blue-500 focus:outline-none">
-                                Medical records
+                                className={`${pastSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                                onClick={() => {
+                                    setPastSelected(true)
+                                    setUpcomingSelected(false)
+                                    setCancelledSelected(false)
+                                    setRequestedSelected(false)
+                                }}>
+                                Past
+                            </button>
+                            <button
+                                className={`${cancelledSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                                onClick={() => {
+                                    setCancelledSelected(true)
+                                    setUpcomingSelected(false)
+                                    setPastSelected(false)
+                                    setRequestedSelected(false)
+                                }}>
+                                Cancelled
                             </button>
                         </div>
-                        <div>
-                            <div className="flex items-center my-5 bg-white p-4 rounded-xl">
-                                <div className="w-1/4 text-sm">
-                                    <p className="font-semibold">01 Jun '20</p>
-                                    <p className="text-gray-500">09:00 AM</p>
-                                </div>
-                                <div className="flex-1 flex items-center">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                                    <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                                        <p className="font-semibold">Consultation</p>
-                                        <p className="">Dr. Arkady Ch.</p>
-                                    </div>
-                                    <div className="text-right ml-4">
-                                        <p className="text-gray-500">Type</p>
-                                        <p className="font-semibold">Cardiologist</p>
-                                    </div>
-                                </div>
-                                <button className="text-blue-500 hover:underline ml-4">
-                                    Button
-                                </button>
+                        {requestedSelected && (requestedAppointments.length > 0 ? (requestedAppointments?.map((appointment) => (
+                            <div key={appointment.id}>
+                                <AppointmentListItem appointment={appointment}/>
                             </div>
-                            <div className="flex items-center my-5 bg-white p-4 rounded-xl">
-                                <div className="w-1/4 text-sm">
-                                    <p className="font-semibold">04 Jun '20</p>
-                                    <p className="text-gray-500">09:00 AM</p>
-                                </div>
-                                <div className="flex-1 flex items-center">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                                    <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                                        <p className="font-semibold">Treatment Procedure</p>
-                                        <p className="">Dr. Arkady Ch.</p>
-                                    </div>
-                                    <div className="text-right ml-4">
-                                        <p className="text-gray-500">Type</p>
-                                        <p className="font-semibold">Dermatologist</p>
-                                    </div>
-                                </div>
-                                <button className="text-blue-500 hover:underline ml-4">
-                                    Button
-                                </button>
+                        ))) : (
+                            <div className="font-bold px-3 py-3 text-lg">
+                                There are no requested appointments.
                             </div>
-                            <div className="flex items-center my-5 bg-white p-4 rounded-xl">
-                                <div className="w-1/4 text-sm">
-                                    <p className="font-semibold">04 Jun '20</p>
-                                    <p className="text-gray-500">09:00 AM</p>
-                                </div>
-                                <div className="flex-1 flex items-center">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                                    <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                                        <p className="font-semibold">Treatment Procedure</p>
-                                        <p className="">Dr. Arkady Ch.</p>
-                                    </div>
-                                    <div className="text-right ml-4">
-                                        <p className="text-gray-500">Type</p>
-                                        <p className="font-semibold">Dermatologist</p>
-                                    </div>
-                                </div>
-                                <button className="text-blue-500 hover:underline ml-4">
-                                    Button
-                                </button>
+                        ))}
+                        {upcomingSelected && (upcomingAppointments.length > 0 ? (upcomingAppointments?.map((appointment) => (
+                            <div key={appointment.id}>
+                                <AppointmentListItem appointment={appointment}/>
                             </div>
-                        </div>
+                        ))) : (
+                            <div className="font-bold px-3 py-3 text-lg">
+                                There are no upcoming appointments.
+                            </div>
+                        ))}
+                        {pastSelected && (pastAppointments.length > 0 ? (pastAppointments?.map((appointment) => (
+                            <div key={appointment.id}>
+                                <AppointmentListItem appointment={appointment} isPast={true}/>
+                            </div>
+                        ))) : (
+                            <div className="font-bold px-3 py-3 text-lg">
+                                There are no past appointments.
+                            </div>
+                        ))}
+                        {cancelledSelected && (cancelledAppointments.length > 0 ? (cancelledAppointments?.map((appointment) => (
+                            <div key={appointment.id}>
+                                <AppointmentListItem appointment={appointment}/>
+                            </div>
+                        ))) : (
+                            <div className="font-bold px-3 py-3 text-lg">
+                                There are no cancelled appointments.
+                            </div>
+                        ))}
                     </div>
                 ) : null}
             {

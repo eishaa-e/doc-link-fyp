@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import CommonService from "../services/CommonService";
 import axiosInstance from "../services/axiosInterceptor";
+import Notifier from "../services/Notifier";
 
-const AppointmentListItem = ({appointment}) => {
+const AppointmentListItem = ({appointment, isPast}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [currentUserRole, setCurrentUserRole] = useState(
         localStorage.getItem("role"),
@@ -18,16 +19,18 @@ const AppointmentListItem = ({appointment}) => {
         const data = {
             status: "CANCELLED",
         };
-        await axiosInstance.patch(`/appointments/status/${appointment._id}`, data);
-        console.log("Cancel appointment");
+        await axiosInstance.patch(`/appointments/status/${appointment._id}`, data).then(() => {
+            Notifier.success("Appointment cancelled successfully.");
+        });
     };
 
-    const handleApprovAppointment = async () => {
+    const handleApproveAppointment = async () => {
         const data = {
             status: "BOOKED",
         };
-        await axiosInstance.patch(`/appointments/status/${appointment._id}`, data);
-        console.log("Booked appointment");
+        await axiosInstance.patch(`/appointments/status/${appointment._id}`, data).then(() => {
+            Notifier.success("Appointment approved successfully.");
+        });
     };
 
     return (
@@ -41,8 +44,20 @@ const AppointmentListItem = ({appointment}) => {
             <div className="flex-1 flex items-center">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
                 <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                    <p className="font-semibold">Doctor</p>
-                    <p className="">{appointment.doctor_id.name}</p>
+                    {
+                        currentUserRole === "patient" ? (
+                            <>
+                                <p className="font-semibold">Doctor</p>
+                                <p className="">{appointment.doctor_id.name}</p>
+                            </>
+                        ) : (
+                            <>
+                                <p className="font-semibold">Patient</p>
+                                <p className="">{appointment.patient_id.name}</p>
+                            </>
+
+                        )
+                    }
                 </div>
                 <div className="text-right ml-4">
                     <p className="text-gray-500">Specialization</p>
@@ -52,7 +67,9 @@ const AppointmentListItem = ({appointment}) => {
                 </div>
             </div>
             {
-                appointment.status !== "CANCELLED" && (
+                (appointment.status === "CANCELLED" || isPast) ? (
+                    <></>
+                ) : (
                     <div className="relative">
                         <button
                             type="button"
@@ -98,7 +115,7 @@ const AppointmentListItem = ({appointment}) => {
                                 {currentUserRole === "doctor" &&
                                     appointment.status === "REQUESTED" && (
                                         <button
-                                            onClick={handleApprovAppointment}
+                                            onClick={handleApproveAppointment}
                                             className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-light-orchid hover:text-white"
                                         >
                                             Approve Appointment
