@@ -12,66 +12,77 @@ const Services = () => {
   const services = [
     {
       img: Service1,
-      title: "Search doctor",
+      title: "Find Doctor",
       description:
-        "Choose your doctor from thousands of specialists, general, and trusted hospitals.",
+        "Easily search and find doctors based on specialization, location, and expertise.",
+      link: "/find-doctor",
     },
     {
       img: Service2,
       title: "Chat With AI",
       description:
-        "Buy your medicines with our mobile application with a simple delivery system.",
+        "Get instant health advice by chatting with our advanced AI assistant.",
+      link: "/",
     },
     {
       img: Service3,
       title: "Appointment Booking",
       description:
-        "Free consultation with our trusted doctors and get the best recommendations.",
+        "Book appointments with your preferred doctor quickly and hassle-free.",
+      link: "/find-doctor",
     },
     {
       img: Service4,
       title: "Reviews",
       description:
-        "Free consultation with our trusted doctors and get the best recommendations.",
+        "Read and share feedback about doctors and healthcare services.",
+      link: "/",
     },
     {
       img: Service5,
       title: "Stone Identification",
-      description: "You can get 24/7 urgent care for yourself or your family.",
+      description:
+        "Identify potential kidney stones using our AI-powered tool by giving input as image.",
+      link: "/",
     },
     {
       img: Service6,
       title: "Disease Prediction",
-      description: "Track and save your medical history and health data.",
+      description:
+        "Get AI-driven predictions for potential diseases based on your symptoms.",
+      link: "/",
     },
   ];
 
   return (
-    <div className="bg-white min-h-screen flex flex-col justify-center items-center">
-      <h2 className="text-3xl font-bold mb-4">Our services</h2>
+    <div className="w-full max-w-6xl my-5 p-10 flex justify-center align-middle">
+      <div className="bg-white flex flex-col justify-center items-center">
+        <h2 className="text-3xl font-bold mb-4">Our Services</h2>
 
-      <p className="text-gray-500 text-center max-w-md mb-8">
-        We provide you the best choices for you. Adjust it to your health needs
-        and make sure your undergo treatment with our highly qualified doctors
-        you can consult with us which type of service is suitable for your
-        health.
-      </p>
+        <p className="text-black-500 text-center mb-8">
+          We provide you the best choices for you. Adjust it to your health
+          needs and make sure your undergo treatment with our highly qualified
+          doctors you can consult with us which type of service is suitable for
+          your health.
+        </p>
 
-      {/* Grid layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-        {services.map((service, index) => (
-          <ServiceCard
-            key={index}
-            img={service.img}
-            title={service.title}
-            description={service.description}
-          />
-        ))}
+        {/* Grid layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={index}
+              img={service.img}
+              title={service.title}
+              description={service.description}
+              link={service.link}
+            />
+          ))}
+        </div>
+
+        <button className="mt-8 px-6 py-3 bg-light-orchid text-white rounded-lg shadow-md hover:bg-fuchsia-300">
+          Learn more
+        </button>
       </div>
-
-      <button className="mt-8 px-6 py-3 bg-light-orchid text-white rounded-lg shadow-md hover:bg-fuchsia-300">
-        Learn more
-      </button>
     </div>
   );
 };
