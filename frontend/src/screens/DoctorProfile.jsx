@@ -186,7 +186,7 @@ const DoctorProfile = () => {
                             </div>
                             <div>
                                 <p className="font-medium text-gray-500">Gender</p>
-                                <p className="font-semibold">{doctor.gender.toUpperCase()}</p>
+                                <p className="font-semibold">{doctor.gender?.toUpperCase()}</p>
                             </div>
                             <div>
                                 <p className="text-gray-500">Birthday</p>
@@ -305,7 +305,7 @@ const DoctorProfile = () => {
                                 Cancelled
                             </button>
                         </div>
-                        {requestedSelected && (requestedAppointments.length > 0 ? (requestedAppointments?.map((appointment) => (
+                        {requestedSelected && (requestedAppointments?.length > 0 ? (requestedAppointments?.map((appointment) => (
                             <div key={appointment.id}>
                                 <AppointmentListItem appointment={appointment}/>
                             </div>
@@ -314,7 +314,7 @@ const DoctorProfile = () => {
                                 There are no requested appointments.
                             </div>
                         ))}
-                        {upcomingSelected && (upcomingAppointments.length > 0 ? (upcomingAppointments?.map((appointment) => (
+                        {upcomingSelected && (upcomingAppointments?.length > 0 ? (upcomingAppointments?.map((appointment) => (
                             <div key={appointment.id}>
                                 <AppointmentListItem appointment={appointment}/>
                             </div>
@@ -323,7 +323,7 @@ const DoctorProfile = () => {
                                 There are no upcoming appointments.
                             </div>
                         ))}
-                        {pastSelected && (pastAppointments.length > 0 ? (pastAppointments?.map((appointment) => (
+                        {pastSelected && (pastAppointments?.length > 0 ? (pastAppointments?.map((appointment) => (
                             <div key={appointment.id}>
                                 <AppointmentListItem appointment={appointment} isPast={true}/>
                             </div>
@@ -332,7 +332,7 @@ const DoctorProfile = () => {
                                 There are no past appointments.
                             </div>
                         ))}
-                        {cancelledSelected && (cancelledAppointments.length > 0 ? (cancelledAppointments?.map((appointment) => (
+                        {cancelledSelected && (cancelledAppointments?.length > 0 ? (cancelledAppointments?.map((appointment) => (
                             <div key={appointment.id}>
                                 <AppointmentListItem appointment={appointment}/>
                             </div>

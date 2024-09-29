@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import axiosInterceptor from "../services/axiosInterceptor";
+import axiosInstance from "../services/axiosInterceptor";
+import Notifier from "../services/Notifier";
 
 const DoctorScheduleForm = () => {
     const daysOfWeek = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedSlots, setSelectedSlots] = useState({});
     const [schedule, setSchedule] = useState([]);
+    const [doctor, setDoctor] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const availableSlots = [
-        "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
-        "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "6:30 PM",
-        "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", "09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM", "12:00 AM", "12:30 AM",
-        "01:00 AM", "01:30 AM", "02:00 AM", "02:30 AM", "03:00 AM", "03:30 AM", "04:00 AM", "04:30 AM", "05:00 AM", "05:30 AM", "06:00 AM", "06:30 AM"
+        "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
+        "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
+        "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM", "6:30 PM",
+        "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", "09:30 PM", "10:00 PM", "10:30 PM",
+        "11:00 PM", "11:30 PM", "12:00 AM", "12:30 AM", "01:00 AM", "01:30 AM", "02:00 AM", "02:30 AM",
+        "03:00 AM", "03:30 AM", "04:00 AM", "04:30 AM", "05:00 AM", "05:30 AM", "06:00 AM", "06:30 AM"
     ];
 
     // Convert 12-hour time format to 24-hour format
@@ -23,6 +30,27 @@ const DoctorScheduleForm = () => {
             hours = '00';
         }
         return `${hours}:${minutes}`;
+    };
+
+    // Pre-fill the slots from the API data
+    const preFillSlots = (availableTimeSlots) => {
+        const filledSlots = {};
+        const filledSchedule = [];
+
+        availableTimeSlots.forEach(slot => {
+            if (!filledSlots[slot.dayOfWeek]) {
+                filledSlots[slot.dayOfWeek] = [];
+            }
+            filledSlots[slot.dayOfWeek].push({
+                dayOfWeek: slot.dayOfWeek,
+                startTime: slot.startTime,
+                endTime: slot.endTime
+            });
+            filledSchedule.push(slot);
+        });
+
+        setSelectedSlots(filledSlots);
+        setSchedule(filledSchedule);
     };
 
     // Add selected slot to the schedule
@@ -67,10 +95,32 @@ const DoctorScheduleForm = () => {
         setSchedule((prevSchedule) => prevSchedule.filter((s) => s.startTime !== slot.startTime));
     };
 
-    const handleSubmit = () => {
-        console.log(schedule); // send this schedule object in API request
-        // API call logic here
+    const getDoctor = async () => {
+        await axiosInstance
+            .get(`/doctors/get-profile`)
+            .then((response) => {
+                setLoading(false);
+                setDoctor(response.data);
+                preFillSlots(response.data.availableTimeSlots); // Pre-fill available time slots
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
+
+    const handleSubmit = async () => {
+        console.log(schedule);
+        await axiosInterceptor.put("/doctors/update-availability", schedule).then(() => {
+            Notifier.success("Your schedule has been updated successfully.")
+        }).catch((error) => {
+            console.error(error);
+            Notifier.error("Error while updating schedule.");
+        })
+    };
+
+    useEffect(() => {
+        getDoctor();
+    }, []);
 
     return (
         <div
