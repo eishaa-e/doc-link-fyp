@@ -16,6 +16,45 @@ exports.bookAppointment = async (req, res) => {
         const doctor = await Doctor.findById(doctorId);
         if (!doctor) return res.status(404).json({message: "Doctor not found"});
 
+        // Get the day of the week from the provided date (0 = Sunday, 6 = Saturday)
+        const bookingDate = new Date(date);
+        const dayOfWeek = bookingDate.toLocaleString('en-US', {weekday: 'long'}).toUpperCase();
+
+        // Check if the doctor is available on the requested day
+        const availableSlots = doctor.availableTimeSlots.filter(slot => slot.dayOfWeek === dayOfWeek);
+
+        if (availableSlots.length === 0) {
+            return res.status(400).json({
+                message: `Doctor is not available on ${dayOfWeek}`,
+            });
+        }
+
+        // Check if the requested time slot matches any of the available slots
+        const isSlotAvailable = availableSlots.some(slot =>
+            slot.startTime === startTime && slot.endTime === endTime
+        );
+
+        if (!isSlotAvailable) {
+            return res.status(400).json({
+                message: `Requested time slot ${startTime} - ${endTime} is not available on ${dayOfWeek}`,
+            });
+        }
+
+        // Check if the time slot on the date is already booked
+        const existingAppointment = await Appointment.findOne({
+            doctor_id: doctorId,
+            date: new Date(date),
+            "time_slot.startTime": startTime,
+            "time_slot.endTime": endTime,
+            status: {$in: ["BOOKED", "REQUESTED"]}, // Only check for booked or pending appointments
+        });
+
+        if (existingAppointment) {
+            return res.status(400).json({
+                message: "This time slot is already booked.",
+            });
+        }
+
         const appointment = new Appointment({
             doctor_id: doctorId,
             patient_id: patientId,
@@ -149,7 +188,7 @@ exports.updateAppointmentStatus = async (req, res) => {
         }
 
         const doctor = await Doctor.findOne({user_id: req.user.id});
-        
+
         if (req.user.role === "doctor" && !appointment.doctor_id.equals(doctor._id)) {
             return res.status(403).json({
                 message: "You are not authorized to update this appointment status",
@@ -167,11 +206,11 @@ exports.updateAppointmentStatus = async (req, res) => {
             });
         }
 
-        if (status !== "BOOKED" && status !== "CANCELLED") {
+        if (status !== "BOOKED" && status !== "CANCELLED" && status !== "COMPLETED") {
             return res.status(400).json({message: "Invalid status value"});
         }
 
-        if (req.user.role === "patient" && status === "BOOKED") {
+        if (req.user.role === "patient" && (status === "BOOKED" || status === "COMPLETED")) {
             return res.status(403).json({
                 message: "You are not authorized to update this appointment status",
             });
@@ -182,7 +221,13 @@ exports.updateAppointmentStatus = async (req, res) => {
         await appointment.save();
 
         const message =
-            status === "booked" ? "Appointment approved" : "Appointment rejected";
+            status === "BOOKED"
+                ? "Appointment approved"
+                : status === "REJECTED"
+                    ? "Appointment rejected"
+                    : status === "COMPLETED"
+                        ? "Appointment completed"
+                        : "Appointment cancelled";
 
         res.status(200).json({
             message,

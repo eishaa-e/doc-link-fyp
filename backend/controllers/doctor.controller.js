@@ -1,7 +1,6 @@
 const Doctor = require("../models/doctor.model");
 const User = require("../models/user.model");
-const Patient = require("../models/patient.model");
-const Feedback = require("../models/feedback.model");
+const Appointment = require("../models/appointment.model");
 
 exports.getDoctorProfile = async (req, res) => {
     try {
@@ -156,6 +155,68 @@ exports.uploadProfileImage = async (req, res) => {
                 message: "Profile image updated successfully",
                 doctor: updatedDoctor,
             });
+    } catch (error) {
+        res.status(500).json({message: "Server error", error});
+    }
+};
+
+exports.updateDoctorAvailability = async (req, res) => {
+    try {
+        const {id} = req.user; // Get the doctor's user ID from the JWT token
+        const availabilitySlots = req.body; // Expect an array of time slots from the request body
+
+        // Check if the user is a doctor
+        const doctor = await Doctor.findOne({user_id: id});
+        if (!doctor) {
+            return res.status(404).json({message: "Doctor not found"});
+        }
+
+        // Only the doctor can update their own schedule
+        if (req.user.role !== "doctor") {
+            return res.status(403).json({
+                message: "You are not authorized to update this doctor's schedule",
+            });
+        }
+
+        // Validate each time slot
+        const validDays = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+        const invalidSlots = availabilitySlots.some(slot => {
+            return !validDays.includes(slot.dayOfWeek.toUpperCase()) || !slot.startTime || !slot.endTime;
+        });
+
+        if (invalidSlots) {
+            return res.status(400).json({message: "Invalid day of the week or time slot"});
+        }
+
+        // Update the doctor's available time slots
+        doctor.availableTimeSlots = availabilitySlots;
+        await doctor.save();
+
+        res.status(200).json({message: "Availability schedule updated successfully", doctor});
+    } catch (error) {
+        res.status(500).json({message: "Server error", error});
+    }
+};
+
+exports.getBookedSlots = async (req, res) => {
+    const {doctorId} = req.params;
+    const currentTime = new Date(); // Get the current date and time
+
+    try {
+        // Find all booked appointments from the current time onward
+        const appointments = await Appointment.find({
+            doctor_id: doctorId,
+            date: {$gte: currentTime}, // Appointments from the current date onward
+            status: {$in: ["BOOKED", "REQUESTED"]}, // Consider booked and pending appointments
+        });
+
+        const bookedSlots = appointments.map(appointment => ({
+            date: appointment.date,
+            time_slot: appointment.time_slot,
+            status: appointment.status
+        }));
+
+        res.status(200).json({bookedSlots});
     } catch (error) {
         res.status(500).json({message: "Server error", error});
     }

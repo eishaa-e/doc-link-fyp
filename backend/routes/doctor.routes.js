@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const doctorController = require("../controllers/doctor.controller");
 const {authenticateToken} = require("../middleware/auth.middleware");
-const patientController = require("../controllers/patient.controller");
 
 router.get(
     "/",
@@ -33,5 +32,12 @@ router.put(
     authenticateToken,
     doctorController.uploadProfileImage,
 );
+router.put(
+    "/update-availability",
+    authenticateToken,
+    doctorController.updateDoctorAvailability
+);
+router.get(
+    "/:doctorId/booked-slots", authenticateToken, doctorController.getBookedSlots);
 
 module.exports = router;
