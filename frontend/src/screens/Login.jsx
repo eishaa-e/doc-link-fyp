@@ -28,7 +28,8 @@ function Login() {
         Notifier.error("Invalid Credentials!");
         console.error(error);
       });
-  };
+  }
+
   return (
     <div>
       <div className="w-full my-20 px-32 bg-white flex justify-center gap-16 items-center">
@@ -122,6 +123,17 @@ function Login() {
           >
             Login
           </button>
+
+          {/* Add the Forget Password button */}
+          <p className="text-sm text-center mt-2 font-light text-gray-800 dark:text-gray-400">
+            <Link
+              to="/forget-password"
+              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            >
+              Forget Password?
+            </Link>
+          </p>
+
           <p className="text-sm text-center mt-2 font-light text-gray-800 dark:text-gray-400">
             Don't have an account?{" "}
             <Link
