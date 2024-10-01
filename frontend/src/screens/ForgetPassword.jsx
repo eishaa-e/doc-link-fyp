@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/doc-link-icon.png"; // Logo for the application
-import loginImage from "../assets/forgetPassword.png"; // Add an image related to forget password
+import loginImage from "../assets/forgetPass.png"; // Add an image related to forget password
 import { Link, useNavigate } from "react-router-dom"; // Ensure this line is included
 import axios from "axios";
 import Notifier from "../services/Notifier"; // Assuming you have a Notifier for messages
