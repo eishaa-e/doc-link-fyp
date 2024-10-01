@@ -19,10 +19,12 @@ const DoctorProfile = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [cancelledAppointments, setCancelledAppointment] = useState([])
 
-    const [requestedSelected, setRequestedSelected] = useState(false)
-    const [upcomingSelected, setUpcomingSelected] = useState(true)
+    const [requestedSelected, setRequestedSelected] = useState(true)
+    const [upcomingSelected, setUpcomingSelected] = useState(false)
     const [pastSelected, setPastSelected] = useState(false)
     const [cancelledSelected, setCancelledSelected] = useState(false)
+    const [pastCount, setPastCount] = useState(0)
+    const [upcomingCount, setUpcomingCount] = useState(0)
 
     const [feedback, setFeedback] = useState(
         {
@@ -85,6 +87,7 @@ const DoctorProfile = () => {
             .then((response) => {
                 setLoading(false);
                 setUpcomingAppointments(response.data.appointments);
+                setUpcomingCount(response.data.appointments.length)
             })
             .catch((err) => {
                 console.error(err);
@@ -95,6 +98,7 @@ const DoctorProfile = () => {
         await axiosInstance.get(`/appointments/doctors/${id}?query=past`)
             .then((response) => {
                 setLoading(false);
+                setPastCount(response.data.appointments.length)
                 setPastAppointments(response.data.appointments);
             })
             .catch((err) => {
@@ -163,11 +167,11 @@ const DoctorProfile = () => {
                             <div className="grid grid-cols-2 my-3">
                                 <div
                                     className="flex flex-col justify-center items-center border-r-2 border-gray-300 pr-5">
-                                    <p className="text-3xl font-bold text-center">5</p>
+                                    <p className="text-3xl font-bold text-center">{pastCount}</p>
                                     <h2 className="text-lg font-medium text-gray-500">Past</h2>
                                 </div>
                                 <div className="flex flex-col justify-center items-center pl-5">
-                                    <p className="text-3xl font-bold text-center">2</p>
+                                    <p className="text-3xl font-bold text-center">{upcomingCount}</p>
                                     <h2 className="text-lg font-medium text-gray-500">Upcoming</h2>
                                 </div>
                             </div>

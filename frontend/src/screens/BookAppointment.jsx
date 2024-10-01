@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
 import Loader from "../components/Loader";
@@ -7,22 +7,23 @@ import Loader from "../components/Loader";
 const BookAppointment = () => {
     const authToken = localStorage.getItem("authToken");
     const {doctorId} = useParams();
+    const navigate = useNavigate();
 
     const [doctorInfo, setDoctorInfo] = useState({});
     const [patientInfo, setPatientInfo] = useState({});
     const [appointmentDate, setAppointmentDate] = useState("")
-
+    const [availableSlots, setAvailableSlots] = useState("")
+    const [selectedSlot, setSelectedSlot] = useState(null);
+    const [filteredSlots, setFilteredSlots] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const availableSlots = [
-        "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", "09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM", "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM",
-    ];
 
     const getDoctorInfo = async () => {
         await axiosInstance.get(`/doctors/get-profile/${doctorId}`)
             .then((response) => {
                 setLoading(false);
                 setDoctorInfo(response.data);
+                setAvailableSlots(response.data.availableTimeSlots);
             })
             .catch((error) => {
                 console.error(error);
@@ -65,7 +66,39 @@ const BookAppointment = () => {
         return selectedDate >= today;
     }
 
-    const [selectedSlot, setSelectedSlot] = useState(null);
+    const getDayOfWeek = (date) => {
+        const daysOfWeek = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+        const dayIndex = new Date(date).getDay();
+        return daysOfWeek[dayIndex];
+    };
+
+    const filterSlotsByDate = (date) => {
+        const selectedDay = getDayOfWeek(date).toUpperCase().trim();
+        const filtered = availableSlots.filter(slot => slot.dayOfWeek.toUpperCase().trim() === selectedDay);
+        setFilteredSlots(filtered);  // Set filtered slots
+    };
+
+    const handleDateChange = (date) => {
+        setAppointmentDate(date);
+        filterSlotsByDate(date);  // Filter the slots as per selected date
+    };
+
+    const handleBookAppointment = async () => {
+        const data = {
+            doctorId: doctorId,
+            patientId: patientInfo._id,
+            date: appointmentDate,
+            startTime: selectedSlot.startTime,
+            endTime: selectedSlot.endTime,
+        }
+        await axiosInstance.post('/appointments/book', data).then(() => {
+            Notifier.success("Appointment has been booked successfully")
+            navigate(`/patient/${patientInfo._id}`);
+        }).catch((error) => {
+            console.error(error);
+            Notifier.error("Error while booking appointment.")
+        })
+    }
 
     useEffect(() => {
         getDoctorInfo();
@@ -169,9 +202,7 @@ const BookAppointment = () => {
                         id="appointmentDate"
                         value={appointmentDate}
                         min={getTodayDate()}
-                        onChange={(e) => {
-                            setAppointmentDate(e.target.value);
-                        }}
+                        onChange={(e) => handleDateChange(e.target.value)}
                         className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         onFocus={(e) => (e.target.type = "date")}
@@ -185,18 +216,30 @@ const BookAppointment = () => {
                     </label>
                 </div>
 
-                <div className="grid grid-cols-8 gap-3 mt-4">
-                    {availableSlots.map((slot, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setSelectedSlot(slot)}
-                            className={`py-3 px-4 rounded-xl border ${selectedSlot === slot ? "bg-light-orchid text-white" : "bg-white"} hover:bg-fuchsia-300`}
-                        >
-                            {slot}
-                        </button>
-                    ))}
+                <div className="grid grid-cols-8 gap-3 mt-4 flex justify-center items-center">
+                    {filteredSlots.length > 0 ? (
+                        filteredSlots.map((slot, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setSelectedSlot(slot)}
+                                className={`py-3 px-4 rounded-xl border ${selectedSlot === slot ? "bg-light-orchid text-white" : "bg-white"} hover:bg-fuchsia-300`}
+                            >
+                                {slot.startTime}
+                            </button>
+                        ))
+                    ) : (
+                        <p className="flex justify-center items-center text-xl w-72 text-center">This doctor is not
+                            available on this date.</p>
+                    )}
                 </div>
             </div>
+
+            <button
+                onClick={handleBookAppointment}
+                className="mt-6 px-6 py-3 bg-light-orchid text-white rounded-full hover:bg-fuchsia-400"
+            >
+                Book Appointment
+            </button>
 
         </div>
     );
