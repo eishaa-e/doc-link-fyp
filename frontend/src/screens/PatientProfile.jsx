@@ -77,9 +77,18 @@ const PatientProfile = () => {
                     >
                         Update Profile
                     </Link>
+
+                    {/* New Update Password Button */}
+                    <Link
+                        to="/patient/update-password"
+                        className="text-center bg-light-orchid text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600"
+                    >
+                        Update Password
+                    </Link>
                 </div>
 
                 <div className="grid grid-cols-2 gap-10">
+                    {/* Other Profile Information */}
                     <div>
                         <p className="font-medium text-gray-500">Gender</p>
                         <p className="font-semibold">{patient.gender.toUpperCase()}</p>
@@ -131,6 +140,7 @@ const PatientProfile = () => {
                     </button>
                 </div>
                 <div>
+                    {/* Appointment Cards */}
                     <div className="flex items-center my-5 bg-white p-4 rounded-xl">
                         <div className="w-1/4 text-sm">
                             <p className="font-semibold">01 Jun '20</p>
@@ -145,26 +155,6 @@ const PatientProfile = () => {
                             <div className="text-right ml-4">
                                 <p className="text-gray-500">Type</p>
                                 <p className="font-semibold">Cardiologist</p>
-                            </div>
-                        </div>
-                        <button className="text-blue-500 hover:underline ml-4">
-                            Button
-                        </button>
-                    </div>
-                    <div className="flex items-center my-5 bg-white p-4 rounded-xl">
-                        <div className="w-1/4 text-sm">
-                            <p className="font-semibold">04 Jun '20</p>
-                            <p className="text-gray-500">09:00 AM</p>
-                        </div>
-                        <div className="flex-1 flex items-center">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                            <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                                <p className="font-semibold">Treatment Procedure</p>
-                                <p className="">Dr. Arkady Ch.</p>
-                            </div>
-                            <div className="text-right ml-4">
-                                <p className="text-gray-500">Type</p>
-                                <p className="font-semibold">Dermatologist</p>
                             </div>
                         </div>
                         <button className="text-blue-500 hover:underline ml-4">

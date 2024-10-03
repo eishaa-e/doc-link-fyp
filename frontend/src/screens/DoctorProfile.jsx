@@ -161,13 +161,23 @@ const DoctorProfile = () => {
                                 Book Appointment
                             </Link>
                             {currentUserRole === "doctor" ? (
-                                <Link
-                                    to="/doctor/profile-form"
-                                    className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                >
-                                    Update Profile
-                                </Link>
-                            ) : null}
+    <>
+        <Link
+            to="/doctor/profile-form"
+            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+            Update Profile
+        </Link>
+        
+        <Link
+            to="/doctor/update-password" 
+            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+            Update Password
+        </Link>
+    </>
+) : null}
+
                             {currentUserRole === "patient" ? (
                                 <>
                                     <button

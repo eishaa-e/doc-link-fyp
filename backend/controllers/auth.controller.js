@@ -204,4 +204,39 @@ exports.resetPassword = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+    
+};
+
+exports.updatePassword = async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user?.id;  // Check if the user ID is correctly extracted
+    
+    console.log("User ID:", userId);  // Debugging log
+    console.log("Old Password:", oldPassword);  // Debugging log
+    console.log("New Password:", newPassword);  // Debugging log
+
+    if (!userId) {
+        return res.status(401).json({ success: false, message: "User not authenticated" });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Current password is incorrect" });
+        }
+
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedNewPassword;
+        await user.save();
+
+        res.status(200).json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error updating password:", error);  // Log the error to the console
+        res.status(500).json({ error: error.message });
+    }
 };

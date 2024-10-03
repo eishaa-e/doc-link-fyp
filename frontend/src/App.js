@@ -15,6 +15,7 @@ import BookAppointment from "./screens/BookAppointment";
 import Services from "./screens/Services";
 import ForgetPassword from "./screens/ForgetPassword"; // Import ForgetPassword
 import ResetPassword from "./screens/ResetPassword";
+import UpdatePassword from "./screens/UpdatePassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -38,6 +39,9 @@ function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/forget-password" element={<ForgetPassword />} /> {/* Add this route */}
           <Route path="/reset/:token" element={<ResetPassword />} />
+          <Route path="/doctor/update-password" element={<UpdatePassword />} />
+          <Route path="/patient/update-password" element={<UpdatePassword />} />
+
         </Routes>
         <Footer />
         <ToastContainer />
