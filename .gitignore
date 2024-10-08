@@ -4,6 +4,8 @@
 /node_modules
 /frontend/node_modules
 /backend/node_modules
+/ai_model/CT_images
+/ai_model/kidney_stone_detection_model.h5
 .node_modules
 /.pnp
 .pnp.js

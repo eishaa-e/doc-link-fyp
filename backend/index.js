@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth.routes');
 const appointmentRoutes = require('./routes/appointment.routes');
 const chatbotRoutes = require('./routes/chatbot.routes');
@@ -9,14 +8,14 @@ const doctorRoutes = require('./routes/doctor.routes');
 const feedbackRoutes = require('./routes/feedback.routes');
 const connectToMongo = require("./db");
 const cors = require("cors");
-const port = 5000;
 
+const port = 5000;
 const app = express();
+
 app.use(express.json());
+app.use(cors());
 
 connectToMongo();
-
-app.use(cors());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
@@ -31,6 +30,6 @@ app.get("/", (req, res) => {
     res.send("Hello DOC Link server!");
 });
 
-app.listen(5000, () => {
+app.listen(port, () => {
     console.log('Server is running on port 5000');
 });

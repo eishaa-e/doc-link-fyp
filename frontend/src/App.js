@@ -16,6 +16,7 @@ import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Services from "./screens/Services";
 import DoctorScheduleForm from "./screens/DoctorScheduleForm";
+import KidneyStonePrediction from "./screens/KidneyStonePrediction";
 
 function App() {
     return (
@@ -45,6 +46,7 @@ function App() {
                         element={<DoctorScheduleForm/>}
                     />
                     <Route path="/services" element={<Services/>}/>
+                    <Route path="/kidney-stone-prediction" element={<KidneyStonePrediction/>}/>
                 </Routes>
                 <Footer/>
                 <ToastContainer/>
