@@ -2,11 +2,17 @@ import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import axiosInstance from "../services/axiosInterceptor";
 import Loader from "../components/Loader";
+import AppointmentListItem from "../components/AppointmentListItem";
+import CommonService from "../services/CommonService";
 
 const PatientProfile = () => {
     const {id} = useParams();
     const [patient, setPatient] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
+    const [pastAppointments, setPastAppointments] = useState([]);
+    const [upcomingSelected, setUpcomingSelected] = useState(true)
+    const [pastSelected, setPastSelected] = useState(false)
 
     const getPatient = async () => {
         await axiosInstance
@@ -21,20 +27,32 @@ const PatientProfile = () => {
             });
     };
 
-    const formatDate = (date) => {
-        if (date === null) return "";
+    const getUpcomingAppointments = async () => {
+        await axiosInstance.get(`/appointments/patients/${id}?query=upcoming`)
+            .then((response) => {
+                setLoading(false);
+                setUpcomingAppointments(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
 
-        const dateObj = new Date(date);
-
-        const year = dateObj.getFullYear();
-        const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-        const day = String(dateObj.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
-    };
+    const getPastAppointment = async () => {
+        await axiosInstance.get(`/appointments/patients/${id}?query=past`)
+            .then((response) => {
+                setLoading(false);
+                setPastAppointments(response.data.appointments);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
 
     useEffect(() => {
         getPatient();
+        getUpcomingAppointments();
+        getPastAppointment();
     }, []);
 
     if (loading) {
@@ -91,11 +109,11 @@ const PatientProfile = () => {
                     {/* Other Profile Information */}
                     <div>
                         <p className="font-medium text-gray-500">Gender</p>
-                        <p className="font-semibold">{patient.gender.toUpperCase()}</p>
+                        <p className="font-semibold">{patient.gender?.toUpperCase()}</p>
                     </div>
                     <div>
                         <p className="text-gray-500">Birthday</p>
-                        <p className="font-semibold">{formatDate(patient.dob)}</p>
+                        <p className="font-semibold">{CommonService.formatDate(patient.dob)}</p>
                     </div>
                     <div>
                         <p className="text-gray-500">Phone number</p>
@@ -117,7 +135,7 @@ const PatientProfile = () => {
                     </div>
                     <div>
                         <p className="text-gray-500">Registration date</p>
-                        <p className="font-semibold">{formatDate(patient.registeredAt)}</p>
+                        <p className="font-semibold">{CommonService.formatDate(patient.registeredAt)}</p>
                     </div>
                     <div>
                         <p className="text-gray-500">Member status</p>
@@ -129,59 +147,41 @@ const PatientProfile = () => {
             <div className="w-2/5 mx-auto bg-fuchsia-100 shadow-lg rounded-lg p-6">
                 <div className="flex mb-4">
                     <button
-                        className="px-4 py-2 font-semibold text-blue-500 border-b-2 border-blue-500 focus:outline-none">
+                        className={`${upcomingSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                        onClick={() => {
+                            setPastSelected(false)
+                            setUpcomingSelected(true)
+                        }}
+                    >
                         Upcoming appointments
                     </button>
-                    <button className="px-4 py-2 font-semibold text-gray-500 hover:text-blue-500 focus:outline-none">
+                    <button
+                        className={`${pastSelected ? 'text-blue-500 border-b-2 border-blue-500' : 'text-gray-500'} px-4 py-2 font-semibold focus:outline-none`}
+                        onClick={() => {
+                            setUpcomingSelected(false)
+                            setPastSelected(true)
+                        }}>
                         Past appointments
                     </button>
-                    <button className="px-4 py-2 font-semibold text-gray-500 hover:text-blue-500 focus:outline-none">
-                        Medical records
-                    </button>
                 </div>
-                <div>
-                    {/* Appointment Cards */}
-                    <div className="flex items-center my-5 bg-white p-4 rounded-xl">
-                        <div className="w-1/4 text-sm">
-                            <p className="font-semibold">01 Jun '20</p>
-                            <p className="text-gray-500">09:00 AM</p>
-                        </div>
-                        <div className="flex-1 flex items-center">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                            <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                                <p className="font-semibold">Consultation</p>
-                                <p className="">Dr. Arkady Ch.</p>
-                            </div>
-                            <div className="text-right ml-4">
-                                <p className="text-gray-500">Type</p>
-                                <p className="font-semibold">Cardiologist</p>
-                            </div>
-                        </div>
-                        <button className="text-blue-500 hover:underline ml-4">
-                            Button
-                        </button>
+                {upcomingSelected && (upcomingAppointments.length > 0 ? (upcomingAppointments?.map((appointment) => (
+                    <div key={appointment.id}>
+                        <AppointmentListItem appointment={appointment}/>
                     </div>
-                    <div className="flex items-center my-5 bg-white p-4 rounded-xl">
-                        <div className="w-1/4 text-sm">
-                            <p className="font-semibold">04 Jun '20</p>
-                            <p className="text-gray-500">09:00 AM</p>
-                        </div>
-                        <div className="flex-1 flex items-center">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                            <div className="flex-1 bg-fuchsia-100 p-4 rounded-lg">
-                                <p className="font-semibold">Treatment Procedure</p>
-                                <p className="">Dr. Arkady Ch.</p>
-                            </div>
-                            <div className="text-right ml-4">
-                                <p className="text-gray-500">Type</p>
-                                <p className="font-semibold">Dermatologist</p>
-                            </div>
-                        </div>
-                        <button className="text-blue-500 hover:underline ml-4">
-                            Button
-                        </button>
+                ))) : (
+                    <div className="font-bold px-3 py-3 text-lg">
+                        There are no upcoming appointments.
                     </div>
-                </div>
+                ))}
+                {pastSelected && (pastAppointments.length > 0 ? (pastAppointments?.map((appointment) => (
+                    <div key={appointment.id}>
+                        <AppointmentListItem appointment={appointment}/>
+                    </div>
+                ))) : (
+                    <div className="font-bold px-3 py-3 text-lg">
+                        There are no past appointments.
+                    </div>
+                ))}
             </div>
         </div>
     );

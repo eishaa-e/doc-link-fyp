@@ -51,11 +51,32 @@ exports.getAppointment = async (req, res) => {
 
 exports.getAppointmentsByPatient = async (req, res) => {
   const { patientId } = req.params;
+  const { query } = req.query; // Get the query parameter (upcoming/past)
 
   try {
-    const appointments = await Appointment.find({ patient_id: patientId });
-    if (!appointments)
+    let appointments = await Appointment.find({
+      patient_id: patientId,
+    })
+      .populate("patient_id", "name phone")
+      .populate("doctor_id", "name phone specialization");
+
+    if (!appointments || appointments.length === 0) {
       return res.status(404).json({ message: "No appointments found" });
+    }
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Filter appointments based on the query parameter
+    if (query === "upcoming") {
+      appointments = appointments.filter(
+        (appointment) => new Date(appointment.date) > currentDate,
+      );
+    } else if (query === "past") {
+      appointments = appointments.filter(
+        (appointment) => new Date(appointment.date) <= currentDate,
+      );
+    }
 
     res.status(200).json({ appointments });
   } catch (error) {

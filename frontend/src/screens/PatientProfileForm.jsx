@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import logo from "../assets/doc-link-icon.png";
 import axiosInstance from "../services/axiosInterceptor";
 import Loader from "../components/Loader";
+import CommonService from "../services/CommonService";
 
 const PatientProfileForm = () => {
     const authToken = localStorage.getItem("authToken");
@@ -56,14 +57,6 @@ const PatientProfileForm = () => {
             });
     };
 
-    const formatDate = (isoDate) => {
-        const date = new Date(isoDate);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    };
-
     const getPatientProfile = async () => {
         await axiosInstance
             .get(`/patients/get-profile`, {
@@ -74,7 +67,7 @@ const PatientProfileForm = () => {
             .then((response) => {
                 console.log("Patient Profile here: ", response);
                 setName(response.data?.name);
-                setDob(formatDate(response.data?.dob));
+                setDob(CommonService.formatDate(response.data?.dob));
                 setGender(response.data?.gender);
                 setPhone(response.data?.phone);
                 setCity(response.data?.city);
