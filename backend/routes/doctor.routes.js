@@ -6,11 +6,11 @@ const patientController = require("../controllers/patient.controller");
 
 router.get(
     "/",
-    authenticateToken,
+    
     doctorController.getAllDoctors);
 router.get(
     "/get-profile",
-    authenticateToken,
+   
     doctorController.getDoctorProfile,
 );
 router.put(
