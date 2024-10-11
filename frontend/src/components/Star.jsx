@@ -4,7 +4,7 @@ const Star = ({filled, onClick}) => (
     <>
         <svg
             onClick={onClick}
-            className={`w-6 h-6 ${filled ? "text-amber-400" : "text-gray-800"} dark:text-white`}
+            className={`w-6 h-6 ${filled ? "text-amber-400" : "text-gray-800"}`}
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"

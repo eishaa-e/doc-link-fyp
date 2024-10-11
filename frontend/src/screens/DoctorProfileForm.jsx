@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import logo from "../assets/doc-link-icon.png";
+import logo from "../assets/icons/doc-link-icon.png";
 import {useNavigate} from "react-router-dom";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import logo from "../assets/doc-link-icon.png";
+import logo from "../assets/icons/doc-link-icon.png";
 import axiosInstance from "../services/axiosInterceptor";
 import Loader from "../components/Loader";
 import CommonService from "../services/CommonService";
