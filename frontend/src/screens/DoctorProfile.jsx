@@ -154,7 +154,8 @@ const DoctorProfile = () => {
 
     return (
         <div className="w-full bg-gray-100">
-            <div className="w-full max-w-7xl mx-auto py-10 flex justify-center items-start">
+            <div
+                className={`w-full ${currentUserRole === 'patient' ? 'max-w-8xl' : 'max-w-7xl'} mx-auto py-10 flex justify-center items-start`}>
                 <div className="w-7/12 flex flex-col justify-center items-center gap-5">
                     <div
                         className="w-full bg-white shadow-xl shadow-light-orchid rounded-xl p-6 mb-8 flex justify-center items-center gap-12">
@@ -262,7 +263,12 @@ const DoctorProfile = () => {
                         </div>
                     </div>
                     <div
-                        className="w-full flex flex-col justify-center items-center bg-white rounded-lg shadow-xl shadow-light-orchid px-5">
+                        className="w-full flex flex-col justify-center items-center px-5">
+                        <h2 className="text-2xl font-bold text-center text-fuchsia-500 my-5">
+                            {doctor.name} Reviews
+                        </h2>
+                        <hr className="w-2/12 h-1 bg-gray-400 mb-4"/>
+
                         {doctor.feedbacks && doctor.feedbacks.length > 0 && (
                             <DoctorFeedbackSlider feedbacks={doctor.feedbacks}/>
                         )}
@@ -270,7 +276,7 @@ const DoctorProfile = () => {
                 </div>
                 {
                     currentUserRole !== "patient" ? (
-                        <div className="w-2/5 mx-auto bg-white shadow-xl shadow-light-orchid rounded-lg p-6">
+                        <div className="w-2/5 h-screen mx-4 bg-white shadow-xl shadow-light-orchid rounded-lg p-6">
                             <h2 className="text-2xl font-bold text-black my-2 text-center">
                                 Appointments
                             </h2>

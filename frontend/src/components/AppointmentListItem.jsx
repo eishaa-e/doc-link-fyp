@@ -39,7 +39,8 @@ const AppointmentListItem = ({appointment, isPast}) => {
     };
 
     return (
-        <div className="flex items-center my-5 bg-white p-4 rounded-xl">
+        <div
+            className="flex items-center my-5 bg-white p-4 rounded-xl shadow-md shadow-light-orchid">
             <div className="w-1/4 text-sm">
                 <p className="font-semibold">
                     {CommonService.formatDate(appointment.date)}

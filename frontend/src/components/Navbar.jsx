@@ -224,7 +224,7 @@ const Navbar = () => {
                                                             ? `/doctor/${userInfo?._id}`
                                                             : `/patient/${userInfo?._id}`
                                                     }
-                                                    className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-light-orchid hover:text-light-orchid"
+                                                    className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
                                                 >
                                                     Profile
                                                 </Link>
@@ -233,7 +233,7 @@ const Navbar = () => {
                                         <div className="py-1">
                                             <Link
                                                 onClick={handleLogout}
-                                                className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-light-orchid hover:text-light-orchid"
+                                                className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
                                             >
                                                 Sign out
                                             </Link>

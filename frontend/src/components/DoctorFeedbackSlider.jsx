@@ -24,9 +24,6 @@ const DoctorFeedbackSlider = ({feedbacks}) => {
 
     return (
         <div className="w-full flex flex-col justify-center items-center rounded-lg">
-            <h2 className="text-2xl font-bold text-center text-black my-5">
-                Feedback from previous patients!
-            </h2>
             {feedbacks?.length !== 0 ?
                 <>
                     <div className="grid grid-cols-3 mb-5 gap-4 justify-center items-center px-4">
