@@ -30,6 +30,8 @@ function App() {
                     <Route path="/signup" element={<Signup/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/contact-us" element={<ContactUs/>}/>
+                    <Route path="/services" element={<Services/>}/>
+                    
 
                     {/*Protected Routes*/}
                     <Route element={<ProtectedRoutes/>}>
@@ -50,7 +52,6 @@ function App() {
                             path="/doctor/schedule-form"
                             element={<DoctorScheduleForm/>}
                         />
-                        <Route path="/services" element={<Services/>}/>
                         <Route path="/kidney-stone-prediction" element={<KidneyStonePrediction/>}/>
                     </Route>
                 </Routes>

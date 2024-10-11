@@ -43,7 +43,7 @@ const Services = () => {
             title: "Stone Identification",
             description:
                 "Identify potential kidney stones using our AI-powered tool by giving input as image.",
-            link: "/",
+            link: "/kidney-stone-prediction",
         },
         {
             img: Service6,
@@ -69,7 +69,8 @@ const Services = () => {
                     </p>
 
                     {/* Grid layout */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+                    <div
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
                         {services.map((service, index) => (
                             <ServiceCard
                                 key={index}

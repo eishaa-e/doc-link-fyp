@@ -5,7 +5,7 @@ import defaultProfileImg from "../assets/icons/user.jpg"
 const FeedbackCard = ({feedback}) => {
     return (
         <div
-            className="min-h-[420px] bg-white shadow-lg shadow-light-orchid p-4 rounded-xl flex flex-col items-center justify-center">
+            className="min-h-[420px] bg-white shadow-lg shadow-light-orchid p-4 rounded-xl flex flex-col items-center justify-center hover:bg-fuchsia-100 hover:scale-[102%] duration-200">
             <div
                 className="w-24 h-24 my-2 bg-fuchsia-100 shadow-lg shadow-light-orchid rounded-full flex justify-center items-center">
                 <img

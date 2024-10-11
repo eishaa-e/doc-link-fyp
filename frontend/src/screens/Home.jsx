@@ -80,7 +80,7 @@ function Home() {
                         <div
                             key={index}
                             onClick={() => handleSpecializationClick(specialization.title)}
-                            className="flex flex-col justify-center items-center gap-2 cursor-pointer"
+                            className="flex flex-col justify-center items-center gap-2 cursor-pointer hover:scale-110 duration-200"
                         >
                             <div className="w-24 h-24 bg-gray-300 rounded-full flex justify-center items-center">
                                 <img
