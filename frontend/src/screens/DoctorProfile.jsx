@@ -53,6 +53,7 @@ const DoctorProfile = () => {
 
     const addFeedback = async (e) => {
         e.preventDefault();
+        toggleFeedbackForm();
         await axiosInstance
             .post(
                 `/doctors/${id}/feedback`,
@@ -215,7 +216,7 @@ const DoctorProfile = () => {
                                 {currentUserRole === "patient" &&
                                     <Link
                                         to={`/doctor/${id}/book-appointment`}
-                                        className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     >
                                         Book Appointment
                                     </Link>
@@ -224,13 +225,13 @@ const DoctorProfile = () => {
                                     <>
                                         <Link
                                             to="/doctor/profile-form"
-                                            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                         >
                                             Edit Profile
                                         </Link>
                                         <Link
                                             to="/doctor/schedule-form"
-                                            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                         >
                                             Edit Schedule
                                         </Link>
@@ -241,7 +242,7 @@ const DoctorProfile = () => {
                                         <button
                                             data-modal-target="authentication-modal"
                                             data-modal-toggle="authentication-modal"
-                                            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-light-orchid rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                             type="button"
                                             onClick={toggleFeedbackForm}
                                         >
@@ -260,13 +261,16 @@ const DoctorProfile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full flex flex-col justify-center items-center bg-fuchsia-100 rounded-lg">
-                        <DoctorFeedbackSlider feedbacks={doctor.feedbacks}/>
+                    <div
+                        className="w-full flex flex-col justify-center items-center bg-white rounded-lg shadow-xl shadow-light-orchid px-5">
+                        {doctor.feedbacks && doctor.feedbacks.length > 0 && (
+                            <DoctorFeedbackSlider feedbacks={doctor.feedbacks}/>
+                        )}
                     </div>
                 </div>
                 {
                     currentUserRole !== "patient" ? (
-                        <div className="w-2/5 mx-auto bg-fuchsia-100 shadow-lg rounded-lg p-6">
+                        <div className="w-2/5 mx-auto bg-white shadow-xl shadow-light-orchid rounded-lg p-6">
                             <h2 className="text-2xl font-bold text-black my-2 text-center">
                                 Appointments
                             </h2>
@@ -412,7 +416,7 @@ const DoctorProfile = () => {
                                         <button
                                             type="submit"
                                             onClick={addFeedback}
-                                            className="w-24 mt-6 text-white bg-light-orchid hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
+                                            className="w-24 mt-6 text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
                                         >
                                             Submit
                                         </button>

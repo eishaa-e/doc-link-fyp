@@ -74,7 +74,7 @@ const AppointmentListItem = ({appointment, isPast}) => {
                 <div className="relative">
                     <button
                         type="button"
-                        className="bg-fuchsia-100 text-sm ml-4 text-center font-bold rounded-lg flex justify-center items-center gap-1 px-1 py-1 focus:ring-4 focus:outline-none focus:ring-purple-200"
+                        className="bg-fuchsia-500 hover:bg-fuchsia-400 text-sm ml-4 text-center font-bold rounded-lg flex justify-center items-center gap-1 px-1 py-1 focus:ring-4 focus:outline-none focus:ring-purple-200"
                         id="user-menu-button"
                         aria-expanded="false"
                         data-dropdown-toggle="user-dropdown"
@@ -82,7 +82,7 @@ const AppointmentListItem = ({appointment, isPast}) => {
                         onClick={openDropdown}
                     >
                         <svg
-                            className="w-5 h-5 text-black"
+                            className="w-5 h-5 text-white"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"

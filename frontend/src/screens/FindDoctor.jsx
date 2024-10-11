@@ -71,7 +71,7 @@ const FindDoctor = () => {
     }, []);
 
     return (
-        <div className="w-full my-10 flex flex-col items-center text-black bg-white">
+        <div className="w-full py-10 flex flex-col items-center text-black bg-gray-100">
             <div className="flex flex-col justify-center items-center mt-4 mb-10 cursor-pointer">
                 <h2 className="text-center text-4xl font-bold mb-4">Select Doctor</h2>
                 <hr className="w-1/2 h-1 bg-gray-800"/>
@@ -88,17 +88,19 @@ const FindDoctor = () => {
                                 : ""
                         }`}
                     >
-                        <img
-                            className="w-12 h-12 rounded-full"
-                            src={specialization.img}
-                            alt={specialization.title}
-                        />
+                        <div className="w-24 h-24 bg-gray-300 rounded-full flex justify-center items-center">
+                            <img
+                                className="w-16 h-16 rounded-full"
+                                src={specialization.img}
+                                alt={specialization.title}
+                            />
+                        </div>
                         <h3 className="text-sm font-medium">{specialization.title}</h3>
                     </div>
                 ))}
             </div>
 
-            <div className="w-full max-w-6xl flex flex-col justify-center items-center gap-5">
+            <div className="w-full max-w-8xl flex flex-col justify-center items-center gap-5">
                 {doctors &&
                     doctors.map((doctor, index) => {
                         return (

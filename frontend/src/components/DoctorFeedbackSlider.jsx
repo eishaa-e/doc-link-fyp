@@ -23,7 +23,7 @@ const DoctorFeedbackSlider = ({feedbacks}) => {
     );
 
     return (
-        <div className="w-full flex flex-col justify-center items-center bg-fuchsia-100 rounded-lg">
+        <div className="w-full flex flex-col justify-center items-center rounded-lg">
             <h2 className="text-2xl font-bold text-center text-black my-5">
                 Feedback from previous patients!
             </h2>

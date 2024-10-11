@@ -1,4 +1,5 @@
 const Doctor = require("../models/doctor.model");
+const Patient = require("../models/patient.model");
 const User = require("../models/user.model");
 const Appointment = require("../models/appointment.model");
 
@@ -77,6 +78,27 @@ exports.getDoctorProfileById = async (req, res) => {
     try {
         const {id} = req.params;
         const doctor = await Doctor.findById(id).populate("user_id", "email");
+
+        if (!doctor) {
+            return res.status(404).json({message: "Doctor not found"});
+        }
+
+        const feedbacksWithPatientInfo = await Promise.all(
+            doctor.feedbacks.map(async (feedback) => {
+                const patient = await Patient.findOne({user_id: feedback.user_id}).select('name');
+
+                return {
+                    _id: feedback._id,
+                    user_id: feedback.user_id, // User ID
+                    name: patient ? patient.name : 'Unknown', // Fetch patient name
+                    email: doctor.user_id.email, // Email is already fetched from user
+                    rating: feedback.rating,
+                    comment: feedback.comment,
+                    date: feedback.date
+                };
+            })
+        );
+
         const response = {
             _id: doctor._id,
             user_id: doctor.user_id._id,
@@ -91,9 +113,9 @@ exports.getDoctorProfileById = async (req, res) => {
             specialization: doctor.specialization,
             profileImage: doctor.profileImage,
             availableTimeSlots: doctor.availableTimeSlots,
-            feedbacks: doctor.feedbacks
-        }
-        if (!doctor) return res.status(404).json({message: "Doctor not found"});
+            feedbacks: feedbacksWithPatientInfo // Use the updated feedbacks
+        };
+
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({message: "Server error"});
