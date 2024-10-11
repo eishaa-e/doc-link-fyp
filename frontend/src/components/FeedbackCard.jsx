@@ -1,15 +1,16 @@
 import React from "react";
 import StarRating from "./StarRating";
+import defaultProfileImg from "../assets/icons/user.jpg"
 
 const FeedbackCard = ({feedback}) => {
     return (
         <div
-            className="w-full h-full min-h-[350px] bg-white shadow-lg shadow-light-orchid p-4 rounded-xl flex flex-col items-center justify-center">
+            className="min-h-[350px] bg-white shadow-lg shadow-light-orchid p-4 rounded-xl flex flex-col items-center justify-center">
             <div
                 className="w-24 h-24 my-2 bg-fuchsia-100 shadow-lg shadow-light-orchid rounded-full flex justify-center items-center">
                 <img
                     className="w-24 h-24 rounded-full"
-                    src={feedback.profileImage}
+                    src={feedback.profileImage || defaultProfileImg}
                     alt="img"
                 />
             </div>

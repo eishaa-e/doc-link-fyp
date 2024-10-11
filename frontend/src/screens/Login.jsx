@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import logo from "../assets/icons/doc-link-icon.png";
 import {Link, useNavigate} from "react-router-dom";
-import loginImage from "../assets/icons/login-image.png";
+import loginImage from "../assets/backgroundImg/LandingPageImg6.jpg";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
 
@@ -30,21 +30,22 @@ function Login() {
             });
     };
     return (
-        <div>
-            <div className="w-full my-20 px-32 bg-white flex justify-center gap-16 items-center">
-                <img src={loginImage} alt="" className="w-5/12"/>
+        <div className="w-full bg-gray-100 flex justify-center items-center">
+            <div className="w-2/3 px-32 py-20 grid grid-cols-2 justify-center items-center gap-2">
+                <img src={loginImage} alt=""
+                     className="w-full h-full rounded-l-[2.5rem] rounded-r-xl shadow-xl shadow-light-orchid"/>
                 <form
                     onSubmit={handleSubmit}
-                    className="w-1/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
+                    className="w-full bg-white flex justify-center flex-col p-10 rounded-r-[2.5rem] rounded-l-xl shadow-xl shadow-light-orchid"
                 >
                     <div className="flex flex-col justify-center items-center">
                         <img className="w-16 mb-3" src={logo} alt="Logo"/>
-                        <h2 className="text-4xl font-bold text-center mb-5">DOC LINK</h2>
+                        <h2 className="text-4xl font-bold text-center mb-5 text-light-orchid">DOC LINK</h2>
                     </div>
                     <div className="mb-5">
                         <label
                             htmlFor="email"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-gray-900"
                         >
                             Your email
                         </label>
@@ -55,7 +56,7 @@ function Login() {
                             onChange={(e) => {
                                 setEmail(e.target.value);
                             }}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="email@gmail.com"
                             required
                         />
@@ -74,7 +75,7 @@ function Login() {
                             onChange={(e) => {
                                 setPassword(e.target.value);
                             }}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="********"
                             required
                         />
@@ -118,7 +119,7 @@ function Login() {
 
                     <button
                         type="submit"
-                        className="w-full text-white bg-light-orchid hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                        className="w-full text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     >
                         Login
                     </button>

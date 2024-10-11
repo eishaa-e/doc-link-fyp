@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import StarRating from "./StarRating";
+import FeedbackCard from "./FeedbackCard";
 
 const DoctorFeedbackSlider = ({feedbacks}) => {
     const [currentPage, setCurrentPage] = useState(0);
@@ -31,22 +31,12 @@ const DoctorFeedbackSlider = ({feedbacks}) => {
                 <>
                     <div className="grid grid-cols-3 mb-5 gap-4 justify-center items-center px-4">
                         {currentFeedbacks?.map((item, index) => (
-                            <div
-                                key={index}
-                                className="flex flex-col justify-center items-center text-justify py-4 px-3 bg-white rounded-xl shadow-md">
-                                <p className="text-sm font-medium text-gray-900">
-                                    {item.comment}
-                                </p>
-                                <div className="mt-2">
-                                    <StarRating rating={item.rating} onRatingChange={() => {
-                                    }}/>
-                                </div>
-                            </div>
+                            <FeedbackCard feedback={item} key={index}/>
                         ))}
                     </div>
                     <div className="flex justify-center gap-5 w-full max-w-sm my-4">
                         <button
-                            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                            className="px-4 py-2 mx-2 bg-fuchsia-500 hover:bg-fuchsia-400 rounded-full shadow-lg shadow-light-orchid"
                             onClick={prevFeedbacks}
                             disabled={currentPage === 0}>
                             <svg className="w-6 h-6 text-white" aria-hidden="true"
@@ -57,7 +47,7 @@ const DoctorFeedbackSlider = ({feedbacks}) => {
                             </svg>
                         </button>
                         <button
-                            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                            className="px-4 py-2 mx-2 bg-fuchsia-500 hover:bg-fuchsia-400 rounded-full shadow-lg shadow-light-orchid"
                             onClick={nextFeedbacks}
                             disabled={currentPage >= Math.ceil(feedbacks.length / feedbacksPerPage) - 1}>
                             <svg className="w-6 h-6 text-white" aria-hidden="true"
