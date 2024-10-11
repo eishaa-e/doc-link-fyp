@@ -49,12 +49,12 @@ const Signup = () => {
     };
 
     return (
-        <div className="w-full bg-gray-100 flex justify-center items-center">
-            <div className="w-2/3 px-32 py-20 grid grid-cols-2 justify-center items-center gap-2">
+        <div className="py-20 flex justify-center items-center bg-gray-100">
+            <div
+                className="flex flex-col md:flex-row w-full max-w-6xl rounded-[4rem] shadow-xl bg-white overflow-hidden shadow-xl shadow-light-orchid">
                 <form
                     onSubmit={handleSubmit}
-                    className="w-full bg-white flex justify-center flex-col p-10 rounded-l-[2.5rem] rounded-r-xl shadow-xl shadow-light-orchid"
-                >
+                    className="flex-1 flex flex-col justify-center p-8">
                     <div className="flex flex-col justify-center items-center">
                         <img className="w-16 mb-3" src={logo} alt="asd" srcset=""/>
                         <h2 className="text-4xl font-bold text-center mb-5">DOC LINK</h2>
@@ -179,9 +179,11 @@ const Signup = () => {
                         </Link>
                     </p>
                 </form>
-                <img src={signImage} alt=""
-                     className="w-full h-full rounded-r-[2.5rem] rounded-l-xl shadow-xl shadow-light-orchid"/>
-                />
+                <div className="flex-1 h-80 md:h-auto">
+                    <img src={signImage} alt=""
+                         className="w-full h-full object-cover"/>
+                    />
+                </div>
             </div>
         </div>
     );

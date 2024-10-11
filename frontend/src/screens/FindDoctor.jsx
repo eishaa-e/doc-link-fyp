@@ -7,10 +7,14 @@ import orthopedicIcon from "../assets/icons/orthopedic-icon.png";
 import neurologistIcon from "../assets/icons/neurologist-icon.png";
 import cardiologistIcon from "../assets/icons/cardiologist-icon.png";
 import axiosInstance from "../services/axiosInterceptor";
+import {useLocation} from "react-router-dom";
 
 const FindDoctor = () => {
+    const location = useLocation(); // Get the state from location
+    const initialSpecialization = location.state?.specialization || ""; // Retrieve specialization from state
+
     const [doctors, setDoctors] = useState([]);
-    const [selectedSpecialization, setSelectedSpecialization] = useState(null);
+    const [selectedSpecialization, setSelectedSpecialization] = useState(initialSpecialization);
 
     const specializations = [
         {
@@ -67,8 +71,8 @@ const FindDoctor = () => {
     };
 
     useEffect(() => {
-        getDoctors();
-    }, []);
+        getDoctors(initialSpecialization);
+    }, [initialSpecialization]);
 
     return (
         <div className="w-full py-10 flex flex-col items-center text-black bg-gray-100">

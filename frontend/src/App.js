@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Services from "./screens/Services";
 import DoctorScheduleForm from "./screens/DoctorScheduleForm";
 import KidneyStonePrediction from "./screens/KidneyStonePrediction";
+import ProtectedRoutes from "./services/ProtectedRoutes";
 
 function App() {
     return (
@@ -28,25 +29,30 @@ function App() {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/signup" element={<Signup/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/find-doctor" element={<FindDoctor/>}/>
-                    <Route path="/doctor/profile-form" element={<DoctorProfileForm/>}/>
-                    <Route
-                        path="/patient/profile-form"
-                        element={<PatientProfileForm/>}
-                    />
-                    <Route path="/doctor/:id" element={<DoctorProfile/>}/>
-                    <Route path="/patient/:id" element={<PatientProfile/>}/>
                     <Route path="/contact-us" element={<ContactUs/>}/>
-                    <Route
-                        path="/doctor/:doctorId/book-appointment"
-                        element={<BookAppointment/>}
-                    />
-                    <Route
-                        path="/doctor/schedule-form"
-                        element={<DoctorScheduleForm/>}
-                    />
-                    <Route path="/services" element={<Services/>}/>
-                    <Route path="/kidney-stone-prediction" element={<KidneyStonePrediction/>}/>
+
+                    {/*Protected Routes*/}
+                    <Route element={<ProtectedRoutes/>}>
+
+                        <Route path="/find-doctor" element={<FindDoctor/>}/>
+                        <Route path="/doctor/profile-form" element={<DoctorProfileForm/>}/>
+                        <Route
+                            path="/patient/profile-form"
+                            element={<PatientProfileForm/>}
+                        />
+                        <Route path="/doctor/:id" element={<DoctorProfile/>}/>
+                        <Route path="/patient/:id" element={<PatientProfile/>}/>
+                        <Route
+                            path="/doctor/:doctorId/book-appointment"
+                            element={<BookAppointment/>}
+                        />
+                        <Route
+                            path="/doctor/schedule-form"
+                            element={<DoctorScheduleForm/>}
+                        />
+                        <Route path="/services" element={<Services/>}/>
+                        <Route path="/kidney-stone-prediction" element={<KidneyStonePrediction/>}/>
+                    </Route>
                 </Routes>
                 <Footer/>
                 <ToastContainer/>

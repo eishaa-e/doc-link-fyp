@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 import img from "../assets/backgroundImg/LandingPageImg1.jpg";
 import {Feedback} from "../components/Feedback";
@@ -10,9 +10,10 @@ import orthopedicIcon from "../assets/icons/orthopedic-icon.png";
 import neurologistIcon from "../assets/icons/neurologist-icon.png";
 import cardiologistIcon from "../assets/icons/cardiologist-icon.png";
 import FeedbackForm from "../components/FeedbackForm";
+import {useNavigate} from "react-router-dom";
 
 function Home() {
-    const [selectedSpecialization, setSelectedSpecialization] = useState(null);
+    const navigate = useNavigate();
 
     const specializations = [
         {
@@ -40,6 +41,10 @@ function Home() {
             img: cardiologistIcon,
         },
     ];
+
+    const handleSpecializationClick = (specialization) => {
+        navigate("/find-doctor", {state: {specialization}}); // Pass the selected specialization using state
+    };
 
     return (
         <div className="w-full text-black bg-gray-100 flex flex-col items-center justify-center">
@@ -74,12 +79,8 @@ function Home() {
                     {specializations.map((specialization, index) => (
                         <div
                             key={index}
-                            // onClick={() => handleSpecializationClick(specialization.title)}
-                            className={`flex flex-col justify-center items-center gap-2 cursor-pointer ${
-                                selectedSpecialization === specialization.title
-                                    ? "border-2 border-blue-500 rounded-lg p-2"
-                                    : ""
-                            }`}
+                            onClick={() => handleSpecializationClick(specialization.title)}
+                            className="flex flex-col justify-center items-center gap-2 cursor-pointer"
                         >
                             <div className="w-24 h-24 bg-gray-300 rounded-full flex justify-center items-center">
                                 <img
