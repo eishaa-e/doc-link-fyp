@@ -6,9 +6,10 @@ import Service3 from "../assets/services/Service3.png";
 import Service4 from "../assets/services/Service4.png";
 import Service5 from "../assets/services/Service5.png";
 import Service6 from "../assets/services/Service6.png";
+import {Link, useLocation} from "react-router-dom";
 
 const Services = () => {
-    // Data for each card
+    const path = useLocation()
     const services = [
         {
             img: Service1,
@@ -82,10 +83,13 @@ const Services = () => {
                         ))}
                     </div>
 
-                    <button
-                        className="mt-8 px-6 py-3 bg-fuchsia-500 text-white rounded-full shadow-md hover:bg-fuchsia-400">
-                        Learn more
-                    </button>
+                    {
+                        path.pathname === "/" &&
+                        <Link to="/services"
+                              className="mt-8 px-6 py-3 bg-fuchsia-500 text-white rounded-full shadow-md hover:bg-fuchsia-400">
+                            View All
+                        </Link>
+                    }
                 </div>
             </div>
         </div>

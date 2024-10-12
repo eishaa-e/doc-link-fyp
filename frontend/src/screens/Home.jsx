@@ -65,7 +65,8 @@ function Home() {
                     </button>
                 </div>
                 <div className="flex-1 md:mt-0">
-                    <img src={img} alt="Health illustration" className="w-11/12 rounded-[2.5rem]"/>
+                    <img src={img} alt="Health illustration"
+                         className="w-11/12 rounded-[2.5rem] shadow-xl shadow-light-orchid"/>
                 </div>
             </div>
 
