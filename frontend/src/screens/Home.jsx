@@ -21,28 +21,28 @@ function Home() {
   const specializations = [
     {
       title: "Dentist",
-      img: dentistIcon,
+      img: dentistIcon
     },
     {
       title: "Gynecologist",
-      img: gynecologistIcon,
+      img: gynecologistIcon
     },
     {
       title: "Dermatologist",
-      img: dermatologistIcon,
+      img: dermatologistIcon
     },
     {
       title: "Orthopedic Surgeon",
-      img: orthopedicIcon,
+      img: orthopedicIcon
     },
     {
       title: "Neurologist",
-      img: neurologistIcon,
+      img: neurologistIcon
     },
     {
       title: "Cardiologist",
-      img: cardiologistIcon,
-    },
+      img: cardiologistIcon
+    }
   ];
 
   const handleSpecializationClick = (specialization) => {
@@ -67,7 +67,8 @@ function Home() {
             user-friendly application. Stay informed, connected, and empowered,
             all in one place. Welcome To Doc Link!
           </p>
-          <button className="w-50 mt-6 text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          <button
+            className="w-50 mt-6 text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
             Consult today
           </button>
         </div>
@@ -94,8 +95,8 @@ function Home() {
               setSearchQuery(e.target.value);
             }}
           />
-          <button onClick={handleDoctorSearch}>
-            <img src={searchIcon} className="w-8 h-8 " />
+          <button onClick={handleDoctorSearch} className="hover:scale-105">
+            <img src={searchIcon} className="w-8 h-8" />
           </button>
         </form>
 
