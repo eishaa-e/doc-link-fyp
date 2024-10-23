@@ -46,12 +46,12 @@ function Home() {
   ];
 
   const handleSpecializationClick = (specialization) => {
-    navigate("/find-doctor", { state: { specialization } }); // Pass the selected specialization using state
+    navigate("/find-doctor", { state: { specialization } });
   };
 
   const handleDoctorSearch = () => {
-    let specialization = searchQuery.toLowerCase();
-    navigate("/find-doctor", { state: { specialization } }); // Pass the selected specialization using state
+    let specialization = searchQuery;
+    navigate("/find-doctor", { state: { specialization } });
   };
 
   return (

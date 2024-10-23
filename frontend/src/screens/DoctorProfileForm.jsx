@@ -53,13 +53,13 @@ const DoctorProfileForm = () => {
           specialization,
           education,
           experience,
-          pmdcCertificate,
+          pmdcCertificate
         },
         {
           headers: {
-            "Content-Type": "application/json",
-          },
-        },
+            "Content-Type": "application/json"
+          }
+        }
       )
       .then((response) => {
         console.log(response.data);
@@ -76,8 +76,8 @@ const DoctorProfileForm = () => {
     await axiosInstance
       .get(`/doctors/get-profile`, {
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       })
       .then((response) => {
         setName(response.data?.name);
@@ -103,10 +103,10 @@ const DoctorProfileForm = () => {
   }, []);
   return (
     <div>
-      <div className="w-full my-20 bg-white flex justify-center items-center">
+      <div className="w-full py-20 bg-gray-100 flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
-          className="w-1/3 bg-fuchsia-100 flex justify-center flex-col p-10 rounded-xl"
+          className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl shadow-xl shadow-light-orchid "
         >
           <div className="flex flex-col justify-center items-center">
             <img className="w-16 mb-3" src={logo} alt="asd" srcset="" />
@@ -302,63 +302,71 @@ const DoctorProfileForm = () => {
             </div>
           </div>
 
-          <div className="mb-5">
-            <label
-              htmlFor="profileImage"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Profile Image
-            </label>
-            <input
-              type="file"
-              id="profileImage"
-              accept="image/*"
-              onChange={(e) => {
-                handleFileChange(e, "profileImage");
-              }}
-            />
-          </div>
+          <div className="flex justify-between my-4">
+            <div>
+              <div className="mb-5">
+                <label
+                  htmlFor="profileImage"
+                  className="block mb-2 text-md font-bold text-gray-900"
+                >
+                  Upload Profile Image
+                </label>
+                <input
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  onChange={(e) => {
+                    handleFileChange(e, "profileImage");
+                  }}
+                />
+              </div>
 
-          {profileImage && (
-            <div className="mb-5">
-              <img
-                src={profileImage}
-                alt="Profile Preview"
-                className="w-24 h-24 rounded-full"
-              />
+              {profileImage && (
+                <div className="mb-5">
+                  <img
+                    src={profileImage}
+                    alt="Profile Preview"
+                    className="w-24 h-24 rounded-full"
+                  />
+                </div>
+              )}
             </div>
-          )}
 
-          <div className="mb-5">
-            <label
-              htmlFor="pmdcCertificate"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              PMDC Certificate
-            </label>
-            <input
-              type="file"
-              id="pmdcCertificate"
-              accept="image/*"
-              onChange={(e) => {
-                handleFileChange(e, "pmdcCertificate");
-              }}
-            />
-          </div>
+            <div>
+              <div className="mb-5">
+                <label
+                  htmlFor="pmdcCertificate"
+                  className="block mb-2 text-md font-bold text-gray-900"
+                >
+                  Upload PMDC Certificate
+                </label>
+                <input
+                  type="file"
+                  id="pmdcCertificate"
+                  accept="image/*"
+                  className=" flex flex-col"
+                  onChange={(e) => {
+                    handleFileChange(e, "pmdcCertificate");
+                  }}
+                />
+              </div>
 
-          {pmdcCertificate && (
-            <div className="mb-5">
-              <img
-                src={pmdcCertificate}
-                alt="pmdcCertificate Preview"
-                className="w-24 h-24 rounded-full"
-              />
+              {pmdcCertificate && (
+                <div className="mb-5">
+                  <img
+                    src={pmdcCertificate}
+                    alt="pmdcCertificate Preview"
+                    className="w-24 h-24 rounded-full"
+                  />
+                </div>
+              )}
             </div>
-          )}
+
+          </div>
 
           <button
             type="submit"
-            className="w-full text-black bg-fuchsia-200 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            className="w-full text-white bg-fuchsia-500 hover:bg-fuchsia-400 transition focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             Save Profile
           </button>
