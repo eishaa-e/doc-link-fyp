@@ -1,56 +1,107 @@
 import React from "react";
-import ServiceCard from "./ServiceCard"; 
-import { motion } from "framer-motion";
+import ServiceCard from "./ServiceCard";
+import Service1 from "../assets/services/Service1.png";
+import Service2 from "../assets/services/Service2.png";
+import Service3 from "../assets/services/Service3.png";
+import Service4 from "../assets/services/Service4.png";
+import Service5 from "../assets/services/Service5.png";
+import Service6 from "../assets/services/Service6.png";
+import { Link, useLocation } from "react-router-dom";
 
 const Services = ({ toggleChat }) => {
-    const services = [
-        {
-            icon: "https://img.icons8.com/ios/50/000000/search--v1.png",
-            title: "Search doctor",
-            description: "Choose your doctor from thousands of specialists, general, and trusted hospitals.",
-        },
-        {
-            icon: "https://img.icons8.com/ios/50/000000/chat.png",
-            title: "Chat With AI",
-            description: "Buy your medicines with our mobile application with a simple delivery system.",
-            onClick: toggleChat, // Call toggleChat when clicked
-        },
-        {
-            icon: "https://img.icons8.com/ios/50/000000/appointment-scheduling.png",
-            title: "Appointment Booking",
-            description: "Free consultation with our trusted doctors and get the best recommendations.",
-        },
-        {
-            icon: "https://img.icons8.com/ios/50/000000/review-document.png",
-            title: "Reviews",
-            description: "Read reviews and feedback from other patients for better insights.",
-        },
-        {
-            icon: "https://img.icons8.com/ios/50/000000/kidney.png",
-            title: "Stone Identification",
-            description: "Get 24/7 urgent care for yourself or your family.",
-        },
-        {
-            icon: "https://img.icons8.com/ios/50/000000/health-checkup.png",
-            title: "Disease Prediction",
-            description: "Track and save your medical history and health data.",
-        },
-    ];
+  const path = useLocation();
+  const services = [
+    {
+      img: Service1,
+      title: "Find Doctor",
+      description:
+        "Easily search and find doctors based on specialization, location, and expertise.",
+      link: "/find-doctor"
+    },
+    {
+      img: Service2,
+      title: "Chat With AI",
+      description: "Get instant health advice by chatting with our advanced AI assistant.",
+      onClick: toggleChat // Call toggleChat when clicked
+    },
+    {
+      img: Service3,
+      title: "Appointment Booking",
+      description: "Book appointments with your preferred doctor quickly and hassle-free.",
+      link: "/find-doctor"
+    },
+    {
+      img: Service4,
+      title: "Reviews",
+      description:
+        "Read and share feedback about doctors and healthcare services.",
+      link: "/"
+    },
+    {
+      img: Service5,
+      title: "Stone Identification",
+      description:
+        "Identify potential kidney stones using our AI-powered tool by giving image.",
+      link: "/kidney-stone-prediction"
+    },
+    {
+      img: Service6,
+      title: "Brain Tumor Prediction",
+      description:
+        "Get AI-driven predictions for potential brain tumor using CT-images.",
+      link: "/brain-tumor-prediction"
+    }
+  ];
 
-    return (
-        <div className="w-full max-w-6xl my-10">
-            <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">Our Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {services.map((service, index) => (
-                    <ServiceCard 
-                        key={index} 
-                        {...service} 
-                        onClick={service.onClick ? service.onClick : null} // Add onClick if defined
-                    />
-                ))}
-            </div>
+  return (
+    <div className="bg-gray-100">
+      <div className="w-full max-w-6xl mx-auto p-10 flex justify-center items-center">
+        <div className=" flex flex-col justify-center items-center">
+          <h2 className="text-3xl font-bold mt-4 mb-2">OUR SERVICES</h2>
+          <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
+
+          <p className="text-gray-500 text-center font-medium mb-8">
+            We provide you the best choices for you. Adjust it to your health
+            needs and make sure your undergo treatment with our highly qualified
+            doctors you can consult with us which type of service is suitable for
+            your health.
+          </p>
+
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+            {services.map((service, index) => (
+              <ServiceCard
+                key={index}
+                img={service.img}
+                title={service.title}
+                description={service.description}
+                link={service.link}
+                onClick={service.onClick ? service.onClick : null}
+
+              />
+            ))}
+          </div>
+
+          {
+            path.pathname === "/" &&
+            <Link to="/services"
+                  className="mt-8 px-6 py-3 bg-fuchsia-500 text-white rounded-full shadow-md hover:bg-fuchsia-400">
+              View All
+            </Link>
+          }
+
+          {/*<div className="grid grid-cols-1 md:grid-cols-3 gap-6">*/}
+          {/*  {services.map((service, index) => (*/}
+          {/*    <ServiceCard*/}
+          {/*      key={index}*/}
+          {/*      {...service}*/}
+          {/*      onClick={service.onClick ? service.onClick : null}*/}
+          {/*    />*/}
+          {/*  ))}*/}
+          {/*</div>*/}
         </div>
-    );
+      </div>
+    </div>);
 };
 
 export default Services;

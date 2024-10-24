@@ -1,21 +1,20 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
-const ServiceCard = ({ icon, title, description, onClick }) => {
-    return (
-        <motion.div
-            className="bg-gradient-to-br from-purple-200 via-blue-200 to-green-200 p-6 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer" // Added cursor-pointer for clickable feel
-            initial={{ opacity: 0, y: 20 }} // Start off-screen
-            whileInView={{ opacity: 1, y: 0 }} // Animate to position when in view
-            transition={{ duration: 0.5 }} // Animation duration
-            viewport={{ once: false }} // Re-trigger animation each time it comes into view
-            onClick={onClick} // Trigger the onClick event when the card is clicked
-        >
-            <img src={icon} alt={title} className="mb-4 mx-auto" />
-            <h3 className="text-lg font-semibold mb-2 text-gray-800">{title}</h3>
-            <p className="text-gray-600">{description}</p>
-        </motion.div>
-    );
+const ServiceCard = ({ img, title, description, link, onClick }) => {
+  return (
+    <Link to={link} onClick={onClick}>
+      <div
+        className="bg-white h-full min-h-[200px] flex flex-col justify-between items-start p-6 rounded-lg shadow-lg shadow-light-orchid hover:bg-fuchsia-100 hover:scale-105 duration-200">
+        <img src={img} alt={title} className="mb-4" />
+        <div>
+          <h2 className="text-lg font-bold mb-2">{title}</h2>
+          <p className="text-gray-600">{description}</p>
+        </div>
+      </div>
+    </Link>
+  );
 };
 
 export default ServiceCard;
