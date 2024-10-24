@@ -22,6 +22,7 @@ const DoctorSchema = new Schema({
   experience: { type: String },
   availableTimeSlots: [TimeSlot],
   feedbacks: [doctorFeedback],
+  pmdcCertificate: { type: String },
 });
 
 module.exports = mongoose.model("Doctor", DoctorSchema);

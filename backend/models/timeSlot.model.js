@@ -9,7 +9,6 @@ const TimeSlotSchema = new Schema({
     },
     startTime: {type: String, required: true},
     endTime: {type: String, required: true},
-    isBooked: {type: Boolean, default: false},
 }, {_id: false});
 
 module.exports = TimeSlotSchema;

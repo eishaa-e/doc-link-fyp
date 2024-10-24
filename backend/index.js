@@ -1,7 +1,6 @@
 require('dotenv').config(); // Corrected to ensure dotenv is required properly
 
 const express = require('express');
-const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth.routes');
 const appointmentRoutes = require('./routes/appointment.routes');
 const chatbotRoutes = require('./routes/chatbot.routes');
@@ -15,11 +14,11 @@ const cors = require("cors");
 const port = process.env.PORT || 5000; // Updated to use environment variable
 
 const app = express();
+
 app.use(express.json());
+app.use(cors());
 
 connectToMongo();
-
-app.use(cors());
 
 app.use('/api/auth', authRoutes);
 

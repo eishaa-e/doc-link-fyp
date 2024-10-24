@@ -23,6 +23,10 @@ import { FiCpu } from "react-icons/fi";
 import ChatItem from "./screens/ChatItem";
 import { RiRobot3Fill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import DoctorScheduleForm from "./screens/DoctorScheduleForm";
+import KidneyStonePrediction from "./screens/KidneyStonePrediction";
+import BrainTumorPrediction from "./screens/BrainTumorPrediction";
+import ProtectedRoutes from "./services/ProtectedRoutes";
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false); // Lift the chatbot state up
@@ -40,28 +44,39 @@ function App() {
           <Route path="/" element={<Home toggleChat={toggleChat} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/find-doctor" element={<FindDoctor />} />
-          <Route path="/doctor/profile-form" element={<DoctorProfileForm />} />
-          <Route
-            path="/patient/profile-form"
-            element={<PatientProfileForm />}
-          />
-          <Route path="/doctor/:id" element={<DoctorProfile />} />
-          <Route path="/patient/:id" element={<PatientProfile />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route
-            path="/doctor/:doctorId/book-appointment"
-            element={<BookAppointment />}
-          />
-          <Route
-            path="/services"
-            element={<Services toggleChat={toggleChat} />}
-          />{" "}
-          {/* Pass the toggle function */}
-          <Route path="/forget-password" element={<ForgetPassword />} />
-          <Route path="/reset/:token" element={<ResetPassword />} />
-          <Route path="/doctor/update-password" element={<UpdatePassword />} />
-          <Route path="/patient/update-password" element={<UpdatePassword />} />
+          <Route path="/services" element={<Services />} />
+
+          {/*Protected Routes*/}
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/find-doctor" element={<FindDoctor />} />
+            <Route
+              path="/doctor/profile-form"
+              element={<DoctorProfileForm />}
+            />
+            <Route
+              path="/patient/profile-form"
+              element={<PatientProfileForm />}
+            />
+            <Route path="/doctor/:id" element={<DoctorProfile />} />
+            <Route path="/patient/:id" element={<PatientProfile />} />
+            <Route
+              path="/doctor/:doctorId/book-appointment"
+              element={<BookAppointment />}
+            />
+            <Route
+              path="/doctor/schedule-form"
+              element={<DoctorScheduleForm />}
+            />
+            <Route
+              path="/kidney-stone-prediction"
+              element={<KidneyStonePrediction />}
+            />
+            <Route
+              path="/brain-tumor-prediction"
+              element={<BrainTumorPrediction />}
+            />
+          </Route>
         </Routes>
         <Footer />
         <ToastContainer />

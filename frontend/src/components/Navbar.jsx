@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import logo from "../assets/doc-link-icon.png";
-import {Link, useNavigate} from "react-router-dom";
+import logo from "../assets/icons/doc-link-icon.png";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import axiosInstance from "../services/axiosInterceptor";
 
@@ -13,19 +13,13 @@ const Navbar = () => {
     const [currentUserRole, setCurrentUserRole] = useState();
     const [userInfo, setUserInfo] = useState();
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen)
-    };
+    const currentPath = useLocation()
 
     const openDropdown = () => {
-        setIsDropdownOpen(true)
+        setIsDropdownOpen(true);
     };
     const closeDropdown = () => {
-        setIsDropdownOpen(false)
-    };
-
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
+        setIsDropdownOpen(false);
     };
 
     const checkUser = async () => {
@@ -86,18 +80,19 @@ const Navbar = () => {
     }, []);
 
     useEffect(() => {
+        console.log("path: ", currentPath.pathname === '/')
         getUser();
     }, [authToken, currentUserRole]);
 
     return (
-        <nav className="bg-light-orchid border-gray-200 w-full">
+        <nav className="bg-white w-full border-b-2 border-light-orchid z-50">
             <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
                 <Link to="/">
                     <div className="flex items-center">
                         <img className="w-12 mr-3" src={logo} alt="Logo"/>
-                        <span className=" text-white text-3xl font-bold whitespace-nowrap">
-              DOC LINK
-            </span>
+                        <span className=" text-light-orchid text-3xl font-bold whitespace-nowrap">
+                            DOC LINK
+                        </span>
                     </div>
                 </Link>
 
@@ -106,7 +101,7 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/"
-                                className="py-2 px-3 text-white rounded md:p-0"
+                                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === '/' ? 'text-fuchsia-500' : "text-light-orchid"}`}
                                 aria-current="page"
                             >
                                 Home
@@ -114,16 +109,8 @@ const Navbar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/"
-                                className="py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                            >
-                                About Us
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
                                 to="/services"
-                                className="py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === '/services' ? 'text-fuchsia-500' : "text-light-orchid"}`}
                             >
                                 Services
                             </Link>
@@ -132,7 +119,7 @@ const Navbar = () => {
                             <li>
                                 <Link
                                     to="/find-doctor"
-                                    className="py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                    className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === '/find-doctor' ? 'text-fuchsia-500' : "text-light-orchid"}`}
                                 >
                                     Find Doctor
                                 </Link>
@@ -141,9 +128,17 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/contact-us"
-                                className="py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === '/contact-us' ? 'text-fuchsia-500' : "text-light-orchid"}`}
                             >
                                 Contact us
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/about-us"
+                                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === '/about-us' ? 'text-fuchsia-500' : "text-light-orchid"}`}
+                            >
+                                About Us
                             </Link>
                         </li>
                     </ul>
@@ -152,13 +147,13 @@ const Navbar = () => {
                             <div>
                                 <Link
                                     to="/login"
-                                    className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                    className="text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     to="/signup"
-                                    className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                    className="text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                                 >
                                     Signup
                                 </Link>
@@ -167,7 +162,7 @@ const Navbar = () => {
                             <div>
                                 <button
                                     type="button"
-                                    className="text-white text-sm text-center font-bold rounded-lg flex justify-center items-center gap-1 px-2 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200"
+                                    className="text-white text-sm text-center font-bold rounded-lg flex justify-center items-center gap-1 px-2 py-2 bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-purple-200"
                                     id="user-menu-button"
                                     aria-expanded="false"
                                     data-dropdown-toggle="user-dropdown"
@@ -229,7 +224,7 @@ const Navbar = () => {
                                                             ? `/doctor/${userInfo?._id}`
                                                             : `/patient/${userInfo?._id}`
                                                     }
-                                                    className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-light-orchid hover:text-white"
+                                                    className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
                                                 >
                                                     Profile
                                                 </Link>
@@ -238,7 +233,7 @@ const Navbar = () => {
                                         <div className="py-1">
                                             <Link
                                                 onClick={handleLogout}
-                                                className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-light-orchid hover:text-white"
+                                                className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
                                             >
                                                 Sign out
                                             </Link>

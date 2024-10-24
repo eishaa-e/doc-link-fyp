@@ -1,22 +1,68 @@
 const MedicalImage = require("../models/medicalImage.model");
-// Placeholder function for interaction with ML model
-// const imagePredictionService = require("../services/imagePredictionService");
+const FormData = require("form-data");
+const fs = require("fs");
+const axios = require("axios");
 
-exports.uploadImage = async (req, res) => {
-    try {
-        const {user_id} = req.body;
-        const imagePath = req.file.path;
-        // const predictionResult = await imagePredictionService.predict(imagePath);
-        const newMedicalImage = new MedicalImage({
-            user_id,
-            image_path: imagePath,
-            prediction_result: "",
-            // prediction_result: predictionResult,
-            timestamp: new Date(),
-        });
-        await newMedicalImage.save();
-        res.json(newMedicalImage);
-    } catch (error) {
-        res.status(500).json({error: error.message});
+exports.predictKidneyStone = async (req, res) => {
+  console.log("image: ", req.body);
+
+  try {
+    const image = req.file;
+    if (!image) {
+      return res.status(400).json({ error: "No file uploaded" });
     }
+
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream(image.path)); // Use the path of the file uploaded to the server
+
+    // Send the image to the Flask API for prediction
+    const flaskResponse = await axios.post(
+      "http://localhost:5001/predict/kidney-stone",
+      formData,
+      {
+        headers: formData.getHeaders(),
+      },
+    );
+
+    // Send the prediction result back to the frontend or Postman
+    res.json(flaskResponse.data);
+
+    // Remove the file from the server after processing
+    fs.unlinkSync(image.path);
+  } catch (error) {
+    console.error("Error making prediction", error);
+    res.status(500).json({ error: "Failed to get prediction" });
+  }
+};
+
+exports.predictBrainTumor = async (req, res) => {
+  console.log("image: ", req.body);
+
+  try {
+    const image = req.file;
+    if (!image) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream(image.path)); // Use the path of the file uploaded to the server
+
+    // Send the image to the Flask API for prediction
+    const flaskResponse = await axios.post(
+      "http://localhost:5001/predict/brain-tumor",
+      formData,
+      {
+        headers: formData.getHeaders(),
+      },
+    );
+
+    // Send the prediction result back to the frontend or Postman
+    res.json(flaskResponse.data);
+
+    // Remove the file from the server after processing
+    fs.unlinkSync(image.path);
+  } catch (error) {
+    console.error("Error making prediction", error);
+    res.status(500).json({ error: "Failed to get prediction" });
+  }
 };

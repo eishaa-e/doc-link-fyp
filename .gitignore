@@ -4,9 +4,16 @@
 /node_modules
 /frontend/node_modules
 /backend/node_modules
+/backend/uploads
 .node_modules
 /.pnp
 .pnp.js
+
+# machine learning
+/ml_models/kidney_stone_detection/dataset
+/ml_models/brain_tumor_detection/dataset
+/ml_models/kidney_stone_detection/kidney_stone_detection_model.h5
+/ml_models/brain_tumor_detection/brain_tumor_detection_model.h5
 
 # testing
 /coverage
@@ -27,3 +34,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+
