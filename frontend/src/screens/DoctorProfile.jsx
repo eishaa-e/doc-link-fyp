@@ -252,6 +252,12 @@ const DoctorProfile = () => {
                     >
                       Edit Schedule
                     </Link>
+                    <Link
+            to="/doctor/update-password" 
+            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+            Update Password
+        </Link>
                   </>
                 )}
                 {currentUserRole === "patient" && (

@@ -46,6 +46,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/forget-password" element={<ForgetPassword />} /> {/* Add this route */}
+          <Route path="/reset/:token" element={<ResetPassword />} />
+          <Route path="/doctor/update-password" element={<UpdatePassword />} />
+          <Route path="/patient/update-password" element={<UpdatePassword />} />
 
           {/*Protected Routes*/}
           <Route element={<ProtectedRoutes />}>

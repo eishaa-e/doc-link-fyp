@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import logo from "../assets/doc-link-icon.png"; // Import logo if needed
+import logo from "../assets/icons/doc-link-icon.png";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier"; // Assuming you have a Notifier for messages
 

@@ -116,6 +116,13 @@ const PatientProfile = () => {
                         >
                             Update Profile
                         </Link>
+                          {/* New Update Password Button */}
+                    <Link
+                        to="/patient/update-password"
+                        className="text-center bg-fuchsia-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-fuchsia-400"
+                    >
+                        Update Password
+                    </Link>
                     </div>
 
                     <div className="grid grid-cols-2 gap-10">

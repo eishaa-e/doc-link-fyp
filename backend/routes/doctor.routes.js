@@ -5,11 +5,11 @@ const {authenticateToken} = require("../middleware/auth.middleware");
 
 router.get(
     "/",
-    
+    authenticateToken,
     doctorController.getAllDoctors);
 router.get(
     "/get-profile",
-   
+    authenticateToken,
     doctorController.getDoctorProfile,
 );
 router.put(
