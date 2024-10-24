@@ -45,12 +45,12 @@ const ChatItem = ({ msg }) => {
         <div className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
             {msg.type === 'bot' && (
                 <div
-                    className="flex mr-3 items-center justify-center w-10 h-10 rounded-full bg-blue-200 text-blue-600 ml-3"
+                    className="flex mr-3 items-center justify-center w-10 h-10 rounded-full bg-blue-200 text-purple-600 ml-3"
                 >
                     <RiRobot3Fill size={20} />
                 </div>
             )}
-            <div className={`flex flex-col max-w-[60%] p-4 rounded-lg ${msg.type === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
+            <div className={`flex flex-col max-w-[60%] p-4 rounded-lg ${msg.type === 'user' ? 'bg-purple-500 text-white' : 'bg-purple-200 text-purple-800'}`}>
                 <p>{msg.content}</p>
                 {msg.type === 'bot' && (
                     <div className="mt-2 flex justify-end items-center">
@@ -72,7 +72,7 @@ const ChatItem = ({ msg }) => {
             </div>
             {msg.type === 'user' && (
                 <div
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-200 text-blue-600 ml-3"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-200 text-purple-600 ml-3"
                 >
                     <FiUser size={20} />
                 </div>

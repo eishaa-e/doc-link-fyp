@@ -11,7 +11,7 @@ import orthopedicIcon from "../assets/orthopedic-icon.png";
 import neurologistIcon from "../assets/neurologist-icon.png";
 import cardiologistIcon from "../assets/cardiologist-icon.png";
 
-function Home() {
+function Home({ toggleChat }) {
   const [doctors, setDoctors] = useState([]);
   const [selectedSpecialization, setSelectedSpecialization] = useState(null);
   const navigate = useNavigate();
@@ -27,7 +27,9 @@ function Home() {
 
   const getDoctors = async (specialization = "") => {
     try {
-      const url = specialization ? `/doctors/?specialization=${specialization}` : "/doctors/";
+      const url = specialization
+        ? `/doctors/?specialization=${specialization}`
+        : "/doctors/";
       const response = await axiosInstance.get(url);
       setDoctors(response.data);
     } catch (error) {
@@ -59,7 +61,9 @@ function Home() {
             One Click at a Time
           </h1>
           <p className="font-light w-5/6 mt-4 text-gray-600">
-            Cruise through your health journey effortlessly with our user-friendly application. Stay informed, connected, and empowered, all in one place. Welcome To Doc Link!
+            Cruise through your health journey effortlessly with our
+            user-friendly application. Stay informed, connected, and empowered,
+            all in one place. Welcome To Doc Link!
           </p>
           <button className="w-50 mt-6 text-white bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 transition-all duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5">
             Consult Today
@@ -78,7 +82,9 @@ function Home() {
 
       {/* Specialization Section */}
       <div className="w-full max-w-6xl my-10 p-10">
-        <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">Specializations</h2>
+        <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">
+          Specializations
+        </h2>
         <div className="px-10 grid grid-cols-3 md:grid-cols-6 items-center gap-6 mb-10">
           {specializations.map((specialization, index) => (
             <div
@@ -103,7 +109,9 @@ function Home() {
 
       {/* Doctors Section */}
       <div className="w-full max-w-6xl my-10 p-10">
-        <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">Meet Our Doctors</h2>
+        <h2 className="text-center text-3xl font-bold text-gray-800 mb-8">
+          Meet Our Doctors
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {doctors.length > 0 ? (
             doctors.map((doctor, index) => (
@@ -119,8 +127,12 @@ function Home() {
                 </div>
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div className="flex flex-col items-center">
-                    <h3 className="text-lg font-bold mb-1 text-blue-600">{doctor.name}</h3>
-                    <p className="text-sm font-medium text-purple-500 mb-2">{doctor.specialization}</p>
+                    <h3 className="text-lg font-bold mb-1 text-blue-600">
+                      {doctor.name}
+                    </h3>
+                    <p className="text-sm font-medium text-purple-500 mb-2">
+                      {doctor.specialization}
+                    </p>
                     <div className="w-full text-center text-gray-600 mb-4 text-xs">
                       <p>Experience: {doctor.experience} years</p>
                       <p>Rating: ⭐⭐⭐{doctor.rating}</p>
@@ -135,14 +147,16 @@ function Home() {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-600">No doctors available at the moment.</p>
+            <p className="text-center text-gray-600">
+              No doctors available at the moment.
+            </p>
           )}
         </div>
       </div>
 
       {/* Services and Feedback */}
       <div className="w-full max-w-6xl my-5 p-10 flex justify-center align-middle">
-        <Services />
+        <Services toggleChat={toggleChat} />
       </div>
       <div className="w-full max-w-6xl my-5 p-10 flex justify-center align-middle">
         <Feedback />
