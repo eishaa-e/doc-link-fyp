@@ -4,6 +4,7 @@ import ChatItem from "../screens/ChatItem";
 import { FiCpu } from "react-icons/fi";
 import { FaPaperPlane } from "react-icons/fa";
 import { RiRobot3Fill } from "react-icons/ri";
+import axiosInstance from "../services/axiosInterceptor";
 
 const Chatbot = ({ isChatOpen, toggleChat }) => {
 
@@ -29,13 +30,8 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: prompt })
-      });
-      const data = await res.json();
-      const botMessage = { type: "bot", content: data.response };
+      const res = await axiosInstance.post("/chat", { query: prompt });
+      const botMessage = { type: "bot", content: res.data.response };
       setChatHistory((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Error fetching response:", error);
