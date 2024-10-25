@@ -85,7 +85,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
               )}
             </div>
             <form
-              className="flex items-center p-4 border-t bg-gray-100"
+              className="flex justify-center items-center  p-4 border-t bg-gray-100"
               onSubmit={handleQuery}
             >
               <input
@@ -93,11 +93,11 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-grow p-2 border rounded-l-lg outline-none"
+                className="flex-grow px-4 py-2 mx-2 border rounded-lg outline-none"
               />
               <button
                 type="submit"
-                className="p-2 py-3 bg-purple-500 text-white rounded-r-lg hover:bg-purple-600 flex items-center justify-center"
+                className="p-2 py-3 bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-400 flex items-center justify-center"
               >
                 <FaPaperPlane />
               </button>
