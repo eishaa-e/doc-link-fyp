@@ -27,6 +27,9 @@ import DoctorScheduleForm from "./screens/DoctorScheduleForm";
 import KidneyStonePrediction from "./screens/KidneyStonePrediction";
 import BrainTumorPrediction from "./screens/BrainTumorPrediction";
 import ProtectedRoutes from "./services/ProtectedRoutes";
+import ChatPage from "./components/ChatPage"; 
+import DoctorProfileCard from "./components/DoctorProfileCard";
+import ChatIcon from './components/ChatIcon';
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false); // Lift the chatbot state up
@@ -40,6 +43,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
+        <ChatIcon />
         <Routes>
           <Route path="/" element={<Home toggleChat={toggleChat} />} />
           <Route path="/signup" element={<Signup />} />
@@ -50,7 +54,9 @@ function App() {
           <Route path="/reset/:token" element={<ResetPassword />} />
           <Route path="/doctor/update-password" element={<UpdatePassword />} />
           <Route path="/patient/update-password" element={<UpdatePassword />} />
-
+          <Route path="/doctor/:id" element={<DoctorProfileCard />} />
+         
+          <Route path="/chat/:doctor_id" element={<ChatPage role="patient" />} />
           {/*Protected Routes*/}
           <Route element={<ProtectedRoutes />}>
             <Route path="/find-doctor" element={<FindDoctor />} />

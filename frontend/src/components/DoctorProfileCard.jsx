@@ -1,23 +1,27 @@
-import React from "react";
-import {Link} from "react-router-dom";
-import defaultProfileImg from "../assets/icons/user.jpg"
+// DoctorProfileCard.js
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import defaultProfileImg from "../assets/icons/user.jpg";
+import ChatPage from "./ChatPage"; // Import the ChatPage component
 
-const DoctorProfileCard = ({doctor}) => {
+const DoctorProfileCard = ({ doctor }) => {
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
     if (!doctor) return null;
 
-    const {_id, name, specialization, education, experience} = doctor; // Destructure the doctor object
+    const { _id,user_id, name, specialization, education, experience } = doctor;
+    
 
     return (
         <div className="w-full flex justify-center items-center">
             <div className="w-2/3 px-10 bg-white border border-gray-200 rounded-lg shadow-xl shadow-light-orchid">
                 <div className="flex p-5 justify-between items-center">
                     <div className="flex items-center gap-10">
-                        <div
-                            className="w-32 h-32 flex justify-center items-center rounded-full">
+                        <div className="w-32 h-32 flex justify-center items-center rounded-full">
                             <img
                                 className="w-24 h-24 rounded-full shadow-xl shadow-light-orchid"
                                 src={doctor.profileImage || defaultProfileImg}
-                                alt="Bonnie image"
+                                alt="Doctor profile"
                             />
                         </div>
 
@@ -31,7 +35,6 @@ const DoctorProfileCard = ({doctor}) => {
                                 </p>
                             </div>
 
-
                             <div className="flex flex-col items-center">
                                 <p className="text-lg text-gray-500 dark:text-gray-400">
                                     {education}
@@ -42,7 +45,6 @@ const DoctorProfileCard = ({doctor}) => {
                                 </p>
                             </div>
                         </div>
-
                     </div>
 
                     <div className="flex mt-4 md:mt-6">
@@ -60,7 +62,8 @@ const DoctorProfileCard = ({doctor}) => {
                                 View Profile
                             </Link>
                             <Link
-                                to="/"
+                                to="#"
+                                onClick={() => setIsChatOpen(true)} // Open the chat modal
                                 className="py-2 px-4 ms-2 text-sm font-medium text-black focus:outline-none bg-white rounded-lg border border-fuchsia-500 hover:bg-fuchsia-400 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             >
                                 Message
@@ -69,6 +72,7 @@ const DoctorProfileCard = ({doctor}) => {
                     </div>
                 </div>
             </div>
+            <ChatPage role="patient" doctor_id={user_id} doctor_name={name} isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} /> {/* Pass doctor_id prop */}
         </div>
     );
 };

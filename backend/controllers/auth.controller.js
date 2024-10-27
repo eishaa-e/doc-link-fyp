@@ -240,3 +240,11 @@ exports.updatePassword = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getPatientId = (req, res) => {
+    if (req.session && req.session.userId) {
+        res.json({ patient_id: req.session.userId });
+    } else {
+        res.status(401).json({ error: "Not logged in" });
+    }
+};
