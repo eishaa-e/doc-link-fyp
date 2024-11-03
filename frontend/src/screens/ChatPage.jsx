@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { FiMessageCircle } from "react-icons/fi";
 import axiosInstance from "../services/axiosInterceptor";
 
 const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null }) => {
@@ -77,15 +75,15 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
       console.log("Patient ID:", userId);
       console.log("Doc", activeChat?.patient_id);
 
-      const res = await axios.post("http://localhost:5000/api/chat/send-message", {
+      await axiosInstance.post("/chat/send-message", {
         patient_id: senderRole === "doctor" ? activeChat?.patient_id : userId,
         doctor_id: senderRole === "doctor" ? userId : recipientId,
         message,
         sender: userId
+      }).then((response) => {
+        setChatHistory([...chatHistory, response.data.message]);
+        setMessage("");
       });
-
-      setChatHistory([...chatHistory, res.data.message]);
-      setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
