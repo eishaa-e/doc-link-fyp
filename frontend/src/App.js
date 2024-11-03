@@ -20,17 +20,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaPaperPlane } from "react-icons/fa";
 import { FiCpu } from "react-icons/fi";
-import ChatItem from "./screens/ChatItem";
+import ChatItem from "./components/ChatItem";
 import { RiRobot3Fill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import DoctorScheduleForm from "./screens/DoctorScheduleForm";
 import KidneyStonePrediction from "./screens/KidneyStonePrediction";
 import BrainTumorPrediction from "./screens/BrainTumorPrediction";
 import ProtectedRoutes from "./services/ProtectedRoutes";
-import Chatbot from "./components/Chatbot";
-import ChatPage from "./components/ChatPage";
+import Chatbot from "./screens/Chatbot";
+import ChatPage from "./screens/ChatPage";
 import DoctorProfileCard from "./components/DoctorProfileCard";
-import ChatIcon from './components/ChatIcon';
+import ChatIcon from "./components/ChatIcon";
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false); // Lift the chatbot state up
@@ -55,9 +55,6 @@ function App() {
           <Route path="/reset/:token" element={<ResetPassword />} />
           <Route path="/doctor/update-password" element={<UpdatePassword />} />
           <Route path="/patient/update-password" element={<UpdatePassword />} />
-          <Route path="/doctor/:id" element={<DoctorProfileCard />} />
-
-          <Route path="/chat/:doctor_id" element={<ChatPage role="patient" />} />
           {/*Protected Routes*/}
           <Route element={<ProtectedRoutes />}>
             <Route path="/find-doctor" element={<FindDoctor />} />
@@ -79,6 +76,12 @@ function App() {
               path="/doctor/schedule-form"
               element={<DoctorScheduleForm />}
             />
+            
+            <Route
+              path="/chat/:doctor_id"
+              element={<ChatPage role="patient" />}
+            />
+
             <Route
               path="/kidney-stone-prediction"
               element={<KidneyStonePrediction />}

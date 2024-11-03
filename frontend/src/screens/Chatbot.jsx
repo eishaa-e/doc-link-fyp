@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
-import ChatItem from "../screens/ChatItem";
+import ChatItem from "../components/ChatItem";
 import { FiCpu } from "react-icons/fi";
 import { FaPaperPlane } from "react-icons/fa";
 import { RiRobot3Fill } from "react-icons/ri";
