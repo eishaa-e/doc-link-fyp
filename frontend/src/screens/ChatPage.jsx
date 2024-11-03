@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { FiMessageCircle } from "react-icons/fi";
+import axiosInstance from "../services/axiosInterceptor";
 
 const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null }) => {
   const [userId, setUserId] = useState(null);
@@ -26,15 +27,17 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
         const fetchChats = async () => {
           try {
             if (doctor_id && currentRole === "patient") {
-              const response = await axios.get(`http://localhost:5000/api/chat/messages/${storedUserId}/${doctor_id}`);
-              //setChats(response.data || []);
-              setChatHistory(response.data || []);
+              axiosInstance.get(`/chat/messages/${storedUserId}/${doctor_id}`).then((response) => {
+                setChatHistory(response.data || []);
+              });
             } else if (currentRole === "doctor") {
-              const response = await axios.get(`http://localhost:5000/api/chat/doctor-chats/${storedUserId}`);
-              setChats(response.data || []);
+              const response = axiosInstance.get(`/chat/doctor-chats/${storedUserId}`).then((response) => {
+                setChats(response.data || []);
+              });
             } else if (currentRole === "patient") {
-              const response = await axios.get(`http://localhost:5000/api/chat/patient-chats/${storedUserId}`);
-              setChats(response.data || []);
+              const response = axiosInstance.get(`/chat/patient-chats/${storedUserId}`).then((response) => {
+                setChats(response.data || []);
+              });
             }
           } catch (error) {
             console.error("Error fetching chats:", error);
@@ -168,7 +171,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Type your message..."
-                    className="flex-grow px-4 py-2 mx-2 border rounded-lg outline-none"
+                    className="flex-grow px-4 py-2 mx-2 text-gray-800 border rounded-lg outline-none"
                   />
                   <button
                     type="submit"
