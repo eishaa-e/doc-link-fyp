@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { FaComments, FaPaperPlane } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { FaPaperPlane } from "react-icons/fa";
+import { FiMessageCircle } from "react-icons/fi";
 
 const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null }) => {
   const [userId, setUserId] = useState(null);
@@ -129,7 +130,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
 
               <div className="flex flex-col w-full bg-gray-100">
                 <div className="p-6 bg-fuchsia-300 text-white">
-                  <h2 className="text-xl font-semibold">
+                  <h2 className="text-xl font-semibold text-gray-800">
                     {role === "doctor" ? activeChat?.patient_name : (activeChat?.doctor_name || doctor_name || "Select a chat")}
                   </h2>
                 </div>
@@ -182,8 +183,16 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
           </div>
         </div>
       )}
+      <button
+        className="fixed bottom-28 right-10 bg-fuchsia-500 text-white p-3 rounded-full shadow-lg hover:bg-fuchsia-400 focus:outline-none z-50"
+        onClick={onClose}
+      >
+        {!isOpen ? <FaComments size={30} /> : <RxCross2 size={30} />}
+      </button>
+
     </div>
-  );
+  )
+    ;
 };
 
 export default ChatPage;

@@ -33,6 +33,8 @@ import DoctorProfileCard from "./components/DoctorProfileCard";
 import ChatIcon from "./components/ChatIcon";
 
 function App() {
+  const token = localStorage.getItem("authToken");
+
   const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Lift the chatbot state up
   const [isDmOpen, setIsDmOpen] = useState(false);
 
@@ -48,7 +50,6 @@ function App() {
     <div>
       <BrowserRouter>
         <Navbar />
-        <ChatIcon />
         <Routes>
           <Route path="/" element={<Home toggleChat={toggleBotChat} />} />
           <Route path="/signup" element={<Signup />} />
@@ -99,7 +100,13 @@ function App() {
         <Footer />
         <ToastContainer />
       </BrowserRouter>
-      <Chatbot isChatOpen={isChatBotOpen} toggleChat={toggleBotChat} />
+      {token && (
+        <>
+          <ChatIcon />
+          <Chatbot isChatOpen={isChatBotOpen} toggleChat={toggleBotChat} />
+        </>
+      )}
+
     </div>
   );
 }

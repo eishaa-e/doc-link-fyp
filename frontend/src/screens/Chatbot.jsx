@@ -105,10 +105,10 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
 
       {/* Chatbot toggle button */}
       <button
-        className="fixed bottom-10 right-10 bg-fuchsia-500 text-white p-5 rounded-full shadow-lg hover:bg-fuchsia-400 focus:outline-none z-50"
+        className="fixed bottom-10 right-10 bg-fuchsia-500 text-white p-3 rounded-full shadow-lg hover:bg-fuchsia-400 focus:outline-none z-50"
         onClick={toggleChat}
       >
-        {!isChatOpen ? <RiRobot3Fill /> : <RxCross2 />}
+        {!isChatOpen ? <RiRobot3Fill size={30} /> : <RxCross2 size={30} />}
       </button>
     </div>
   );
