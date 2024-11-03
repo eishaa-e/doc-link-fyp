@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const DoctorCard = ({ doctor }) => {
   return (
     <div
-      className="bg-white w-full h-full min-h-[200px] flex flex-col justify-center items-center p-6 rounded-lg shadow-lg shadow-light-orchid overflow-hidden transform hover:bg-fuchsia-100 hover:scale-105 duration-200">
+      className="bg-white w-full h-full min-h-[200px] z-0 flex flex-col justify-center items-center p-6 rounded-lg shadow-lg shadow-light-orchid overflow-hidden transform hover:bg-fuchsia-100 hover:scale-105 duration-200">
       <img
         src={doctor.profileImage || defaultProfileImg}
         alt="img"

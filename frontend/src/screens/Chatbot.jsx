@@ -67,6 +67,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
                 <RxCross2 size={24} />
               </button>
             </div>
+
             <div className="p-6 h-[70vh] overflow-y-auto" ref={chatContainerRef}>
               {chatHistory.map((msg, index) => (
                 <ChatItem key={index} msg={msg} />
@@ -81,7 +82,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
               )}
             </div>
             <form
-              className="flex justify-center items-center  p-4 border-t bg-gray-100"
+              className="flex justify-center items-center p-4 border-t bg-gray-100"
               onSubmit={handleQuery}
             >
               <input

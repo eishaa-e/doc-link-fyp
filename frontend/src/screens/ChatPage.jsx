@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { RxCross2 } from "react-icons/rx";
+import { FaPaperPlane } from "react-icons/fa";
 
 const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null }) => {
   const [userId, setUserId] = useState(null);
@@ -87,23 +89,33 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
 
   return (
     <div className="relative">
-
       {isOpen && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg overflow-hidden shadow-lg max-w-2xl w-full">
-            <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onClick={onClose}>X</button>
-            <div className="flex">
-              <div className="w-1/4 border-r p-4">
-                <h3>Chats</h3>
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 flex justify-center items-center">
+          <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg overflow-hidden h-[90vh]">
+            <div className="p-6 border-b bg-fuchsia-400 text-white">
+              <h2 className="text-xl font-semibold">Messenger</h2>
+              <button
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                onClick={onClose}
+              >
+                <RxCross2 size={24} />
+              </button>
+            </div>
+
+            <div className="flex max-h-[80vh]">
+              <div className="w-2/5 border-r">
+                <h3 className="text-2xl text-light-orchid font-bold text-center py-2 border-b-2">Chats</h3>
                 {chats && chats.length > 0 ? (
                   chats.map((chat, index) => (
                     <div
                       key={index}
-                      onClick={() => handleChatClick(chat)}
-                      className={`p-2 cursor-pointer ${activeChat?._id === chat._id ? "bg-gray-300" : ""}`}
+                      onClick={() => {
+                        handleChatClick(chat);
+                      }}
+                      className={`m-1 p-2 cursor-pointer ${activeChat?.patient_id === chat.patient_id ? "border-b-2 border-l-2 shadow-md border-fuchsia-400 rounded-md bg-fuchsia-200" : ""}`}
                     >
                       {/* Display patient name if doctor is logged in, otherwise display doctor name */}
-                      <p>{role === "doctor"
+                      <p className="text-lg font-medium text-gray-700">{role === "doctor"
                         ? (chat.patient_name || "Patient")
                         : (chat.doctor_name || chat.doctor_id || "Doctor")}</p>
                     </div>
@@ -114,11 +126,11 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                   </div>
                 )}
               </div>
-              <div className="flex-1 p-4">
-                <div className="p-6 border-b bg-purple-600 text-white">
+
+              <div className="flex flex-col w-full bg-gray-100">
+                <div className="p-6 bg-fuchsia-300 text-white">
                   <h2 className="text-xl font-semibold">
-                    Chat
-                    with {role === "doctor" ? activeChat?.patient_name : (activeChat?.doctor_name || doctor_name || "Select a chat")}
+                    {role === "doctor" ? activeChat?.patient_name : (activeChat?.doctor_name || doctor_name || "Select a chat")}
                   </h2>
                 </div>
                 <div className="p-6 h-[70vh] overflow-y-auto">
@@ -128,13 +140,13 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                         key={index}
                         className={`flex ${
                           msg.sender === userId ? "justify-end" : "justify-start"
-                        } mb-4`}
+                        } my-1`}
                       >
                         <div
-                          className={`max-w-[60%] p-4 rounded-lg ${
+                          className={`max-w-[60%] px-4 py-2 rounded-lg text-black ${
                             msg.sender === userId
-                              ? "bg-blue-500 text-white"
-                              : "bg-gray-200 text-gray-800"
+                              ? "bg-fuchsia-300"
+                              : "bg-fuchsia-200"
                           }`}
                         >
                           <p>{msg.message}</p>
@@ -146,19 +158,26 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                   )}
                 </div>
 
-                <form className="flex items-center p-4 border-t bg-gray-100" onSubmit={handleSendMessage}>
+                <form
+                  className="flex justify-center items-center p-4 border-t bg-gray-100"
+                  onSubmit={handleSendMessage}
+                >
                   <input
                     type="text"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Type your message..."
-                    className="flex-grow p-2 border rounded-l-lg outline-none"
+                    className="flex-grow px-4 py-2 mx-2 border rounded-lg outline-none"
                   />
-                  <button type="submit" className="p-2 py-3 bg-purple-500 text-white rounded-r-lg">
-                    Send
+                  <button
+                    type="submit"
+                    className="p-2 py-3 bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-400 flex items-center justify-center"
+                  >
+                    <FaPaperPlane />
                   </button>
                 </form>
               </div>
+
             </div>
           </div>
         </div>

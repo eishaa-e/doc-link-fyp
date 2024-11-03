@@ -33,11 +33,15 @@ import DoctorProfileCard from "./components/DoctorProfileCard";
 import ChatIcon from "./components/ChatIcon";
 
 function App() {
-  const [isChatOpen, setIsChatOpen] = useState(false); // Lift the chatbot state up
+  const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Lift the chatbot state up
+  const [isDmOpen, setIsDmOpen] = useState(false);
 
-  // Function to toggle the chatbot
-  const toggleChat = () => {
-    setIsChatOpen((prev) => !prev);
+  const toggleBotChat = () => {
+    setIsChatBotOpen((prev) => !prev);
+  };
+
+  const toggleDM = () => {
+    setIsDmOpen((prev) => !prev);
   };
 
   return (
@@ -46,11 +50,11 @@ function App() {
         <Navbar />
         <ChatIcon />
         <Routes>
-          <Route path="/" element={<Home toggleChat={toggleChat} />} />
+          <Route path="/" element={<Home toggleChat={toggleBotChat} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/services" element={<Services toggleChat={toggleChat} />} />
+          <Route path="/services" element={<Services toggleChat={toggleBotChat} />} />
           <Route path="/forget-password" element={<ForgetPassword />} /> {/* Add this route */}
           <Route path="/reset/:token" element={<ResetPassword />} />
           <Route path="/doctor/update-password" element={<UpdatePassword />} />
@@ -76,10 +80,10 @@ function App() {
               path="/doctor/schedule-form"
               element={<DoctorScheduleForm />}
             />
-            
+
             <Route
               path="/chat/:doctor_id"
-              element={<ChatPage role="patient" />}
+              element={<ChatPage isOpen={isDmOpen} role="patient" />}
             />
 
             <Route
@@ -95,7 +99,7 @@ function App() {
         <Footer />
         <ToastContainer />
       </BrowserRouter>
-      <Chatbot isChatOpen={isChatOpen} toggleChat={toggleChat} />
+      <Chatbot isChatOpen={isChatBotOpen} toggleChat={toggleBotChat} />
     </div>
   );
 }
