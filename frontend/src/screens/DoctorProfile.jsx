@@ -253,11 +253,11 @@ const DoctorProfile = () => {
                       Edit Schedule
                     </Link>
                     <Link
-            to="/doctor/update-password" 
-            className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-            Update Password
-        </Link>
+                      to="/doctor/update-password"
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Update Password
+                    </Link>
                   </>
                 )}
                 {currentUserRole === "patient" && (
@@ -307,7 +307,7 @@ const DoctorProfile = () => {
           </div>
         </div>
         {currentUserRole !== "patient" ? (
-          <div className="w-2/5 h-screen mx-4 bg-white shadow-xl shadow-light-orchid rounded-lg p-6">
+          <div className="w-2/5 mx-auto bg-white shadow-xl shadow-light-orchid rounded-lg p-6">
             <h2 className="text-2xl font-bold text-black my-2 text-center">
               Appointments
             </h2>
