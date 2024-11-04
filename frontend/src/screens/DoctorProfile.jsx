@@ -7,6 +7,7 @@ import DoctorFeedbackSlider from "../components/DoctorFeedbackSlider";
 import CommonService from "../services/CommonService";
 import AppointmentListItem from "../components/AppointmentListItem";
 import defaultProfileImg from "../assets/icons/user.jpg";
+import ChatPage from "./ChatPage"; // Import the ChatPage component
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -27,6 +28,7 @@ const DoctorProfile = () => {
   const [cancelledSelected, setCancelledSelected] = useState(false);
   const [pastCount, setPastCount] = useState(0);
   const [upcomingCount, setUpcomingCount] = useState(0);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const [feedback, setFeedback] = useState({
     rating: 0,
@@ -231,27 +233,25 @@ const DoctorProfile = () => {
 
               <div className="flex gap-2 items-baseline mt-10">
                 {currentUserRole === "patient" && (
-                  <Link
-                    to={`/doctor/${id}/book-appointment`}
-                    className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Book Appointment
-                  </Link>
-                )}
-                {currentUserRole === "doctor" && (
                   <>
                     <Link
-                      to="/doctor/profile-form"
+                      to={`/doctor/${id}/book-appointment`}
                       className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Edit Profile
+                      Book Appointment
                     </Link>
+
                     <Link
-                      to="/doctor/schedule-form"
+                      onClick={() => setIsChatOpen(true)} // Open the chat modal
                       className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
-                      Edit Schedule
+                      Direct Message
                     </Link>
+                  </>
+                )}
+
+                {currentUserRole === "doctor" && (
+                  <>
                     <Link
                       to="/doctor/update-password"
                       className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -522,6 +522,13 @@ const DoctorProfile = () => {
           </div>
         )}
       </div>
+      <ChatPage
+        role="patient"
+        doctor_id={doctor._id}
+        doctor_name={doctor.name}
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />
     </div>
   );
 };

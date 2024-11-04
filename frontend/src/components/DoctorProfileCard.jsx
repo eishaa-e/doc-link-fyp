@@ -11,7 +11,6 @@ const DoctorProfileCard = ({ doctor }) => {
 
   const { _id, user_id, name, specialization, education, experience } = doctor;
 
-
   return (
     <div className="w-full flex justify-center items-center">
       <div className="w-2/3 px-10 bg-white border border-gray-200 rounded-lg shadow-xl shadow-light-orchid">
@@ -72,8 +71,14 @@ const DoctorProfileCard = ({ doctor }) => {
           </div>
         </div>
       </div>
-      <ChatPage role="patient" doctor_id={user_id} doctor_name={name} isOpen={isChatOpen}
-                onClose={() => setIsChatOpen(false)} /> {/* Pass doctor_id prop */}
+      <ChatPage
+        role="patient"
+        doctor_id={user_id}
+        doctor_name={name}
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />{" "}
+      {/* Pass doctor_id prop */}
     </div>
   );
 };
