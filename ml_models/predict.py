@@ -12,10 +12,11 @@ kidney_stone_model = load_model('./kidney_stone_detection/kidney_stone_detection
 brain_tumor_model = load_model('./brain_tumor_detection/brain_tumor_detection_model.h5')
 
 def preprocess_image(image, target_size):
-    # Preprocess the image to the required input shape for your model
+    
+    image = image.convert("RGB")
     image = image.resize(target_size)
-    image = np.array(image) / 255.0  # Normalize the image
-    image = np.expand_dims(image, axis=0)  # Add batch dimension
+    image = np.array(image) / 255.0
+    image = np.expand_dims(image, axis=0)
     return image
 
 
