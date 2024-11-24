@@ -32,7 +32,8 @@ function Login() {
 
   return (
     <div className="py-20 flex justify-center items-center bg-gray-100">
-      <div className="flex flex-col md:flex-row w-full max-w-6xl rounded-[4rem] shadow-xl bg-white overflow-hidden shadow-xl shadow-light-orchid">
+      <div
+        className="flex flex-col md:flex-row w-full max-w-6xl rounded-[4rem] shadow-xl bg-white overflow-hidden shadow-teal-100">
         <div className="flex-1 h-80 md:h-auto">
           <img src={loginImage} alt="" className="w-full h-full object-cover" />
         </div>
@@ -40,7 +41,7 @@ function Login() {
         <div className="flex-1 flex flex-col justify-center p-8">
           <div className="flex flex-col justify-center items-center">
             <img className="w-16 mb-3" src={logo} alt="Logo" />
-            <h2 className="text-4xl font-bold text-center mb-5 text-fuchsia-500">
+            <h2 className="text-4xl font-bold text-center mb-5 text-teal-800">
               DOC LINK
             </h2>
           </div>
@@ -90,7 +91,7 @@ function Login() {
                   name="role"
                   checked={role === "doctor"}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500"
+                  className="w-4 h-4 text-teal-500 bg-gray-100 border-gray-300 focus:ring-teal-500"
                 />
                 <label
                   htmlFor="doctor"
@@ -107,7 +108,7 @@ function Login() {
                   name="role"
                   checked={role === "patient"}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500"
+                  className="w-4 h-4 text-teal-500 bg-gray-100 border-gray-300 focus:ring-teal-500"
                 />
                 <label
                   htmlFor="patient"
@@ -120,7 +121,7 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full text-white bg-fuchsia-500 hover:bg-fuchsia-400 font-medium rounded-full text-sm px-5 py-2.5 text-center"
+              className="w-full text-white bg-teal-500 hover:bg-teal-800 font-medium rounded-full text-sm px-5 py-2.5 text-center"
             >
               Login
             </button>

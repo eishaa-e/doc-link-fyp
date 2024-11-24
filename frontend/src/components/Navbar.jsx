@@ -85,12 +85,12 @@ const Navbar = () => {
   }, [authToken, currentUserRole]);
 
   return (
-    <nav className="bg-white w-full border-b-2 border-light-orchid z-50">
+    <nav className="bg-white w-full border-b-2 border-teal-800 z-50">
       <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
         <Link to="/">
           <div className="flex items-center">
             <img className="w-12 mr-3" src={logo} alt="Logo" />
-            <span className=" text-light-orchid text-3xl font-bold whitespace-nowrap">
+            <span className=" text-teal-800 text-3xl font-bold whitespace-nowrap">
               DOC LINK
             </span>
           </div>
@@ -101,7 +101,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === "/" ? "text-fuchsia-500" : "text-light-orchid"}`}
+                className={`py-2 px-3 rounded md:p-0 hover:text-teal-800 ${currentPath.pathname === "/" ? "text-teal-800" : "text-teal-500"}`}
                 aria-current="page"
               >
                 Home
@@ -110,7 +110,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/services"
-                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === "/services" ? "text-fuchsia-500" : "text-light-orchid"}`}
+                className={`py-2 px-3 rounded md:p-0 hover:text-teal-800 ${currentPath.pathname === "/services" ? "text-teal-800" : "text-teal-500"}`}
               >
                 Services
               </Link>
@@ -119,7 +119,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to="/find-doctor"
-                  className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === "/find-doctor" ? "text-fuchsia-500" : "text-light-orchid"}`}
+                  className={`py-2 px-3 rounded md:p-0 hover:text-teal-800 ${currentPath.pathname === "/find-doctor" ? "text-teal-800" : "text-teal-500"}`}
                 >
                   Find Doctor
                 </Link>
@@ -128,7 +128,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/contact-us"
-                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === "/contact-us" ? "text-fuchsia-500" : "text-light-orchid"}`}
+                className={`py-2 px-3 rounded md:p-0 hover:text-teal-800 ${currentPath.pathname === "/contact-us" ? "text-teal-800" : "text-teal-500"}`}
               >
                 Contact us
               </Link>
@@ -136,7 +136,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/about-us"
-                className={`py-2 px-3 rounded md:p-0 hover:text-fuchsia-500 ${currentPath.pathname === "/about-us" ? "text-fuchsia-500" : "text-light-orchid"}`}
+                className={`py-2 px-3 rounded md:p-0 hover:text-teal-800 ${currentPath.pathname === "/about-us" ? "text-teal-800" : "text-teal-500"}`}
               >
                 About Us
               </Link>
@@ -147,13 +147,13 @@ const Navbar = () => {
               <div>
                 <Link
                   to="/login"
-                  className="text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  className="text-white bg-teal-500 hover:bg-teal-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  className="text-white bg-teal-500 hover:bg-teal-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                 >
                   Signup
                 </Link>
@@ -162,7 +162,7 @@ const Navbar = () => {
               <div>
                 <button
                   type="button"
-                  className="text-white text-sm text-center font-bold rounded-lg flex justify-center items-center gap-1 px-2 py-2 bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-purple-200"
+                  className="text-white text-sm text-center font-bold rounded-lg flex justify-center items-center gap-1 px-2 py-2 bg-teal-500 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-purple-200"
                   id="user-menu-button"
                   aria-expanded="false"
                   data-dropdown-toggle="user-dropdown"
@@ -213,7 +213,7 @@ const Navbar = () => {
                   <div
                     onMouseEnter={openDropdown}
                     onMouseLeave={closeDropdown}
-                    className="z-100 p-2 w-40 fixed text-base list-none bg-fuchsia-100 rounded-lg divide-y divide-light-orchid shadow"
+                    className="z-100 p-2 w-40 fixed text-base list-none bg-teal-800 rounded-lg divide-y divide-teal-500 shadow"
                     id="user-dropdown"
                   >
                     <ul aria-labelledby="user-menu-button" className="">
@@ -224,7 +224,7 @@ const Navbar = () => {
                               ? `/doctor/${userInfo?._id}`
                               : `/patient/${userInfo?._id}`
                           }
-                          className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
+                          className="block px-4 py-2 rounded-md text-sm font-bold text-white hover:bg-teal-500"
                         >
                           Profile
                         </Link>
@@ -237,7 +237,7 @@ const Navbar = () => {
                               ? `/doctor/profile-form`
                               : `/patient/profile-form`
                           }
-                          className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
+                          className="block px-4 py-2 rounded-md text-sm font-bold text-white hover:bg-teal-500"
                         >
                           Edit Profile
                         </Link>
@@ -247,7 +247,7 @@ const Navbar = () => {
                         <li>
                           <Link
                             to="/doctor/schedule-form"
-                            className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
+                            className="block px-4 py-2 rounded-md text-sm font-bold text-white hover:bg-teal-500"
                           >
                             Edit Schedule
                           </Link>
@@ -257,7 +257,7 @@ const Navbar = () => {
                     <div className="py-1">
                       <Link
                         onClick={handleLogout}
-                        className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-fuchsia-400 hover:text-white"
+                        className="block px-4 py-2 rounded-md text-sm font-bold text-white hover:bg-teal-500"
                       >
                         Sign out
                       </Link>

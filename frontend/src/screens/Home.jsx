@@ -13,11 +13,13 @@ import neurologistIcon from "../assets/icons/neurologist-icon.png";
 import cardiologistIcon from "../assets/icons/cardiologist-icon.png";
 import FeedbackForm from "../components/FeedbackForm";
 import DoctorCard from "../components/DoctorCard";
+import Carousal from "../components/Carousal";
 
 function Home({ toggleChat }) {
   const [doctors, setDoctors] = useState([]);
   const [selectedSpecialization, setSelectedSpecialization] = useState(null);
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const specializations = [
     { title: "Dentist", img: dentistIcon },
@@ -25,7 +27,9 @@ function Home({ toggleChat }) {
     { title: "Dermatologist", img: dermatologistIcon },
     { title: "Orthopedic Surgeon", img: orthopedicIcon },
     { title: "Neurologist", img: neurologistIcon },
-    { title: "Cardiologist", img: cardiologistIcon }
+    { title: "Cardiologist", img: cardiologistIcon },
+    { title: "Pediatrician", img: dentistIcon },
+    { title: "Ophthalmologist", img: gynecologistIcon }
   ];
 
   const getDoctors = async () => {
@@ -38,13 +42,12 @@ function Home({ toggleChat }) {
   };
 
   const handleSpecializationClick = (specialization) => {
-    if (specialization === selectedSpecialization) {
-      setSelectedSpecialization(null);
-      getDoctors();
-      return;
-    }
-    setSelectedSpecialization(specialization);
-    getDoctors(specialization);
+    navigate("/find-doctor", { state: { specialization } });
+  };
+
+  const handleDoctorSearch = () => {
+    let specialization = searchQuery;
+    navigate("/find-doctor", { state: { specialization } });
   };
 
   useEffect(() => {
@@ -53,62 +56,64 @@ function Home({ toggleChat }) {
 
   return (
     <div className="w-full text-black bg-gray-100 flex flex-col items-center justify-center">
-      {/* Hero Section */}
-      <div className="w-full max-w-6xl flex flex-col md:flex-row justify-center items-center mt-20">
-        <div className="flex-1">
-          <h1 className="text-4xl font-bold text-fuchsia-500">
-            Empowering Health, <br />
-            One Click at a Time
-          </h1>
-          <p className="font-medium w-5/6 mt-4 text-gray-500">
-            Cruise through your health journey effortlessly with our
-            user-friendly application. Stay informed, connected, and empowered,
-            all in one place. Welcome To Doc Link!
-          </p>
-          <button
-            className="w-50 mt-6 text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            Consult today
-          </button>
-        </div>
-        <div className="flex-1 md:mt-0">
-          <img
-            src={img}
-            alt="Health illustration"
-            className="w-11/12 rounded-[2.5rem] shadow-xl shadow-light-orchid"
+
+      <div className="w-full max-w-6xl flex flex-col justify-start items-start mt-8">
+        <h2 className="text-xl font-medium mt-4 mb-2">
+          Find the best doctor
+        </h2>
+        <form className="w-full flex justify-start items-center gap-2 my-2">
+          <input
+            type="text"
+            placeholder="Search by doctor's name or category"
+            className="w-full px-6 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-800"
+            onChange={(e) => {
+              e.preventDefault();
+              setSearchQuery(e.target.value);
+            }}
           />
-        </div>
+          <button onClick={handleDoctorSearch}>
+            <button onClick={handleDoctorSearch} className="hover:scale-105">
+              <img src={searchIcon} className="w-6 h-6" />
+            </button>
+          </button>
+        </form>
       </div>
 
-      <div className="flex flex-col justify-center items-center mt-20">
-        <h2 className="text-3xl font-bold mt-4 mb-2">
-          FIND DOCTOR
+      {/* Hero Section */}
+      <div className="w-full max-w-6xl flex flex-col md:flex-row justify-center items-center mt-8">
+        <Carousal />
+      </div>
+
+      <div className="flex flex-col justify-center items-center mt-8">
+        <h2 className="text-xl font-medium mt-4 mb-2">
+          Consult the best doctors
         </h2>
         <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
 
-        <div className="my-10 px-10 grid grid-cols-6 items-center gap-6 mb-10">
+        <div className="my-6 px-10 grid grid-cols-8 items-center gap-6 mb-8">
           {specializations.map((specialization, index) => (
             <div
               key={index}
               onClick={() => handleSpecializationClick(specialization.title)}
               className="flex flex-col justify-center items-center gap-2 cursor-pointer hover:scale-110 duration-200"
             >
-              <div className="w-24 h-24 bg-gray-300 rounded-full flex justify-center items-center">
+              <div className="w-14 h-14 bg-gray-300 rounded-full flex justify-center items-center">
                 <img
-                  className="w-20 h-20 rounded-full"
+                  className="w-12 h-12 rounded-full"
                   src={specialization.img}
                   alt={specialization.title}
                 />
               </div>
-              <h3 className="text-16 font-normal">{specialization.title}</h3>
+              <h3 className="text-[12px] font-normal">{specialization.title}</h3>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Doctors Section */}
-      <div className="w-full max-w-6xl mx-auto p-10 flex justify-center items-center">
         <div className="w-full flex flex-col justify-center items-center">
-          <h2 className="text-3xl font-bold mt-4 mb-2">Meet Our Doctors</h2>
+
+          <h2 className="text-xl font-medium mt-4 mb-2">
+            Consult our doctors
+          </h2>
           <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
 
           <div
@@ -123,6 +128,7 @@ function Home({ toggleChat }) {
             )}
           </div>
         </div>
+
       </div>
 
       <Services toggleChat={toggleChat} />

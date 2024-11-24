@@ -94,7 +94,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
       {isOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 flex justify-center items-center">
           <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg overflow-hidden h-[90vh]">
-            <div className="p-6 border-b bg-fuchsia-400 text-white">
+            <div className="p-6 border-b bg-teal-800 text-white">
               <h2 className="text-xl font-semibold">Messenger</h2>
               <button
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
@@ -106,7 +106,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
 
             <div className="flex max-h-[80vh]">
               <div className="w-2/5 border-r">
-                <h3 className="text-2xl text-light-orchid font-bold text-center py-2 border-b-2">Chats</h3>
+                <h3 className="text-2xl text-teal-500 font-bold text-center py-2 border-b-2">Chats</h3>
                 {chats && chats.length > 0 ? (
                   chats.map((chat, index) => (
                     <div
@@ -114,7 +114,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                       onClick={() => {
                         handleChatClick(chat);
                       }}
-                      className={`m-1 p-2 cursor-pointer ${activeChat?.patient_id === chat.patient_id ? "border-b-2 border-l-2 shadow-md border-fuchsia-400 rounded-md bg-fuchsia-200" : ""}`}
+                      className={`m-1 p-2 cursor-pointer ${activeChat?.patient_id === chat.patient_id ? "border-b-2 border-l-2 shadow-md border-teal-400 rounded-md bg-teal-200" : ""}`}
                     >
                       {/* Display patient name if doctor is logged in, otherwise display doctor name */}
                       <p className="text-lg font-medium text-gray-700">{role === "doctor"
@@ -130,7 +130,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
               </div>
 
               <div className="flex flex-col w-full bg-gray-100">
-                <div className="p-6 bg-fuchsia-300 text-white">
+                <div className="p-6 bg-teal-500 text-white">
                   <h2 className="text-xl font-semibold text-gray-800">
                     {role === "doctor" ? activeChat?.patient_name : (activeChat?.doctor_name || doctor_name || "Select a chat")}
                   </h2>
@@ -147,8 +147,8 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                         <div
                           className={`max-w-[60%] px-4 py-2 rounded-lg text-black ${
                             msg.sender === userId
-                              ? "bg-fuchsia-300"
-                              : "bg-fuchsia-200"
+                              ? "bg-teal-500 text-white"
+                              : "bg-teal-200"
                           }`}
                         >
                           <p>{msg.message}</p>
@@ -173,7 +173,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                   />
                   <button
                     type="submit"
-                    className="p-2 py-3 bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-400 flex items-center justify-center"
+                    className="p-2 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-800 flex items-center justify-center"
                   >
                     <FaPaperPlane />
                   </button>
@@ -185,7 +185,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
         </div>
       )}
       <button
-        className="fixed bottom-28 right-10 bg-fuchsia-500 text-white p-3 rounded-full shadow-lg hover:bg-fuchsia-400 focus:outline-none z-50"
+        className="fixed bottom-28 right-10 bg-teal-800 text-white p-3 rounded-full shadow-lg hover:bg-teal-500 focus:outline-none z-50"
         onClick={onClose}
       >
         {!isOpen ? <FaComments size={30} /> : <RxCross2 size={30} />}

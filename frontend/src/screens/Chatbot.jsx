@@ -58,7 +58,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
       {isChatOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 flex justify-center items-center">
           <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg overflow-hidden h-[90vh]">
-            <div className="p-6 border-b bg-fuchsia-400 text-white">
+            <div className="p-6 border-b bg-teal-800 text-white">
               <h2 className="text-xl font-semibold">Medical Chatbot</h2>
               <button
                 onClick={toggleChat}
@@ -94,7 +94,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
               />
               <button
                 type="submit"
-                className="p-2 py-3 bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-400 flex items-center justify-center"
+                className="p-2 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-800 flex items-center justify-center"
               >
                 <FaPaperPlane />
               </button>
@@ -105,7 +105,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
 
       {/* Chatbot toggle button */}
       <button
-        className="fixed bottom-10 right-10 bg-fuchsia-500 text-white p-3 rounded-full shadow-lg hover:bg-fuchsia-400 focus:outline-none z-50"
+        className="fixed bottom-10 right-10 bg-teal-500 text-white p-3 rounded-full shadow-lg hover:bg-teal-800 focus:outline-none z-50"
         onClick={toggleChat}
       >
         {!isChatOpen ? <RiRobot3Fill size={30} /> : <RxCross2 size={30} />}

@@ -57,10 +57,11 @@ const Services = ({ toggleChat }) => {
     <div className="bg-gray-100">
       <div className="w-full max-w-6xl mx-auto p-10 flex justify-center items-center">
         <div className=" flex flex-col justify-center items-center">
-          <h2 className="text-3xl font-bold mt-4 mb-2">OUR SERVICES</h2>
+          <h2 className="text-xl font-medium mt-4 mb-2">
+            OUR SERVICES</h2>
           <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
 
-          <p className="text-gray-500 text-center font-medium mb-8">
+          <p className="text-sm text-gray-500 text-center font-medium mb-8">
             We provide you the best choices for you. Adjust it to your health
             needs and make sure your undergo treatment with our highly qualified
             doctors you can consult with us which type of service is suitable for
@@ -85,7 +86,7 @@ const Services = ({ toggleChat }) => {
           {
             path.pathname === "/" &&
             <Link to="/services"
-                  className="mt-8 px-6 py-3 bg-fuchsia-500 text-white rounded-full shadow-md hover:bg-fuchsia-400">
+                  className="mt-8 px-4 py-2 bg-teal-500 text-white rounded-full shadow-md hover:bg-teal-800">
               View All
             </Link>
           }
