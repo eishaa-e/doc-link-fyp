@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/doc-link-icon.png"; // Logo for the application
+import logo from "../assets/icons/doc-link-icon.png"; // Logo for the application
 import resetPasswordImage from "../assets/reset.png"; // Add an image related to password reset
 import { useParams, Link, useNavigate } from "react-router-dom"; // Include useNavigate for navigation
 import axios from "axios";

@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import img from "../assets/backgroundImg/LandingPageImg1.jpg";
 import searchIcon from "../assets/icons/search-icon.svg";
 import { Feedback } from "../components/Feedback";
 import Services from "./Services";
 import axiosInstance from "../services/axiosInterceptor";
-import dentistIcon from "../assets/icons/dentist-icon.png";
-import gynecologistIcon from "../assets/icons/gynecologist-icon.png";
-import dermatologistIcon from "../assets/icons/dermatologist-icon.png";
-import orthopedicIcon from "../assets/icons/orthopedic-icon.png";
-import neurologistIcon from "../assets/icons/neurologist-icon.png";
-import cardiologistIcon from "../assets/icons/cardiologist-icon.png";
 import FeedbackForm from "../components/FeedbackForm";
-import DoctorCard from "../components/DoctorCard";
 import Carousal from "../components/Carousal";
 import { DOCTOR_SPECIALIZATION } from "../constants/DoctorSpecilazations";
 import DoctorCarousel from "../components/DoctorCarousel";
 
 function Home({ toggleChat }) {
   const [doctors, setDoctors] = useState([]);
-  const [selectedSpecialization, setSelectedSpecialization] = useState(null);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -66,7 +57,7 @@ function Home({ toggleChat }) {
           />
           <button onClick={handleDoctorSearch}>
             <button onClick={handleDoctorSearch} className="hover:scale-105">
-              <img src={searchIcon} className="w-6 h-6" />
+              <img src={searchIcon} className="w-6 h-6" alt="" />
             </button>
           </button>
         </form>

@@ -9,7 +9,7 @@ export const Footer = () => {
       <Link to="/">
         <div className="w-2/3 flex justify-center items-center">
           <img className="w-20 mr-3" src={logo} alt="Logo" />
-          <span className=" text-white text-3xl font-bold whitespace-nowrap">
+          <span className="text-white text-3xl font-bold whitespace-nowrap">
             DOC LINK
           </span>
         </div>

@@ -3,6 +3,13 @@ import StarRating from "./StarRating";
 import defaultProfileImg from "../assets/icons/user.jpg";
 
 const FeedbackCard = ({ feedback }) => {
+
+  const profileImage =
+    feedback.profileImage && feedback.profileImage !== "No Image"
+      ? feedback.profileImage
+      : defaultProfileImg;
+
+
   return (
     <div
       className="min-h-[420px] bg-white shadow-lg shadow-teal-100 p-4 rounded-xl flex flex-col items-center justify-center hover:bg-teal-50 hover:scale-[102%] duration-200">
@@ -10,7 +17,7 @@ const FeedbackCard = ({ feedback }) => {
         className="w-24 h-24 my-2 shadow-lg shadow-teal-100 rounded-full flex justify-center items-center">
         <img
           className="w-24 h-24 rounded-full"
-          src={feedback.profileImage || defaultProfileImg}
+          src={profileImage}
           alt="img"
         />
       </div>
