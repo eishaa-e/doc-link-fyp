@@ -15,6 +15,7 @@ import FeedbackForm from "../components/FeedbackForm";
 import DoctorCard from "../components/DoctorCard";
 import Carousal from "../components/Carousal";
 import { DOCTOR_SPECIALIZATION } from "../constants/DoctorSpecilazations";
+import DoctorCarousel from "../components/DoctorCarousel";
 
 function Home({ toggleChat }) {
   const [doctors, setDoctors] = useState([]);
@@ -101,24 +102,8 @@ function Home({ toggleChat }) {
           ))}
         </div>
 
-        <div className="w-full flex flex-col justify-center items-center">
-
-          <h2 className="text-xl font-medium mt-4 mb-2">
-            Consult our doctors
-          </h2>
-          <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
-
-          <div
-            className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-            {doctors.length > 0 ? (doctors.map((doctor, index) => (
-                <DoctorCard doctor={doctor} />
-              ))
-            ) : (
-              <p className="text-center text-gray-600">
-                No doctors available at the moment.
-              </p>
-            )}
-          </div>
+        <div className="w-full text-black bg-gray-100 flex flex-col items-center justify-center">
+          <DoctorCarousel doctors={doctors} />
         </div>
 
       </div>
