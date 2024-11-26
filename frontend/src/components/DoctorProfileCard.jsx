@@ -13,12 +13,12 @@ const DoctorProfileCard = ({ doctor }) => {
 
   return (
     <div className="w-full flex justify-center items-center">
-      <div className="w-2/3 px-10 bg-white border border-gray-200 rounded-lg shadow-xl shadow-light-orchid">
+      <div className="w-2/3 px-10 bg-white border border-gray-200 rounded-lg shadow-xl shadow-teal-100">
         <div className="flex p-5 justify-between items-center">
           <div className="flex items-center gap-10">
             <div className="w-32 h-32 flex justify-center items-center rounded-full">
               <img
-                className="w-24 h-24 rounded-full shadow-xl shadow-light-orchid"
+                className="w-24 h-24 rounded-full shadow-xl shadow-teal-100"
                 src={doctor.profileImage || defaultProfileImg}
                 alt="Doctor profile"
               />
@@ -26,7 +26,7 @@ const DoctorProfileCard = ({ doctor }) => {
 
             <div className="grid grid-cols-3 gap-4 justify-start items-center">
               <div className="w-48 border-r-2 border-gray-800 flex flex-col justify-start">
-                <h5 className="mb-1 text-3xl pr-4 font-medium text-fuchsia-500">
+                <h5 className="mb-1 text-3xl pr-4 font-medium text-teal-500">
                   {name}
                 </h5>
                 <p className="text-xl text-gray-500 dark:text-gray-400">
@@ -50,20 +50,20 @@ const DoctorProfileCard = ({ doctor }) => {
             <div className="flex flex-col items-center gap-5">
               <Link
                 to={`/doctor/${_id}/book-appointment`}
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-fuchsia-500 rounded-lg hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-teal-500 rounded-lg hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Book Appointment
               </Link>
               <Link
                 to={`/doctor/${_id}`}
-                className="py-2 px-4 ms-2 text-sm font-medium text-black focus:outline-none bg-white rounded-lg border border-fuchsia-500 hover:bg-fuchsia-400 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                className="py-2 px-4 ms-2 text-sm font-medium text-black focus:outline-none bg-white rounded-lg border border-teal-500 hover:bg-teal-800 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               >
                 View Profile
               </Link>
               <Link
                 to="#"
                 onClick={() => setIsChatOpen(true)} // Open the chat modal
-                className="py-2 px-4 ms-2 text-sm font-medium text-black focus:outline-none bg-white rounded-lg border border-fuchsia-500 hover:bg-fuchsia-400 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                className="py-2 px-4 ms-2 text-sm font-medium text-black focus:outline-none bg-white rounded-lg border border-teal-500 hover:bg-teal-800 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
               >
                 Message
               </Link>

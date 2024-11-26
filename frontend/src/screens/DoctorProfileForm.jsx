@@ -106,7 +106,7 @@ const DoctorProfileForm = () => {
       <div className="w-full py-20 bg-gray-100 flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
-          className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl shadow-xl shadow-light-orchid "
+          className="w-1/3 bg-white flex justify-center flex-col p-10 rounded-xl shadow-xl shadow-teal-100 "
         >
           <div className="flex flex-col justify-center items-center">
             <img className="w-16 mb-3" src={logo} alt="asd" srcset="" />
@@ -257,7 +257,7 @@ const DoctorProfileForm = () => {
                 name="gender"
                 checked={gender === "male"}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-teal-500 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
                 htmlFor="male"
@@ -274,7 +274,7 @@ const DoctorProfileForm = () => {
                 name="gender"
                 checked={gender === "female"}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-teal-500 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
                 htmlFor="female"
@@ -291,7 +291,7 @@ const DoctorProfileForm = () => {
                 name="gender"
                 checked={gender === "other"}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-4 h-4 text-fuchsia-500 bg-gray-100 border-gray-300 focus:ring-fuchsia-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-teal-500 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
                 htmlFor="other"
@@ -302,7 +302,7 @@ const DoctorProfileForm = () => {
             </div>
           </div>
 
-          <div className="flex justify-between my-4">
+          <div className="flex flex-col justify-between my-4">
             <div>
               <div className="mb-5">
                 <label
@@ -366,7 +366,7 @@ const DoctorProfileForm = () => {
 
           <button
             type="submit"
-            className="w-full text-white bg-fuchsia-500 hover:bg-fuchsia-400 transition focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            className="w-full text-white bg-teal-500 hover:bg-teal-800 transition focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             Save Profile
           </button>

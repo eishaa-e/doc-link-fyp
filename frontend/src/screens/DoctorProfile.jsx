@@ -32,7 +32,7 @@ const DoctorProfile = () => {
 
   const [feedback, setFeedback] = useState({
     rating: 0,
-    comment: "",
+    comment: ""
   });
   const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
 
@@ -61,7 +61,7 @@ const DoctorProfile = () => {
     await axiosInstance
       .post(`/doctors/${id}/feedback`, {
         rating: feedback.rating,
-        comment: feedback.comment,
+        comment: feedback.comment
       })
       .then((response) => {
         setFeedback({ rating: 0, comment: "" });
@@ -126,14 +126,14 @@ const DoctorProfile = () => {
     const { name, value } = e.target;
     setFeedback((prevFeedback) => ({
       ...prevFeedback,
-      [name]: value,
+      [name]: value
     }));
   };
 
   const handleRatingChange = (rating) => {
     setFeedback((prevFeedback) => ({
       ...prevFeedback,
-      rating,
+      rating
     }));
   };
 
@@ -161,7 +161,8 @@ const DoctorProfile = () => {
         className={`w-full ${currentUserRole === "patient" ? "max-w-8xl" : "max-w-7xl"} mx-auto py-10 flex justify-center items-start`}
       >
         <div className="w-7/12 flex flex-col justify-center items-center gap-5">
-          <div className="w-full bg-white shadow-xl shadow-light-orchid rounded-xl p-6 mb-8 flex justify-center items-center gap-12">
+          <div
+            className="w-full bg-white shadow-xl shadow-teal-100 rounded-xl p-6 mb-8 flex justify-center items-center gap-12">
             <div className="w-5/12 flex flex-col justify-center items-center mb-4 border-r-2 border-gray-300">
               <img
                 src={doctor.profileImage || defaultProfileImg}
@@ -231,14 +232,14 @@ const DoctorProfile = () => {
                   <>
                     <Link
                       to={`/doctor/${id}/book-appointment`}
-                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                       Book Appointment
                     </Link>
 
                     <Link
                       onClick={() => setIsChatOpen(true)} // Open the chat modal
-                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                       Direct Message
                     </Link>
@@ -249,7 +250,7 @@ const DoctorProfile = () => {
                   <>
                     <Link
                       to="/doctor/update-password"
-                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                       Update Password
                     </Link>
@@ -260,7 +261,7 @@ const DoctorProfile = () => {
                     <button
                       data-modal-target="authentication-modal"
                       data-modal-toggle="authentication-modal"
-                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       type="button"
                       onClick={toggleFeedbackForm}
                     >
@@ -272,7 +273,7 @@ const DoctorProfile = () => {
                 <button
                   data-modal-target="authentication-modal"
                   data-modal-toggle="authentication-modal"
-                  className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   type="button"
                   onClick={togglePmdcCertificate}
                 >
@@ -283,7 +284,7 @@ const DoctorProfile = () => {
                   onClick={() => {
                     navigate(-1);
                   }}
-                  className="py-1 px-4 text-sm font-medium bg-white text-gray-900 focus:outline-none bg-fuchsia-100 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  className="py-1 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-teal-100 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 >
                   Back
                 </Link>
@@ -291,7 +292,7 @@ const DoctorProfile = () => {
             </div>
           </div>
           <div className="w-full flex flex-col justify-center items-center px-5">
-            <h2 className="text-2xl font-bold text-center text-fuchsia-500 my-5">
+            <h2 className="text-2xl font-bold text-center text-teal-500 my-5">
               {doctor.name} Reviews
             </h2>
             <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
@@ -302,7 +303,7 @@ const DoctorProfile = () => {
           </div>
         </div>
         {currentUserRole !== "patient" ? (
-          <div className="w-2/5 mx-auto bg-white shadow-xl shadow-light-orchid rounded-lg p-6">
+          <div className="w-2/5 mx-auto bg-white shadow-xl shadow-teal-100 rounded-lg p-6">
             <h2 className="text-2xl font-bold text-black my-2 text-center">
               Appointments
             </h2>
@@ -446,7 +447,7 @@ const DoctorProfile = () => {
                   <textarea
                     name="comment"
                     rows="3"
-                    className="bg-fuchsia-100 w-full rounded-xl border-0"
+                    className="bg-teal-100 w-full rounded-xl border-0"
                     placeholder="Give us a review"
                     value={feedback.comment}
                     onChange={handleOnChange}
@@ -460,7 +461,7 @@ const DoctorProfile = () => {
                   <button
                     type="submit"
                     onClick={addFeedback}
-                    className="w-24 mt-6 text-white bg-fuchsia-500 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
+                    className="w-24 mt-6 text-white bg-teal-500 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
                   >
                     Submit
                   </button>

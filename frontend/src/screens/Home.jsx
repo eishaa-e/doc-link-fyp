@@ -14,6 +14,7 @@ import cardiologistIcon from "../assets/icons/cardiologist-icon.png";
 import FeedbackForm from "../components/FeedbackForm";
 import DoctorCard from "../components/DoctorCard";
 import Carousal from "../components/Carousal";
+import { DOCTOR_SPECIALIZATION } from "../constants/DoctorSpecilazations";
 
 function Home({ toggleChat }) {
   const [doctors, setDoctors] = useState([]);
@@ -21,16 +22,7 @@ function Home({ toggleChat }) {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const specializations = [
-    { title: "Dentist", img: dentistIcon },
-    { title: "Gynecologist", img: gynecologistIcon },
-    { title: "Dermatologist", img: dermatologistIcon },
-    { title: "Orthopedic Surgeon", img: orthopedicIcon },
-    { title: "Neurologist", img: neurologistIcon },
-    { title: "Cardiologist", img: cardiologistIcon },
-    { title: "Pediatrician", img: dentistIcon },
-    { title: "Ophthalmologist", img: gynecologistIcon }
-  ];
+  const specializations = DOCTOR_SPECIALIZATION;
 
   const getDoctors = async () => {
     try {

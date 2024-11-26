@@ -19,7 +19,7 @@ const BrainTumorPrediction = () => {
     try {
       const response = await axiosInstance.post(
         "/medical-image/predict/brain-tumor",
-        formData,
+        formData
       );
       setPrediction(response.data.Brain);
       console.log("response", response.data);
@@ -30,7 +30,7 @@ const BrainTumorPrediction = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: "image/*",
+    accept: "image/*"
   });
 
   return (
@@ -40,16 +40,17 @@ const BrainTumorPrediction = () => {
         <hr className="w-2/12 h-1 bg-gray-400 mb-10" />
 
         <div className="flex w-full max-w-6xl justify-between items-start gap-10">
-          <div className="w-full min-h-[400px] bg-white shadow-xl shadow-light-orchid rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
+          <div
+            className="w-full min-h-[400px] bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
             <div
               {...getRootProps({
                 className:
-                  "w-4/5 bg-white shadow-xl shadow-light-orchid rounded-lg p-6 mb-8 flex flex-col justify-center items-center border-dashed border-2 border-gray-400 hover:border-fuchsia-500 transition-colors",
+                  "w-4/5 bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex flex-col justify-center items-center border-dashed border-2 border-gray-400 hover:border-teal-500 transition-colors"
               })}
             >
               <input {...getInputProps()} />
               <div className="flex flex-col justify-center items-center text-center">
-                <AiOutlinePlus className="text-4xl text-fuchsia-500 mb-2" />
+                <AiOutlinePlus className="text-4xl text-teal-500 mb-2" />
                 {isDragActive ? (
                   <p className="text-lg text-gray-700">
                     Drop the files here ...
@@ -68,13 +69,14 @@ const BrainTumorPrediction = () => {
             </div>
             <button
               onClick={handleSubmit}
-              className="mt-4 px-4 py-2 bg-fuchsia-500 hover:bg-fuchsia-400 rounded-full text-white rounded"
+              className="mt-4 px-4 py-2 bg-teal-500 hover:bg-teal-800 rounded-full text-white"
             >
               Predict
             </button>
           </div>
 
-          <div className="flex w-full min-h-[400px] bg-white shadow-xl shadow-light-orchid rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
+          <div
+            className="flex w-full min-h-[400px] bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
             {image && (
               <img
                 src={URL.createObjectURL(image)}
