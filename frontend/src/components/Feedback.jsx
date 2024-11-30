@@ -107,3 +107,68 @@ export const Feedback = () => {
     </div>
   );
 };
+
+
+// import React, { useEffect, useState } from "react";
+// import FeedbackCard from "./FeedbackCard";
+// import axiosInstance from "../services/axiosInterceptor";
+// import Loader from "./Loader";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { EffectCards } from "swiper/modules";
+// import "swiper/css";
+// import "swiper/css/effect-cards";
+//
+//
+// export const Feedback = () => {
+//   const [feedback, setFeedback] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//
+//   const getFeedback = async () => {
+//     await axiosInstance
+//       .get("/feedback")
+//       .then((response) => {
+//         setLoading(false);
+//         setFeedback(response.data);
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         console.log("Error fetching feedback", err);
+//       });
+//   };
+//
+//   useEffect(() => {
+//     getFeedback();
+//   }, []);
+//
+//   if (loading) {
+//     return (
+//       <div>
+//         <Loader />
+//       </div>
+//     );
+//   }
+//
+//   return (
+//     <div className="w-full flex flex-col justify-center items-center text-center p-5 rounded-xl">
+//       <div className="flex flex-col justify-center items-center my-4">
+//         <h1 className="text-4xl font-bold text-center text-dark my-5">
+//           What our customers are saying?
+//         </h1>
+//         <hr className="w-40 h-1 bg-black border-0 rounded my-2" />
+//       </div>
+//       <Swiper
+//         effect={"cards"}
+//         grabCursor={true}
+//         modules={[EffectCards]}
+//         className="mySwiper"
+//       >
+//         {feedback.length > 0 &&
+//           feedback.map((item, index) => (
+//             <SwiperSlide key={index}>
+//               <FeedbackCard feedback={item} />
+//             </SwiperSlide>
+//           ))}
+//       </Swiper>
+//     </div>
+//   );
+// };

@@ -8,6 +8,9 @@ import CommonService from "../services/CommonService";
 import AppointmentListItem from "../components/AppointmentListItem";
 import defaultProfileImg from "../assets/icons/user.jpg";
 import ChatPage from "./ChatPage";
+import { EffectCards } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import FeedbackCard from "../components/FeedbackCard";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -170,7 +173,9 @@ const DoctorProfile = () => {
                 className="w-32 h-32 rounded-full mr-4 mb-5"
               />
               <h2 className="text-2xl font-bold">{doctor.name}</h2>
-              <p className="text-lg text-gray-500 mt-2">{doctor.email}</p>
+              <p className="text-lg text-gray-500 mt-2">
+                {doctor.email?.length > 25 ? (doctor.email).toLowerCase().slice(0, 30) + "..." : doctor.email}
+              </p>
 
               <div className="flex flex-col justify-center items-center mt-5">
                 <p className="text-xl font-medium text-gray-500">
@@ -296,6 +301,25 @@ const DoctorProfile = () => {
               {doctor.name} Reviews
             </h2>
             <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
+
+            {/*{doctor.feedbacks?.length > 0 ? (*/}
+            {/*  <Swiper*/}
+            {/*    effect={"cards"}*/}
+            {/*    grabCursor={true}*/}
+            {/*    modules={[EffectCards]}*/}
+            {/*    className="mySwiper"*/}
+            {/*  >*/}
+            {/*    {doctor.feedbacks?.map((item, index) => (*/}
+            {/*      <SwiperSlide key={index}>*/}
+            {/*        <FeedbackCard feedback={item} />*/}
+            {/*      </SwiperSlide>*/}
+            {/*    ))}*/}
+            {/*  </Swiper>*/}
+            {/*) : (*/}
+            {/*  <div className="my-5 font-semibold text-center text-gray-500">*/}
+            {/*    No feedback available.*/}
+            {/*  </div>*/}
+            {/*)}*/}
 
             {doctor.feedbacks && doctor.feedbacks.length > 0 && (
               <DoctorFeedbackSlider feedbacks={doctor.feedbacks} />

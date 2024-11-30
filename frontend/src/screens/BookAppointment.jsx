@@ -133,7 +133,10 @@ const BookAppointment = () => {
               className="w-32 h-32 rounded-full mr-4 mb-5 shadow-xl shadow-teal-100"
             />
             <h2 className="text-2xl font-bold">{patientInfo.name}</h2>
-            <p className="text-lg text-gray-500 mt-2 ">{patientInfo.email}</p>
+            <p className="text-sm text-gray-500 mt-2 ">
+              {patientInfo.email?.length > 20 ? (patientInfo.email).toLowerCase().slice(0, 20) + "..." : patientInfo.email}
+
+            </p>
           </div>
           <div className="flex flex-col ">
             <div className="grid grid-cols-2 gap-10">
@@ -169,7 +172,9 @@ const BookAppointment = () => {
             />
             <h2 className="text-2xl font-bold">{doctorInfo.name}</h2>
             <p className="">{doctorInfo.specialization}</p>
-            <p className="text-lg text-gray-500 mt-1">{doctorInfo.email}</p>
+            <p className="text-sm text-gray-500 mt-1">
+              {doctorInfo.email?.length > 20 ? (doctorInfo.email).toLowerCase().slice(0, 20) + "..." : doctorInfo.email}
+            </p>
           </div>
           <div className="flex flex-col ">
             <div className="grid grid-cols-2 gap-10">

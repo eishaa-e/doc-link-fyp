@@ -14,7 +14,7 @@
 /ml_models/brain_tumor_detection/dataset
 /ml_models/kidney_stone_detection/kidney_stone_detection_model.h5
 /ml_models/brain_tumor_detection/brain_tumor_detection_model.h5
-
+/ml_models/flask-venv
 # testing
 /coverage
 

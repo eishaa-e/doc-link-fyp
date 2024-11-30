@@ -21,8 +21,13 @@ const FeedbackCard = ({ feedback }) => {
           alt="img"
         />
       </div>
-      <h4 className="text-2xl font-medium text-teal-500">{feedback.name}</h4>
-      <h5 className="text-sm font-medium text-gray-500">{feedback.email}</h5>
+      <h4 className="text-2xl font-medium text-teal-500">
+        {feedback.name?.length > 15 ? (feedback.name).toLowerCase().slice(0, 20) + "..." : feedback.name}
+      </h4>
+      <h5 className="text-sm font-medium text-gray-500">
+        {feedback.email?.length > 20 ? (feedback.email).toLowerCase().slice(0, 20) + "..." : feedback.email}
+
+      </h5>
 
       <div className="flex justify-center items-center flex-col text-center my-5">
         <svg
