@@ -13,7 +13,9 @@ const FindDoctor = () => {
   const [loading, setLoading] = useState(false);
 
   const [doctors, setDoctors] = useState([]);
-  const [selectedSpecialization, setSelectedSpecialization] = useState(initialSpecialization);
+  const [selectedSpecialization, setSelectedSpecialization] = useState(
+    initialSpecialization,
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false); // For dialog box state
 
@@ -133,7 +135,9 @@ const FindDoctor = () => {
                   alt={specialization.title}
                 />
               </div>
-              <h3 className="text-[12px] font-normal">{specialization.title}</h3>
+              <h3 className="text-[12px] font-normal">
+                {specialization.title}
+              </h3>
             </div>
           ))}
         </div>
@@ -162,7 +166,7 @@ const FindDoctor = () => {
 
       {isDialogOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white w-1/2 rounded-xl shadow-lg p-6">
+          <div className="bg-white w-1/2 rounded-xl shadow-lg p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold">Choose a Category</h3>
               <button
@@ -172,19 +176,23 @@ const FindDoctor = () => {
                 ×
               </button>
             </div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-4 gap-2">
               {specializations.map((specialization, index) => (
                 <div
                   key={index}
-                  onClick={() => handleDialogCategorySelect(specialization.title)}
-                  className="flex flex-col justify-center items-center gap-2 cursor-pointer hover:scale-105 duration-200 bg-gray-300 p-4 rounded-xl"
+                  onClick={() =>
+                    handleDialogCategorySelect(specialization.title)
+                  }
+                  className="flex justify-start items-center gap-2 cursor-pointer hover:scale-105 duration-200 bg-gray-300 p-2 rounded-xl"
                 >
                   <img
-                    className="w-12 h-12 rounded-full"
+                    className="w-10 h-10 rounded-full"
                     src={specialization.img}
                     alt={specialization.title}
                   />
-                  <h3 className="text-sm font-medium">{specialization.title}</h3>
+                  <h3 className="text-xs font-medium">
+                    {specialization.title}
+                  </h3>
                 </div>
               ))}
             </div>

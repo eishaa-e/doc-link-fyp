@@ -30,8 +30,8 @@ function Home({ toggleChat }) {
   };
 
   const handleDoctorSearch = () => {
-    let specialization = searchQuery;
-    navigate("/find-doctor", { state: { specialization } });
+    let name = searchQuery;
+    navigate("/find-doctor", { state: { name } });
   };
 
   useEffect(() => {
@@ -40,25 +40,20 @@ function Home({ toggleChat }) {
 
   return (
     <div className="w-full text-black bg-gray-100 flex flex-col items-center justify-center">
-
       <div className="w-full max-w-6xl flex flex-col justify-start items-start mt-8">
-        <h2 className="text-xl font-medium mt-4 mb-2">
-          Find the best doctor
-        </h2>
+        <h2 className="text-xl font-medium mt-4 mb-2">Find the best doctor</h2>
         <form className="w-full flex justify-start items-center gap-2 my-2">
           <input
             type="text"
-            placeholder="Search by doctor's name or category"
+            placeholder="Search by doctor's name"
             className="w-full px-6 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-800"
             onChange={(e) => {
               e.preventDefault();
               setSearchQuery(e.target.value);
             }}
           />
-          <button onClick={handleDoctorSearch}>
-            <button onClick={handleDoctorSearch} className="hover:scale-105">
-              <img src={searchIcon} className="w-6 h-6" alt="" />
-            </button>
+          <button onClick={handleDoctorSearch} className="hover:scale-105">
+            <img src={searchIcon} className="w-6 h-6" alt="" />
           </button>
         </form>
       </div>
@@ -75,7 +70,7 @@ function Home({ toggleChat }) {
         <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
 
         <div className="my-6 px-10 grid grid-cols-8 items-center gap-6 mb-8">
-          {specializations.map((specialization, index) => (
+          {specializations.slice(0, 8).map((specialization, index) => (
             <div
               key={index}
               onClick={() => handleSpecializationClick(specialization.title)}
@@ -88,7 +83,9 @@ function Home({ toggleChat }) {
                   alt={specialization.title}
                 />
               </div>
-              <h3 className="text-[12px] font-normal">{specialization.title}</h3>
+              <h3 className="text-[12px] font-normal">
+                {specialization.title}
+              </h3>
             </div>
           ))}
         </div>
@@ -96,7 +93,6 @@ function Home({ toggleChat }) {
         <div className="w-full text-black bg-gray-100 flex flex-col items-center justify-center">
           <DoctorCarousel doctors={doctors} />
         </div>
-
       </div>
 
       <Services toggleChat={toggleChat} />

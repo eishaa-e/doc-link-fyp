@@ -15,5 +15,18 @@ export const DOCTOR_SPECIALIZATION = [
   { title: "Neurologist", img: neurologistIcon },
   { title: "Cardiologist", img: cardiologistIcon },
   { title: "Pediatrician", img: pediatricianIcon },
-  { title: "Ophthalmologist", img: ophthalmologistIcon }
+  { title: "Ophthalmologist", img: ophthalmologistIcon },
+
+  { title: "Diabetologist", img: dentistIcon },
+  { title: "Gastroenterologist", img: dentistIcon },
+  { title: "Nutritionist", img: dentistIcon },
+  { title: "Psychiatrist", img: dentistIcon },
+  { title: "General Physician", img: dentistIcon },
+  { title: "General Surgeon", img: dentistIcon },
+  { title: "Urologist", img: dentistIcon },
+  { title: "Pulmonologist", img: dentistIcon },
+  { title: "ENT Specialialist", img: dentistIcon },
+  { title: "Endocrinologist", img: dentistIcon },
+  { title: "Radiologist", img: dentistIcon },
+  { title: "Nephrologist", img: dentistIcon },
 ];

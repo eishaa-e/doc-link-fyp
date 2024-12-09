@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
 import CommonService from "../services/CommonService";
+import { DOCTOR_SPECIALIZATION } from "../constants/DoctorSpecilazations";
 
 const DoctorProfileForm = () => {
   const authToken = localStorage.getItem("authToken");
@@ -53,13 +54,13 @@ const DoctorProfileForm = () => {
           specialization,
           education,
           experience,
-          pmdcCertificate
+          pmdcCertificate,
         },
         {
           headers: {
-            "Content-Type": "application/json"
-          }
-        }
+            "Content-Type": "application/json",
+          },
+        },
       )
       .then((response) => {
         console.log(response.data);
@@ -76,8 +77,8 @@ const DoctorProfileForm = () => {
     await axiosInstance
       .get(`/doctors/get-profile`, {
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       })
       .then((response) => {
         setName(response.data?.name);
@@ -190,25 +191,32 @@ const DoctorProfileForm = () => {
               required
             />
           </div>
+
           <div className="mb-5">
             <label
               htmlFor="specialization"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
-              Your specialization
+              Your Specialization
             </label>
-            <input
-              type="text"
+            <select
               id="specialization"
               value={specialization}
-              onChange={(e) => {
-                setSpecialization(e.target.value);
-              }}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Cardiology"
+              onChange={(e) => setSpecialization(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
-            />
+            >
+              <option value="" disabled>
+                Select specialization
+              </option>
+              {DOCTOR_SPECIALIZATION.map((spec, index) => (
+                <option key={index} value={spec.title}>
+                  {spec.title}
+                </option>
+              ))}
+            </select>
           </div>
+
           <div className="mb-5">
             <label
               htmlFor="education"
@@ -361,7 +369,6 @@ const DoctorProfileForm = () => {
                 </div>
               )}
             </div>
-
           </div>
 
           <button
