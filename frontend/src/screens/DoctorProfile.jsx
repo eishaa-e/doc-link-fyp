@@ -117,56 +117,6 @@ const DoctorProfile = () => {
     }
   };
 
-  const getRequestedAppointments = async () => {
-    await axiosInstance
-      .get(`/appointments/doctors/${id}?query=requested`)
-      .then((response) => {
-        setLoading(false);
-        setRequestedAppointments(response.data.appointments);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const getUpcomingAppointments = async () => {
-    await axiosInstance
-      .get(`/appointments/doctors/${id}?query=upcoming`)
-      .then((response) => {
-        setLoading(false);
-        setUpcomingAppointments(response.data.appointments);
-        setUpcomingCount(response.data.appointments?.length);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const getPastAppointment = async () => {
-    await axiosInstance
-      .get(`/appointments/doctors/${id}?query=past`)
-      .then((response) => {
-        setLoading(false);
-        setPastCount(response.data.appointments?.length);
-        setPastAppointments(response.data.appointments);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const getCancelledAppointment = async () => {
-    await axiosInstance
-      .get(`/appointments/doctors/${id}?query=cancelled`)
-      .then((response) => {
-        setLoading(false);
-        setCancelledAppointment(response.data.appointments);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFeedback((prevFeedback) => ({

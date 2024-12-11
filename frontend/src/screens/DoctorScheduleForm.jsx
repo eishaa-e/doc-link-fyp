@@ -3,6 +3,7 @@ import axiosInterceptor from "../services/axiosInterceptor";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
 import { useNavigate } from "react-router-dom";
+import CommonService from "../services/CommonService";
 
 const DoctorScheduleForm = () => {
   const daysOfWeek = [
@@ -12,7 +13,7 @@ const DoctorScheduleForm = () => {
     "WEDNESDAY",
     "THURSDAY",
     "FRIDAY",
-    "SATURDAY",
+    "SATURDAY"
   ];
   const [selectedDay, setSelectedDay] = useState(daysOfWeek[0]);
   const [selectedSlots, setSelectedSlots] = useState({});
@@ -69,7 +70,7 @@ const DoctorScheduleForm = () => {
     "05:00 AM",
     "05:30 AM",
     "06:00 AM",
-    "06:30 AM",
+    "06:30 AM"
   ];
 
   // Convert 12-hour time format to 24-hour format
@@ -96,7 +97,7 @@ const DoctorScheduleForm = () => {
       filledSlots[slot.dayOfWeek].push({
         dayOfWeek: slot.dayOfWeek,
         startTime: slot.startTime,
-        endTime: slot.endTime,
+        endTime: slot.endTime
       });
       filledSchedule.push(slot);
     });
@@ -127,7 +128,7 @@ const DoctorScheduleForm = () => {
     const newSlot = {
       dayOfWeek: selectedDay,
       startTime: startTime24,
-      endTime,
+      endTime
     };
 
     setSchedule((prevSchedule) => [...prevSchedule, newSlot]);
@@ -136,12 +137,12 @@ const DoctorScheduleForm = () => {
       const updatedSlots = [...(prev[selectedDay] || []), newSlot].sort(
         (a, b) =>
           convertTo24Hour(a.startTime).localeCompare(
-            convertTo24Hour(b.startTime),
-          ),
+            convertTo24Hour(b.startTime)
+          )
       );
       return {
         ...prev,
-        [selectedDay]: updatedSlots,
+        [selectedDay]: updatedSlots
       };
     });
   };
@@ -153,17 +154,17 @@ const DoctorScheduleForm = () => {
         .filter((s) => s.startTime !== slot.startTime)
         .sort((a, b) =>
           convertTo24Hour(a.startTime).localeCompare(
-            convertTo24Hour(b.startTime),
-          ),
+            convertTo24Hour(b.startTime)
+          )
         );
       return {
         ...prev,
-        [day]: updatedSlots,
+        [day]: updatedSlots
       };
     });
 
     setSchedule((prevSchedule) =>
-      prevSchedule.filter((s) => s.startTime !== slot.startTime),
+      prevSchedule.filter((s) => s.startTime !== slot.startTime)
     );
   };
 
@@ -236,7 +237,7 @@ const DoctorScheduleForm = () => {
                     onClick={() => handleSlotSelection(slot)}
                     className={`py-3 px-4 rounded-xl border shadow-lg my-4 ${selectedSlots[selectedDay]?.some((s) => s.startTime === convertTo24Hour(slot)) ? "bg-teal-500 text-white shadow-teal-100" : "bg-teal-100"} hover:bg-teal-800 hover:text-white`}
                     disabled={selectedSlots[selectedDay]?.some(
-                      (s) => s.startTime === convertTo24Hour(slot),
+                      (s) => s.startTime === convertTo24Hour(slot)
                     )}
                   >
                     {slot}
@@ -260,14 +261,19 @@ const DoctorScheduleForm = () => {
                 {selectedSlots[day].map((slot, idx) => (
                   <div
                     key={idx}
-                    className="flex justify-between items-center bg-teal-100 border rounded-lg p-2 shadow-lg shadow-teal-100"
+                    className="flex justify-between items-center text-sm bg-teal-100 border rounded-lg p-2 shadow-lg shadow-teal-100"
                   >
-                    <p>
-                      {slot.startTime} - {slot.endTime}
+                    <p className="">
+                      <span className="text-xs">
+                        {CommonService.formatTimeToAMPM(slot.startTime)}
+                      </span> &nbsp;
+                      <span className="text-xs">
+                      {CommonService.formatTimeToAMPM(slot.endTime)}
+                      </span>
                     </p>
                     <button onClick={() => removeSlot(day, slot)}>
                       <svg
-                        className="w-5 h-5 text-red-600"
+                        className="w-3 h-3 text-red-600"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"

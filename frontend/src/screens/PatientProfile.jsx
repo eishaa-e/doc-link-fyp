@@ -9,12 +9,15 @@ const PatientProfile = () => {
   const { id } = useParams();
   const [patient, setPatient] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [pastAppointments, setPastAppointments] = useState([]);
-  const [cancelledAppointments, setCancelledAppointment] = useState([]);
+  const [cancelledAppointments, setCancelledAppointments] = useState([]);
+
   const [upcomingSelected, setUpcomingSelected] = useState(true);
   const [pastSelected, setPastSelected] = useState(false);
   const [cancelledSelected, setCancelledSelected] = useState(false);
+
   const [pastCount, setPastCount] = useState(0);
   const [upcomingCount, setUpcomingCount] = useState(0);
 
@@ -31,45 +34,51 @@ const PatientProfile = () => {
       });
   };
 
-  const getUpcomingAppointments = async () => {
-    await axiosInstance.get(`/appointments/patients/${id}?query=upcoming`)
-      .then((response) => {
-        setLoading(false);
-        setUpcomingAppointments(response.data.appointments);
-        setUpcomingCount(response.data.appointments.length);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const fetchAppointments = async () => {
+    try {
+      const [upcoming, past, cancelled] = await Promise.all([
+        axiosInstance.get(`/appointments/patients/${id}?query=upcoming`),
+        axiosInstance.get(`/appointments/patients/${id}?query=past`),
+        axiosInstance.get(`/appointments/patients/${id}?query=cancelled`)
+      ]);
+
+      setUpcomingAppointments(upcoming.data.appointments);
+      setUpcomingCount(upcoming.data.appointments.length);
+      setPastAppointments(past.data.appointments);
+      setPastCount(past.data.appointments.length);
+      setCancelledAppointments(cancelled.data.appointments);
+    } catch (err) {
+      console.error("Error fetching appointments:", err);
+    }
   };
 
-  const getPastAppointment = async () => {
-    await axiosInstance.get(`/appointments/patients/${id}?query=past`)
-      .then((response) => {
-        setLoading(false);
-        setPastAppointments(response.data.appointments);
-        setPastCount(response.data.appointments.length);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-  const getCancelledAppointment = async () => {
-    await axiosInstance.get(`/appointments/patients/${id}?query=cancelled`)
-      .then((response) => {
-        setLoading(false);
-        setCancelledAppointment(response.data.appointments);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const handleUpdateAppointment = (updatedAppointment) => {
+    const { status } = updatedAppointment;
+
+    // Remove the appointment from all categories
+    setUpcomingAppointments((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+    setPastAppointments((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+    setCancelledAppointments((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+
+    // Add the updated appointment to the appropriate category
+    if (status === "BOOKED") {
+      setUpcomingAppointments((prev) => [updatedAppointment, ...prev]);
+    } else if (status === "CANCELLED") {
+      setCancelledAppointments((prev) => [updatedAppointment, ...prev]);
+    } else if (status === "PAST") {
+      setPastAppointments((prev) => [updatedAppointment, ...prev]);
+    }
   };
 
   useEffect(() => {
     getPatient();
-    getUpcomingAppointments();
-    getPastAppointment();
-    getCancelledAppointment();
+    fetchAppointments();
   }, []);
 
   if (loading) {
@@ -200,7 +209,7 @@ const PatientProfile = () => {
           </div>
           {upcomingSelected && (upcomingAppointments.length > 0 ? (upcomingAppointments?.map((appointment) => (
             <div key={appointment.id}>
-              <AppointmentListItem appointment={appointment} />
+              <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment} />
             </div>
           ))) : (
             <div className="font-bold px-3 py-3 text-lg">
@@ -209,7 +218,7 @@ const PatientProfile = () => {
           ))}
           {pastSelected && (pastAppointments.length > 0 ? (pastAppointments?.map((appointment) => (
             <div key={appointment.id}>
-              <AppointmentListItem appointment={appointment} isPast={true} />
+              <AppointmentListItem appointment={appointment} isPast={true} onUpdate={handleUpdateAppointment} />
             </div>
           ))) : (
             <div className="font-bold px-3 py-3 text-lg">
@@ -218,7 +227,7 @@ const PatientProfile = () => {
           ))}
           {cancelledSelected && (cancelledAppointments.length > 0 ? (cancelledAppointments?.map((appointment) => (
             <div key={appointment.id}>
-              <AppointmentListItem appointment={appointment} />
+              <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment} />
             </div>
           ))) : (
             <div className="font-bold px-3 py-3 text-lg">

@@ -5,7 +5,8 @@ import Notifier from "../services/Notifier";
 import Loader from "../components/Loader";
 import defaultProfileImg from "../assets/icons/user.jpg";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // Calendar styling
+import "react-calendar/dist/Calendar.css";
+import CommonService from "../services/CommonService"; // Calendar styling
 
 const BookAppointment = () => {
   const authToken = localStorage.getItem("authToken");
@@ -77,9 +78,15 @@ const BookAppointment = () => {
 
   const filterSlotsByDate = (date) => {
     const selectedDay = getDayOfWeek(date).toUpperCase().trim();
-    const filtered = availableSlots.filter(slot => slot.dayOfWeek.toUpperCase().trim() === selectedDay);
-    setFilteredSlots(filtered);  // Set filtered slots
+
+    // Filter and sort slots by startTime in ascending order
+    const filtered = availableSlots
+      .filter((slot) => slot.dayOfWeek.toUpperCase().trim() === selectedDay)
+      .sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+    setFilteredSlots(filtered); // Set filtered slots
   };
+
 
   const handleDateChange = (date) => {
     setAppointmentDate(date);
@@ -226,7 +233,7 @@ const BookAppointment = () => {
                   onClick={() => setSelectedSlot(slot)}
                   className={`py-2 px-4 rounded-xl border ${selectedSlot === slot ? "bg-teal-500 text-white" : "bg-teal-100"} hover:bg-teal-800 hover:text-white`}
                 >
-                  {slot.startTime}
+                  {CommonService.formatTimeToAMPM(slot.startTime)}
                 </button>
               ))
             ) : (
@@ -235,50 +242,6 @@ const BookAppointment = () => {
           </div>
         </div>
       </div>
-
-      {/*<div*/}
-      {/*    className="w-full flex flex-col justify-start items-center max-w-6xl bg-white rounded-lg shadow-xl shadow-teal-100 p-6">*/}
-      {/*    <h2 className="text-2xl text-center font-bold">Choose Available Slot</h2>*/}
-
-      {/*    <div className="relative z-0 w-1/4 my-5">*/}
-      {/*        <input*/}
-      {/*            type="text"*/}
-      {/*            name="appointmentDate"*/}
-      {/*            id="appointmentDate"*/}
-      {/*            value={appointmentDate}*/}
-      {/*            min={getTodayDate()}*/}
-      {/*            onChange={(e) => handleDateChange(e.target.value)}*/}
-      {/*            className="block py-2.5 px-0 w-full text-lg text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"*/}
-      {/*            placeholder=" "*/}
-      {/*            onFocus={(e) => (e.target.type = "date")}*/}
-      {/*            onBlur={(e) => (e.target.type = "text")}*/}
-      {/*        />*/}
-      {/*        <label*/}
-      {/*            htmlFor="appointmentDate"*/}
-      {/*            className="peer-focus:font-medium absolute text-lg text-black dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"*/}
-      {/*        >*/}
-      {/*            Select Appointment Date*/}
-      {/*        </label>*/}
-      {/*    </div>*/}
-
-      {/*    <div className="grid grid-cols-8 gap-3 mt-4 flex justify-center items-center">*/}
-      {/*        {filteredSlots.length > 0 ? (*/}
-      {/*            filteredSlots.map((slot, index) => (*/}
-      {/*                <button*/}
-      {/*                    key={index}*/}
-      {/*                    onClick={() => setSelectedSlot(slot)}*/}
-      {/*                    className={`py-3 px-4 rounded-xl border ${selectedSlot === slot ? "bg-teal-100 text-white" : "bg-white"} hover:bg-teal-800`}*/}
-      {/*                >*/}
-      {/*                    {slot.startTime}*/}
-      {/*                </button>*/}
-      {/*            ))*/}
-      {/*        ) : (*/}
-      {/*            <p className="flex justify-center items-center text-xl w-72 text-center">This doctor is not*/}
-      {/*                available on this date.</p>*/}
-      {/*        )}*/}
-      {/*    </div>*/}
-      {/*</div>*/}
-
       <button
         onClick={handleBookAppointment}
         className="mt-6 px-6 py-3 bg-teal-500 text-white rounded-full hover:bg-teal-800"
