@@ -8,9 +8,6 @@ import CommonService from "../services/CommonService";
 import AppointmentListItem from "../components/AppointmentListItem";
 import defaultProfileImg from "../assets/icons/user.jpg";
 import ChatPage from "./ChatPage";
-import { EffectCards } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import FeedbackCard from "../components/FeedbackCard";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -73,6 +70,51 @@ const DoctorProfile = () => {
         console.error(err);
         console.log("Error saving feedback", err);
       });
+  };
+
+  const fetchAppointments = async () => {
+    try {
+      const [requested, upcoming, past, cancelled] = await Promise.all([
+        axiosInstance.get(`/appointments/doctors/${id}?query=requested`),
+        axiosInstance.get(`/appointments/doctors/${id}?query=upcoming`),
+        axiosInstance.get(`/appointments/doctors/${id}?query=past`),
+        axiosInstance.get(`/appointments/doctors/${id}?query=cancelled`)
+      ]);
+
+      setRequestedAppointments(requested.data.appointments);
+      setUpcomingAppointments(upcoming.data.appointments);
+      setPastAppointments(past.data.appointments);
+      setCancelledAppointment(cancelled.data.appointments);
+    } catch (err) {
+      console.error("Error fetching appointments:", err);
+    }
+  };
+
+  const handleUpdateAppointment = (updatedAppointment) => {
+    const { status } = updatedAppointment;
+
+    // Remove the appointment from its current list
+    setRequestedAppointments((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+    setUpcomingAppointments((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+    setPastAppointments((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+    setCancelledAppointment((prev) =>
+      prev.filter((appt) => appt._id !== updatedAppointment._id)
+    );
+
+    // Add the updated appointment to the appropriate list
+    if (status === "BOOKED") {
+      setUpcomingAppointments((prev) => [updatedAppointment, ...prev]);
+    } else if (status === "CANCELLED") {
+      setCancelledAppointment((prev) => [updatedAppointment, ...prev]);
+    } else if (status === "PAST") {
+      setPastAppointments((prev) => [updatedAppointment, ...prev]);
+    }
   };
 
   const getRequestedAppointments = async () => {
@@ -143,10 +185,7 @@ const DoctorProfile = () => {
   useEffect(() => {
     getDoctor();
     if (currentUserRole === "doctor") {
-      getRequestedAppointments();
-      getUpcomingAppointments();
-      getPastAppointment();
-      getCancelledAppointment();
+      fetchAppointments();
     }
   }, []);
 
@@ -301,26 +340,6 @@ const DoctorProfile = () => {
               {doctor.name} Reviews
             </h2>
             <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
-
-            {/*{doctor.feedbacks?.length > 0 ? (*/}
-            {/*  <Swiper*/}
-            {/*    effect={"cards"}*/}
-            {/*    grabCursor={true}*/}
-            {/*    modules={[EffectCards]}*/}
-            {/*    className="mySwiper"*/}
-            {/*  >*/}
-            {/*    {doctor.feedbacks?.map((item, index) => (*/}
-            {/*      <SwiperSlide key={index}>*/}
-            {/*        <FeedbackCard feedback={item} />*/}
-            {/*      </SwiperSlide>*/}
-            {/*    ))}*/}
-            {/*  </Swiper>*/}
-            {/*) : (*/}
-            {/*  <div className="my-5 font-semibold text-center text-gray-500">*/}
-            {/*    No feedback available.*/}
-            {/*  </div>*/}
-            {/*)}*/}
-
             {doctor.feedbacks && doctor.feedbacks.length > 0 && (
               <DoctorFeedbackSlider feedbacks={doctor.feedbacks} />
             )}
@@ -381,7 +400,7 @@ const DoctorProfile = () => {
               (requestedAppointments?.length > 0 ? (
                 requestedAppointments?.map((appointment) => (
                   <div key={appointment.id}>
-                    <AppointmentListItem appointment={appointment} />
+                    <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment} />
                   </div>
                 ))
               ) : (
@@ -393,7 +412,8 @@ const DoctorProfile = () => {
               (upcomingAppointments?.length > 0 ? (
                 upcomingAppointments?.map((appointment) => (
                   <div key={appointment.id}>
-                    <AppointmentListItem appointment={appointment} />
+                    <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment}
+                    />
                   </div>
                 ))
               ) : (
@@ -407,6 +427,7 @@ const DoctorProfile = () => {
                   <div key={appointment.id}>
                     <AppointmentListItem
                       appointment={appointment}
+                      onUpdate={handleUpdateAppointment}
                       isPast={true}
                     />
                   </div>
@@ -420,7 +441,8 @@ const DoctorProfile = () => {
               (cancelledAppointments?.length > 0 ? (
                 cancelledAppointments?.map((appointment) => (
                   <div key={appointment.id}>
-                    <AppointmentListItem appointment={appointment} />
+                    <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment}
+                    />
                   </div>
                 ))
               ) : (

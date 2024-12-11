@@ -3,7 +3,7 @@ import CommonService from "../services/CommonService";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
 
-const AppointmentListItem = ({ appointment, isPast }) => {
+const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentUserRole, setCurrentUserRole] = useState(
     localStorage.getItem("role")
@@ -22,8 +22,9 @@ const AppointmentListItem = ({ appointment, isPast }) => {
     };
     await axiosInstance
       .patch(`/appointments/status/${appointment._id}`, data)
-      .then(() => {
+      .then((response) => {
         Notifier.success("Appointment cancelled successfully.");
+        onUpdate(response.data.appointment);
       });
   };
 
@@ -33,8 +34,9 @@ const AppointmentListItem = ({ appointment, isPast }) => {
     };
     await axiosInstance
       .patch(`/appointments/status/${appointment._id}`, data)
-      .then(() => {
+      .then((response) => {
         Notifier.success("Appointment approved successfully.");
+        onUpdate(response.data.appointment);
       });
   };
 
