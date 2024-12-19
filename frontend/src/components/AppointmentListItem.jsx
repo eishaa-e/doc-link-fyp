@@ -5,9 +5,7 @@ import Notifier from "../services/Notifier";
 
 const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [currentUserRole, setCurrentUserRole] = useState(
-    localStorage.getItem("role")
-  );
+  const currentUserRole = localStorage.getItem("role");
 
   const openDropdown = () => {
     setIsDropdownOpen(true);

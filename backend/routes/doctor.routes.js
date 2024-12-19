@@ -1,43 +1,42 @@
 const express = require("express");
 const router = express.Router();
 const doctorController = require("../controllers/doctor.controller");
-const {authenticateToken} = require("../middleware/auth.middleware");
+const { authenticateToken } = require("../middleware/auth.middleware");
 
 router.get(
-    "/",
-    authenticateToken,
-    doctorController.getAllDoctors);
+  "/",
+  doctorController.getAllDoctors);
 router.get(
-    "/get-profile",
-    authenticateToken,
-    doctorController.getDoctorProfile,
+  "/get-profile",
+  authenticateToken,
+  doctorController.getDoctorProfile
 );
 router.put(
-    "/update-profile",
-    authenticateToken,
-    doctorController.updateDoctorProfile,
+  "/update-profile",
+  authenticateToken,
+  doctorController.updateDoctorProfile
 );
 router.get(
-    "/get-profile/:id",
-    authenticateToken,
-    doctorController.getDoctorProfileById,
+  "/get-profile/:id",
+  authenticateToken,
+  doctorController.getDoctorProfileById
 );
 router.post(
-    "/:doctorId/feedback",
-    authenticateToken,
-    doctorController.addFeedback,
+  "/:doctorId/feedback",
+  authenticateToken,
+  doctorController.addFeedback
 );
 router.put(
-    "/update-profile-image",
-    authenticateToken,
-    doctorController.uploadProfileImage,
+  "/update-profile-image",
+  authenticateToken,
+  doctorController.uploadProfileImage
 );
 router.put(
-    "/update-availability",
-    authenticateToken,
-    doctorController.updateDoctorAvailability
+  "/update-availability",
+  authenticateToken,
+  doctorController.updateDoctorAvailability
 );
 router.get(
-    "/:doctorId/booked-slots", authenticateToken, doctorController.getBookedSlots);
+  "/:doctorId/booked-slots", authenticateToken, doctorController.getBookedSlots);
 
 module.exports = router;

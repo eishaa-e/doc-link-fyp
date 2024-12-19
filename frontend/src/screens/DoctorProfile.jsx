@@ -8,6 +8,7 @@ import CommonService from "../services/CommonService";
 import AppointmentListItem from "../components/AppointmentListItem";
 import defaultProfileImg from "../assets/icons/user.jpg";
 import ChatPage from "./ChatPage";
+import PaginatedAppointments from "../components/PaginatedAppointments";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -346,60 +347,32 @@ const DoctorProfile = () => {
                 Cancelled
               </button>
             </div>
-            {requestedSelected &&
-              (requestedAppointments?.length > 0 ? (
-                requestedAppointments?.map((appointment) => (
-                  <div key={appointment.id}>
-                    <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment} />
-                  </div>
-                ))
-              ) : (
-                <div className="font-bold px-3 py-3 text-lg">
-                  There are no requested appointments.
-                </div>
-              ))}
-            {upcomingSelected &&
-              (upcomingAppointments?.length > 0 ? (
-                upcomingAppointments?.map((appointment) => (
-                  <div key={appointment.id}>
-                    <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="font-bold px-3 py-3 text-lg">
-                  There are no upcoming appointments.
-                </div>
-              ))}
-            {pastSelected &&
-              (pastAppointments?.length > 0 ? (
-                pastAppointments?.map((appointment) => (
-                  <div key={appointment.id}>
-                    <AppointmentListItem
-                      appointment={appointment}
-                      onUpdate={handleUpdateAppointment}
-                      isPast={true}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="font-bold px-3 py-3 text-lg">
-                  There are no past appointments.
-                </div>
-              ))}
-            {cancelledSelected &&
-              (cancelledAppointments?.length > 0 ? (
-                cancelledAppointments?.map((appointment) => (
-                  <div key={appointment.id}>
-                    <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="font-bold px-3 py-3 text-lg">
-                  There are no cancelled appointments.
-                </div>
-              ))}
+
+            {requestedSelected && (
+              <PaginatedAppointments
+                appointments={requestedAppointments}
+                onUpdate={handleUpdateAppointment}
+              />
+            )}
+            {upcomingSelected && (
+              <PaginatedAppointments
+                appointments={upcomingAppointments}
+                onUpdate={handleUpdateAppointment}
+              />
+            )}
+            {pastSelected && (
+              <PaginatedAppointments
+                appointments={pastAppointments}
+                onUpdate={handleUpdateAppointment}
+                isPast={true}
+              />
+            )}
+            {cancelledSelected && (
+              <PaginatedAppointments
+                appointments={cancelledAppointments}
+                onUpdate={handleUpdateAppointment}
+              />
+            )}
           </div>
         ) : null}
         {isFeedbackFormOpen && (
