@@ -37,6 +37,7 @@ function App() {
 
   const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Lift the chatbot state up
   const [isDmOpen, setIsDmOpen] = useState(false);
+  const feedbackRef = useRef(null);
 
   const toggleBotChat = () => {
     setIsChatBotOpen((prev) => !prev);
@@ -46,16 +47,22 @@ function App() {
     setIsDmOpen((prev) => !prev);
   };
 
+  const scrollToFeedback = () => {
+    feedbackRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div>
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home toggleChat={toggleBotChat} />} />
+          <Route path="/" element={<Home toggleChat={toggleBotChat} feedbackRef={feedbackRef}
+                                         scrollToFeedback={scrollToFeedback} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/services" element={<Services toggleChat={toggleBotChat} />} />
+          <Route path="/services"
+                 element={<Services toggleChat={toggleBotChat} scrollToFeedback={scrollToFeedback} />} />
           <Route path="/forget-password" element={<ForgetPassword />} /> {/* Add this route */}
           <Route path="/reset/:token" element={<ResetPassword />} />
           <Route path="/doctor/update-password" element={<UpdatePassword />} />

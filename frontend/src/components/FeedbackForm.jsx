@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import StarRating from "./StarRating";
 import axiosInstance from "../services/axiosInterceptor";
 import formImage from "../assets/backgroundImg/LandingPageImg6.jpg";
+import { useNavigate } from "react-router-dom";
+import Notifier from "../services/Notifier";
 
 const FeedbackForm = () => {
   const [feedback, setFeedback] = useState({ rating: 0, comment: "" });
+  const navigate = useNavigate();
 
   const addFeedback = async (e) => {
     e.preventDefault();
@@ -21,10 +24,13 @@ const FeedbackForm = () => {
       .then((response) => {
         console.log("Feedback Submitted: ", response.data);
         setFeedback({ rating: 0, comment: "" });
+        navigate(0);
+        Notifier.success("Feedback has been submitted successfully");
       })
       .catch((err) => {
         console.error(err);
         console.log("Error saving feedback", err);
+        Notifier.error("Error while submitting feedback");
       });
   };
 

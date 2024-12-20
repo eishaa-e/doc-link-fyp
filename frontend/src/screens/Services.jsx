@@ -8,7 +8,7 @@ import Service5 from "../assets/services/Service5.png";
 import Service6 from "../assets/services/Service6.png";
 import { Link, useLocation } from "react-router-dom";
 
-const Services = ({ toggleChat }) => {
+const Services = ({ toggleChat, scrollToFeedback }) => {
   const path = useLocation();
   const services = [
     {
@@ -22,7 +22,7 @@ const Services = ({ toggleChat }) => {
       img: Service2,
       title: "Chat With AI",
       description: "Get instant health advice by chatting with our advanced AI assistant.",
-      onClick: toggleChat // Call toggleChat when clicked
+      onClick: toggleChat
     },
     {
       img: Service3,
@@ -35,7 +35,8 @@ const Services = ({ toggleChat }) => {
       title: "Reviews",
       description:
         "Read and share feedback about doctors and healthcare services.",
-      link: "/"
+      link: "/",
+      onClick: scrollToFeedback
     },
     {
       img: Service5,
@@ -78,7 +79,6 @@ const Services = ({ toggleChat }) => {
                 description={service.description}
                 link={service.link}
                 onClick={service.onClick ? service.onClick : null}
-
               />
             ))}
           </div>
@@ -90,16 +90,6 @@ const Services = ({ toggleChat }) => {
               View All
             </Link>
           }
-
-          {/*<div className="grid grid-cols-1 md:grid-cols-3 gap-6">*/}
-          {/*  {services.map((service, index) => (*/}
-          {/*    <ServiceCard*/}
-          {/*      key={index}*/}
-          {/*      {...service}*/}
-          {/*      onClick={service.onClick ? service.onClick : null}*/}
-          {/*    />*/}
-          {/*  ))}*/}
-          {/*</div>*/}
         </div>
       </div>
     </div>);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "../assets/icons/search-icon.svg";
 import { Feedback } from "../components/Feedback";
@@ -9,7 +9,7 @@ import Carousal from "../components/Carousal";
 import { DOCTOR_SPECIALIZATION } from "../constants/DoctorSpecilazations";
 import DoctorCarousel from "../components/DoctorCarousel";
 
-function Home({ toggleChat }) {
+function Home({ toggleChat, feedbackRef, scrollToFeedback }) {
   const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,6 +33,7 @@ function Home({ toggleChat }) {
     let name = searchQuery;
     navigate("/find-doctor", { state: { name } });
   };
+  
 
   useEffect(() => {
     getDoctors();
@@ -95,9 +96,11 @@ function Home({ toggleChat }) {
         </div>
       </div>
 
-      <Services toggleChat={toggleChat} />
+      <Services toggleChat={toggleChat} scrollToFeedback={scrollToFeedback} />
 
-      <div className="w-full max-w-6xl mb-5 px-10 flex justify-center items-center">
+      <div className="w-full max-w-6xl mb-5 px-10 flex justify-center items-center"
+           ref={feedbackRef}
+      >
         <Feedback />
       </div>
 
