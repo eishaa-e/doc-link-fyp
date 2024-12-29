@@ -1,39 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import axiosInstance from "../services/axiosInterceptor";
 
 const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null }) => {
-  const [userId, setUserId] = useState(null);
+
+  const token = localStorage.getItem("authToken");
+  const currentUserRole = localStorage.getItem("role");
+
+  const [userId, setUserId] = useState("");
   const [chats, setChats] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [message, setMessage] = useState("");
-
+  
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem("authToken");
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        const storedRole = localStorage.getItem("role");
-        const storedUserId = decodedToken.id;
 
-        const currentRole = role || storedRole;
-        setUserId(storedUserId);
+      if (token) {
+        let response;
+        if (currentUserRole === "doctor") {
+          response = await axiosInstance.get("/doctors/get-profile");
+          setUserId(response.data._id);
+        } else if (currentUserRole === "patient") {
+          response = await axiosInstance.get("/patients/get-profile");
+          setUserId(response.data._id);
+        }
 
         const fetchChats = async () => {
           try {
-            if (doctor_id && currentRole === "patient") {
-              axiosInstance.get(`/chat/messages/${storedUserId}/${doctor_id}`).then((response) => {
+            if (doctor_id && currentUserRole === "patient") {
+              axiosInstance.get(`/chat/messages/${response.data._id}/${doctor_id}`).then((response) => {
                 setChatHistory(response.data || []);
               });
-            } else if (currentRole === "doctor") {
-              const response = axiosInstance.get(`/chat/doctor-chats/${storedUserId}`).then((response) => {
+            } else if (currentUserRole === "doctor") {
+              console.log("User Id: ", response?.data?._id);
+              axiosInstance.get(`/chat/doctor-chats/${response.data._id}`).then((response) => {
                 setChats(response.data || []);
               });
-            } else if (currentRole === "patient") {
-              const response = axiosInstance.get(`/chat/patient-chats/${storedUserId}`).then((response) => {
+            } else if (currentUserRole === "patient") {
+              axiosInstance.get(`/chat/patient-chats/${response.data._id}`).then((response) => {
                 setChats(response.data || []);
               });
             }
@@ -43,7 +49,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
         };
 
         if (isOpen) {
-          fetchChats();
+          await fetchChats();
         }
       }
     };
