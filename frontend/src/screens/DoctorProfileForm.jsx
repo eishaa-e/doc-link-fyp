@@ -54,13 +54,13 @@ const DoctorProfileForm = () => {
           specialization,
           education,
           experience,
-          pmdcCertificate,
+          pmdcCertificate
         },
         {
           headers: {
-            "Content-Type": "application/json",
-          },
-        },
+            "Content-Type": "application/json"
+          }
+        }
       )
       .then((response) => {
         console.log(response.data);
@@ -77,19 +77,19 @@ const DoctorProfileForm = () => {
     await axiosInstance
       .get(`/doctors/get-profile`, {
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       })
       .then((response) => {
-        setName(response.data?.name);
-        setDob(CommonService.formatDate(response.data?.dob));
+        setName(response.data?.name || "");
+        setDob(response.data?.dob ? CommonService.formatDate(response.data.dob) : "");
         setGender(response.data?.gender);
-        setPhone(response.data?.phone);
-        setCity(response.data?.city);
+        setPhone(response.data?.phone || "");
+        setCity(response.data?.city || "");
         setProfileImage(response.data?.profileImage);
-        setSpecialization(response.data?.specialization);
-        setEducation(response.data?.education);
-        setExperience(response.data?.experience);
+        setSpecialization(response.data?.specialization || "");
+        setEducation(response.data?.education || "");
+        setExperience(response.data?.experience || "");
         setPmdcCertificate(response.data?.pmdcCertificate);
         setLoading(false);
       })
