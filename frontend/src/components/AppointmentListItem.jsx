@@ -104,12 +104,12 @@ const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
             <div
               onMouseEnter={openDropdown}
               onMouseLeave={closeDropdown}
-              className="z-100 p-2 w-44 absolute right-0 mt-2 fixed text-base list-none bg-teal-100 rounded-lg divide-y divide-teal-100 shadow-lg"
+              className="z-100 p-2 w-44 absolute right-0 mt-2 text-base list-none bg-teal-800 text-white rounded-lg divide-y divide-teal-100 shadow-lg"
               id="user-dropdown"
             >
               <button
                 onClick={handleCancelAppointment}
-                className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-teal-100 hover:text-white"
+                className="block px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-500"
               >
                 Cancel Appointment
               </button>
@@ -117,7 +117,7 @@ const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
                 appointment.status === "REQUESTED" && (
                   <button
                     onClick={handleApproveAppointment}
-                    className="block px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-teal-100 hover:text-white"
+                    className="block px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-500"
                   >
                     Approve Appointment
                   </button>

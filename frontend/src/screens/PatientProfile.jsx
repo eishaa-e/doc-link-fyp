@@ -4,6 +4,7 @@ import axiosInstance from "../services/axiosInterceptor";
 import Loader from "../components/Loader";
 import AppointmentListItem from "../components/AppointmentListItem";
 import CommonService from "../services/CommonService";
+import PaginatedAppointments from "../components/PaginatedAppointments";
 
 const PatientProfile = () => {
   const { id } = useParams();
@@ -207,33 +208,27 @@ const PatientProfile = () => {
               Cancelled
             </button>
           </div>
-          {upcomingSelected && (upcomingAppointments.length > 0 ? (upcomingAppointments?.map((appointment) => (
-            <div key={appointment.id}>
-              <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment} />
-            </div>
-          ))) : (
-            <div className="font-bold px-3 py-3 text-lg">
-              There are no upcoming appointments.
-            </div>
-          ))}
-          {pastSelected && (pastAppointments.length > 0 ? (pastAppointments?.map((appointment) => (
-            <div key={appointment.id}>
-              <AppointmentListItem appointment={appointment} isPast={true} onUpdate={handleUpdateAppointment} />
-            </div>
-          ))) : (
-            <div className="font-bold px-3 py-3 text-lg">
-              There are no past appointments.
-            </div>
-          ))}
-          {cancelledSelected && (cancelledAppointments.length > 0 ? (cancelledAppointments?.map((appointment) => (
-            <div key={appointment.id}>
-              <AppointmentListItem appointment={appointment} onUpdate={handleUpdateAppointment} />
-            </div>
-          ))) : (
-            <div className="font-bold px-3 py-3 text-lg">
-              There are no cancelled appointments.
-            </div>
-          ))}
+
+          {upcomingSelected && (
+            <PaginatedAppointments
+              appointments={upcomingAppointments}
+              onUpdate={handleUpdateAppointment}
+            />
+          )}
+
+          {pastSelected && (
+            <PaginatedAppointments
+              appointments={pastAppointments}
+              onUpdate={handleUpdateAppointment}
+              isPast={true}
+            />
+          )}
+          {cancelledSelected && (
+            <PaginatedAppointments
+              appointments={cancelledAppointments}
+              onUpdate={handleUpdateAppointment}
+            />
+          )}
         </div>
       </div>
     </div>
