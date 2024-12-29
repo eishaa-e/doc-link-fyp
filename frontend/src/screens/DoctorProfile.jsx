@@ -91,6 +91,10 @@ const DoctorProfile = () => {
       setUpcomingAppointments(upcoming.data.appointments);
       setPastAppointments(past.data.appointments);
       setCancelledAppointment(cancelled.data.appointments);
+
+      setUpcomingCount(upcoming.data.appointments.length);
+      setPastCount(past.data.appointments.length);
+
     } catch (err) {
       console.error("Error fetching appointments:", err);
     }
@@ -121,6 +125,9 @@ const DoctorProfile = () => {
     } else if (status === "PAST") {
       setPastAppointments((prev) => [updatedAppointment, ...prev]);
     }
+
+    setUpcomingCount(upcomingAppointments.length);
+    setPastCount(pastAppointments.length);
   };
 
   const handleOnChange = (e) => {
