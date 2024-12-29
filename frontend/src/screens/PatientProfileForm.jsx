@@ -65,12 +65,11 @@ const PatientProfileForm = () => {
         }
       })
       .then((response) => {
-        console.log("Patient Profile here: ", response);
-        setName(response.data?.name);
-        setDob(CommonService.formatDate(response.data?.dob));
+        setName(response.data?.name || "");
+        setDob(response.data?.dob ? CommonService.formatDate(response.data.dob) : "");
         setGender(response.data?.gender);
-        setPhone(response.data?.phone);
-        setCity(response.data?.city);
+        setPhone(response.data?.phone || "");
+        setCity(response.data?.city || "");
         setProfileImage(response.data?.profileImage);
         setLoading(false);
       })
