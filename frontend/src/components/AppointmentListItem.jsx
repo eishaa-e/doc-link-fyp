@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CommonService from "../services/CommonService";
 import axiosInstance from "../services/axiosInterceptor";
 import Notifier from "../services/Notifier";
+import { Link } from "react-router-dom";
 
 const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -51,10 +52,13 @@ const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
         <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
         <div className="flex-1 bg-teal-100 p-4 rounded-lg">
           {currentUserRole === "patient" ? (
-            <>
+            <Link
+              to={`/doctor/${appointment.doctor_id._id}`}
+              title="View Doctor's Profile"
+            >
               <p className="font-semibold">Doctor</p>
-              <p className="">{appointment.doctor_id.name}</p>
-            </>
+              <p>{appointment.doctor_id.name}</p>
+            </Link>
           ) : (
             <>
               <p className="font-semibold">Patient</p>
