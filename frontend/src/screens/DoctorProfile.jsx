@@ -65,6 +65,11 @@ const DoctorProfile = () => {
         comment: feedback.comment
       })
       .then((response) => {
+        const newFeedback = response.data.feedback;
+        setDoctor((prevDoctor) => ({
+          ...prevDoctor,
+          feedbacks: [newFeedback, ...prevDoctor.feedbacks]
+        }));
         setFeedback({ rating: 0, comment: "" });
       })
       .catch((err) => {
@@ -163,8 +168,11 @@ const DoctorProfile = () => {
                 className="w-32 h-32 rounded-full mr-4 mb-5"
               />
               <h2 className="text-2xl font-bold">{doctor.name}</h2>
-              <p className="text-lg text-gray-500 mt-2">
+              <p className="text-sm text-gray-500">
                 {doctor.email?.length > 25 ? (doctor.email).toLowerCase().slice(0, 30) + "..." : doctor.email}
+              </p>
+              <p className="text-xl font-bold text-gray-800 mt-2">
+                {doctor.specialization}
               </p>
 
               <div className="flex flex-col justify-center items-center mt-5">
@@ -291,7 +299,7 @@ const DoctorProfile = () => {
               {doctor.name} Reviews
             </h2>
             <hr className="w-2/12 h-1 bg-gray-400 mb-4" />
-            {doctor.feedbacks && doctor.feedbacks.length > 0 && (
+            {doctor.feedbacks && (
               <DoctorFeedbackSlider feedbacks={doctor.feedbacks} />
             )}
           </div>

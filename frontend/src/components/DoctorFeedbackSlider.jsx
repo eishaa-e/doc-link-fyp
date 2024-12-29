@@ -24,7 +24,7 @@ const DoctorFeedbackSlider = ({ feedbacks }) => {
 
   return (
     <div className="w-full flex flex-col justify-center items-center rounded-lg">
-      {feedbacks?.length !== 0 ?
+      {feedbacks?.length !== 0 ? (
         <>
           <div className="grid grid-cols-3 mb-5 gap-4 justify-center items-center px-4">
             {currentFeedbacks?.map((item, index) => (
@@ -55,9 +55,12 @@ const DoctorFeedbackSlider = ({ feedbacks }) => {
               </svg>
             </button>
           </div>
-        </> : <div className="my-5 font-semibold text-center text-gray-500">
-          No Feedback yet...
-        </div>}
+        </>
+      ) : (
+        <div className="my-5 font-semibold text-center text-gray-500">
+          No Feedback yet... Be the first to leave a review!
+        </div>
+      )}
     </div>
   );
 };
