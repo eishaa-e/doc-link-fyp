@@ -9,7 +9,7 @@ const KidneyStonePrediction = () => {
 
   const onDrop = (acceptedFiles) => {
     setImage(acceptedFiles[0]);
-    setPrediction("");
+    setPrediction(null);
   };
 
   const handleSubmit = async () => {
@@ -18,7 +18,7 @@ const KidneyStonePrediction = () => {
 
     try {
       const response = await axiosInstance.post("/medical-image/predict/kidney-stone", formData);
-      setPrediction(response.data.prediction);
+      setPrediction(response.data);
     } catch (error) {
       console.error("Error making prediction", error);
     }
@@ -55,7 +55,8 @@ const KidneyStonePrediction = () => {
                 }
               </div>
               {image && (
-                <p className="mt-4 text-gray-600">Selected file: {image.name}</p>
+                <p className="mt-4 text-gray-600" title={image.name}>Selected
+                  file: {image.name.length > 25 ? image.name.slice(0, 25) + "..." : image.name}</p>
               )}
             </div>
             <button
@@ -65,16 +66,19 @@ const KidneyStonePrediction = () => {
             </button>
           </div>
 
-          <div
-            className="flex w-full min-h-[400px] bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex-col justify-center items-center">
-            {image && (
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Uploaded Preview"
-                className="w-1/2 h-auto rounded-2xl mb-4"
-              />
+          <div className="flex w-full min-h-[400px] bg-white shadow-xl rounded-lg p-6 mb-8 flex-col items-center">
+            {prediction && (
+              <>
+                <img
+                  src={`data:image/jpeg;base64,${prediction.image}`}
+                  alt="Prediction Result"
+                  className="w-1/2 h-auto rounded-2xl mb-4"
+                />
+                <p className="text-lg font-bold">
+                  {prediction.has_stone ? "Stone Detected" : "No Stone Detected"}
+                </p>
+              </>
             )}
-            {prediction && <p className="text-lg font-bold">Prediction: {prediction}</p>}
           </div>
         </div>
       </div>

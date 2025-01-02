@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Signup from "./screens/Signup";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
@@ -18,21 +18,17 @@ import ResetPassword from "./screens/ResetPassword";
 import UpdatePassword from "./screens/UpdatePassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaPaperPlane } from "react-icons/fa";
-import { FiCpu } from "react-icons/fi";
-import ChatItem from "./components/ChatItem";
-import { RiRobot3Fill } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import DoctorScheduleForm from "./screens/DoctorScheduleForm";
 import KidneyStonePrediction from "./screens/KidneyStonePrediction";
 import BrainTumorPrediction from "./screens/BrainTumorPrediction";
 import ProtectedRoutes from "./services/ProtectedRoutes";
 import Chatbot from "./screens/Chatbot";
 import ChatPage from "./screens/ChatPage";
-import DoctorProfileCard from "./components/DoctorProfileCard";
 import ChatIcon from "./components/ChatIcon";
+import ValidationService from "./services/ValidationService";
 
 function App() {
+  // const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
   const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Lift the chatbot state up
@@ -50,6 +46,13 @@ function App() {
   const scrollToFeedback = () => {
     feedbackRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // useEffect(() => {
+  //   const isTokenValidated = ValidationService.validateToken();
+  //   if (!isTokenValidated) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   return (
     <div>
