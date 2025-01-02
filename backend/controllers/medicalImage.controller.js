@@ -36,6 +36,8 @@ const axios = require("axios");
 // };
 
 exports.predictKidneyStone = async (req, res) => {
+  console.log("image: ", req.body);
+
   try {
     const image = req.file;
     if (!image) {
@@ -43,24 +45,29 @@ exports.predictKidneyStone = async (req, res) => {
     }
 
     const formData = new FormData();
-    formData.append("file", fs.createReadStream(image.path));
+    formData.append("image", fs.createReadStream(image.path)); // Updated key to "image"
 
+    // Send the image to the Flask API for prediction
     const flaskResponse = await axios.post(
       "http://localhost:5001/predict/kidney-stone",
       formData,
-      { headers: formData.getHeaders() }
+      {
+        headers: formData.getHeaders()
+      }
     );
 
-    res.json(flaskResponse.data);
+    const { predictions, result_image } = flaskResponse.data;
 
-    // Remove the file after processing
+    // Respond with prediction results and the image path
+    res.json({ predictions, resultImage: result_image });
+
+    // Remove the file from the server after processing
     fs.unlinkSync(image.path);
   } catch (error) {
     console.error("Error making prediction", error);
     res.status(500).json({ error: "Failed to get prediction" });
   }
 };
-
 
 exports.predictBrainTumor = async (req, res) => {
   console.log("image: ", req.body);

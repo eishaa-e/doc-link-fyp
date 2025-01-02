@@ -25,6 +25,10 @@
 /ml_models/flask-venv
 /ml_models/myenv
 
+/ml_models/kidney_stone_model.pt
+/ml_models/uploaded_image.jpg
+/ml_models/result_image.jpg
+
 # testing
 /coverage
 
