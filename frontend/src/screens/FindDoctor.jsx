@@ -10,13 +10,14 @@ import Loader from "../components/Loader";
 const FindDoctor = () => {
   const location = useLocation();
   const initialSpecialization = location.state?.specialization || "";
+  const initialName = location.state?.name || ""; // Get the initial name from location
   const [loading, setLoading] = useState(false);
 
   const [doctors, setDoctors] = useState([]);
   const [selectedSpecialization, setSelectedSpecialization] = useState(
-    initialSpecialization,
+    initialSpecialization
   );
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialName);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // For dialog box state
 
   const specializations = DOCTOR_SPECIALIZATION;
@@ -79,8 +80,8 @@ const FindDoctor = () => {
   };
 
   useEffect(() => {
-    getDoctors(initialSpecialization);
-  }, [initialSpecialization]);
+    getDoctors(initialSpecialization, initialName);
+  }, [initialSpecialization, initialName]);
 
   return (
     <div className="w-full py-10 flex flex-col items-center text-black bg-gray-100">
@@ -94,6 +95,7 @@ const FindDoctor = () => {
           type="text"
           placeholder="Search by doctor's name"
           className="w-full px-6 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-800"
+          value={searchQuery}
           onChange={(e) => {
             e.preventDefault();
             setSearchQuery(e.target.value);
@@ -151,8 +153,7 @@ const FindDoctor = () => {
 
       <div className="w-full max-w-8xl flex flex-col justify-center items-center gap-5">
         {loading && <Loader />}
-        {doctors &&
-          doctors.map((doctor, index) => {
+        {doctors ? (doctors?.map((doctor, index) => {
             return (
               <div
                 key={index}
@@ -161,7 +162,13 @@ const FindDoctor = () => {
                 <DoctorProfileCard doctor={doctor} />
               </div>
             );
-          })}
+          })) :
+          (
+            <div>
+              No doctors to display.
+            </div>
+          )
+        }
       </div>
 
       {isDialogOpen && (
