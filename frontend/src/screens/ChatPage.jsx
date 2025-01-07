@@ -13,7 +13,7 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
   const [chatHistory, setChatHistory] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [message, setMessage] = useState("");
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
 
@@ -100,10 +100,10 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
       {isOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 flex justify-center items-center">
           <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg overflow-hidden h-[90vh]">
-            <div className="p-6 border-b bg-teal-800 text-white">
+            <div className="p-6 border-b bg-teal-800 text-white flex justify-between">
               <h2 className="text-xl font-semibold">Messenger</h2>
               <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                className="text-white hover:text-gray-400"
                 onClick={onClose}
               >
                 <RxCross2 size={24} />

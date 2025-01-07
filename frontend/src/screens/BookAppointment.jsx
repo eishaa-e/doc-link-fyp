@@ -102,7 +102,7 @@ const BookAppointment = () => {
       endTime: selectedSlot.endTime
     };
     await axiosInstance.post("/appointments/book", data).then(() => {
-      Notifier.success("Appointment has been booked successfully");
+      Notifier.success("Appointment request has been sent successfully");
       navigate(`/patient/${patientInfo._id}`);
     }).catch((error) => {
       console.error(error);

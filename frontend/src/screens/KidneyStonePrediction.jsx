@@ -92,12 +92,15 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axiosInstance from "../services/axiosInterceptor";
 import { AiOutlinePlus } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 
 const KidneyStonePrediction = () => {
   const [image, setImage] = useState(null);
   const [predictions, setPredictions] = useState([]);
   const [resultImage, setResultImage] = useState("");
   const [boundingBoxes, setBoundingBoxes] = useState([]);
+
+  const navigate = useNavigate();
 
   const onDrop = (acceptedFiles) => {
     setImage(acceptedFiles[0]);
@@ -209,6 +212,16 @@ const KidneyStonePrediction = () => {
               </div>
             )}
           </div>
+        </div>
+        <div className="w-full flex justify-center items-center">
+          <Link
+            onClick={() => {
+              navigate(-1);
+            }}
+            className="mt-4 px-4 py-2 bg-teal-500 hover:bg-teal-800 rounded-full text-white"
+          >
+            Back
+          </Link>
         </div>
       </div>
     </div>

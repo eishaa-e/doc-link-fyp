@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axiosInstance from "../services/axiosInterceptor";
 import { AiOutlinePlus } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 
 const BrainTumorPrediction = () => {
   const [image, setImage] = useState(null);
   const [prediction, setPrediction] = useState("");
+
+  const navigate = useNavigate();
 
   const onDrop = (acceptedFiles) => {
     setImage(acceptedFiles[0]);
@@ -88,6 +91,16 @@ const BrainTumorPrediction = () => {
               <p className="text-lg font-bold">Prediction: {prediction}</p>
             )}
           </div>
+        </div>
+        <div className="w-full flex justify-center items-center">
+          <Link
+            onClick={() => {
+              navigate(-1);
+            }}
+            className="mt-4 px-4 py-2 bg-teal-500 hover:bg-teal-800 rounded-full text-white"
+          >
+            Back
+          </Link>
         </div>
       </div>
     </div>

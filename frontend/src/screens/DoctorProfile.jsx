@@ -9,6 +9,9 @@ import AppointmentListItem from "../components/AppointmentListItem";
 import defaultProfileImg from "../assets/icons/user.jpg";
 import ChatPage from "./ChatPage";
 import PaginatedAppointments from "../components/PaginatedAppointments";
+import { LuMessageCircle } from "react-icons/lu";
+import { FaComments } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -221,12 +224,14 @@ const DoctorProfile = () => {
                     {doctor.gender?.toUpperCase()}
                   </p>
                 </div>
-                <div>
-                  <p className="text-gray-500">Birthday</p>
-                  <p className="font-semibold">
-                    {CommonService.formatDate(doctor.dob)}
-                  </p>
-                </div>
+                {currentUserRole !== "patient" &&
+                  <div>
+                    <p className="text-gray-500">Birthday</p>
+                    <p className="font-semibold">
+                      {CommonService.formatDate(doctor.dob)}
+                    </p>
+                  </div>
+                }
                 <div>
                   <p className="text-gray-500">Phone number</p>
                   <p className="font-semibold">{doctor.phone}</p>
@@ -237,7 +242,7 @@ const DoctorProfile = () => {
                 </div>
               </div>
 
-              <div className="flex gap-2 items-baseline mt-10">
+              <div className="flex gap-2 items-baseline mt-10 justify-between">
                 {currentUserRole === "patient" && (
                   <>
                     <Link
@@ -246,13 +251,15 @@ const DoctorProfile = () => {
                     >
                       Book Appointment
                     </Link>
-
-                    <Link
-                      onClick={() => setIsChatOpen(true)} // Open the chat modal
-                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    <button
+                      data-modal-target="authentication-modal"
+                      data-modal-toggle="authentication-modal"
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      type="button"
+                      onClick={toggleFeedbackForm}
                     >
-                      Direct Message
-                    </Link>
+                      Give Feedback
+                    </button>
                   </>
                 )}
 
@@ -266,20 +273,6 @@ const DoctorProfile = () => {
                     </Link>
                   </>
                 )}
-                {currentUserRole === "patient" && (
-                  <>
-                    <button
-                      data-modal-target="authentication-modal"
-                      data-modal-toggle="authentication-modal"
-                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      type="button"
-                      onClick={toggleFeedbackForm}
-                    >
-                      Give Feedback
-                    </button>
-                  </>
-                )}
-
                 <button
                   data-modal-target="authentication-modal"
                   data-modal-toggle="authentication-modal"
@@ -287,16 +280,30 @@ const DoctorProfile = () => {
                   type="button"
                   onClick={togglePmdcCertificate}
                 >
-                  View PMDC Certificate
+                  PMDC Certificate
                 </button>
+              </div>
+              <div className="flex gap-2 items-baseline mt-4 justify-center">
+                {currentUserRole === "patient" && (
+                  <>
+                    <Link
+                      onClick={() => setIsChatOpen(true)} // Open the chat modal
+                      className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      title={"Message this doctor"}
+                    >
+                      <FaComments size={20} />
+                    </Link>
+                  </>
+                )}
 
                 <Link
                   onClick={() => {
                     navigate(-1);
                   }}
-                  className="py-1 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-teal-100 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  title={"Back"}
                 >
-                  Back
+                  <IoMdArrowRoundBack size={20} />
                 </Link>
               </div>
             </div>
