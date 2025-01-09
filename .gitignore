@@ -19,8 +19,14 @@
 /ml_models/kidney_stone_detection/using_yolo/yolov8m.pt
 /ml_models/kidney_stone_detection/using_yolo/predicted_images
 
-/ml_models/brain_tumor_detection/dataset
-/ml_models/brain_tumor_detection/brain_tumor_detection_model.h5
+/ml_models/brain_tumor_detection/using_CNN/dataset
+/ml_models/brain_tumor_detection/using_CNN/brain_tumor_detection_model.h5
+
+/ml_models/brain_tumor_detection/using_yolo/dataset
+/ml_models/brain_tumor_detection/using_yolo/ft_models
+/ml_models/brain_tumor_detection/using_yolo/yolov8m.pt
+/ml_models/brain_tumor_detection/using_yolo/predicted_images
+
 
 /ml_models/flask-venv
 /ml_models/myenv

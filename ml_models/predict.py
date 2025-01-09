@@ -145,7 +145,7 @@ app = Flask(__name__)
 # Load YOLOv8 Model
 model = YOLO("kidney_stone_model.pt")
 
-brain_tumor_model = load_model('./brain_tumor_detection/brain_tumor_detection_model.h5')
+brain_tumor_model = load_model('./brain_tumor_detection/using_CNN/brain_tumor_detection_model.h5')
 
 
 def preprocess_image(image, input_shape):
