@@ -16,11 +16,9 @@ exports.bookAppointment = async (req, res) => {
         const doctor = await Doctor.findById(doctorId);
         if (!doctor) return res.status(404).json({message: "Doctor not found"});
 
-        // Get the day of the week from the provided date (0 = Sunday, 6 = Saturday)
         const bookingDate = new Date(date);
         const dayOfWeek = bookingDate.toLocaleString('en-US', {weekday: 'long'}).toUpperCase();
 
-        // Check if the doctor is available on the requested day
         const availableSlots = doctor.availableTimeSlots.filter(slot => slot.dayOfWeek === dayOfWeek);
 
         if (availableSlots.length === 0) {
@@ -29,7 +27,6 @@ exports.bookAppointment = async (req, res) => {
             });
         }
 
-        // Check if the requested time slot matches any of the available slots
         const isSlotAvailable = availableSlots.some(slot =>
             slot.startTime === startTime && slot.endTime === endTime
         );
@@ -40,13 +37,12 @@ exports.bookAppointment = async (req, res) => {
             });
         }
 
-        // Check if the time slot on the date is already booked
         const existingAppointment = await Appointment.findOne({
             doctor_id: doctorId,
             date: new Date(date),
             "time_slot.startTime": startTime,
             "time_slot.endTime": endTime,
-            status: {$in: ["BOOKED", "REQUESTED"]}, // Only check for booked or pending appointments
+            status: {$in: ["BOOKED", "REQUESTED"]},
         });
 
         if (existingAppointment) {
@@ -90,7 +86,7 @@ exports.getAppointment = async (req, res) => {
 
 exports.getAppointmentsByPatient = async (req, res) => {
     const {patientId} = req.params;
-    const {query} = req.query; // Get the query parameter (upcoming/past)
+    const {query} = req.query;
 
     try {
         let appointments = await Appointment.find({
@@ -103,10 +99,8 @@ exports.getAppointmentsByPatient = async (req, res) => {
             return res.status(404).json({message: "No appointments found"});
         }
 
-        // Get the current date
         const currentDate = new Date();
 
-        // Filter appointments based on the query parameter
         if (query === "upcoming") {
             appointments = appointments.filter(
                 (appointment) =>
@@ -133,7 +127,7 @@ exports.getAppointmentsByPatient = async (req, res) => {
 
 exports.getAppointmentsByDoctor = async (req, res) => {
     const {doctorId} = req.params;
-    const {query} = req.query; // Get the query parameter (upcoming/past)
+    const {query} = req.query;
 
     try {
         let appointments = await Appointment.find({doctor_id: doctorId})
@@ -143,10 +137,8 @@ exports.getAppointmentsByDoctor = async (req, res) => {
         if (!appointments)
             return res.status(404).json({message: "No appointments found"});
 
-        // Get the current date
         const currentDate = new Date();
 
-        // Filter appointments based on the query parameter
         if (query === "requested") {
             appointments = appointments.filter(
                 (appointment) =>
@@ -178,8 +170,8 @@ exports.getAppointmentsByDoctor = async (req, res) => {
 };
 
 exports.updateAppointmentStatus = async (req, res) => {
-    const {appointmentId} = req.params; // Appointment ID from URL
-    const {status} = req.body; // "booked" or "rejected" from request body
+    const {appointmentId} = req.params;
+    const {status} = req.body; 
 
     try {
         const appointment = await Appointment.findById(appointmentId);

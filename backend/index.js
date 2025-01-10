@@ -1,4 +1,4 @@
-require('dotenv').config(); // Corrected to ensure dotenv is required properly
+require('dotenv').config();
 
 const express = require('express');
 const authRoutes = require('./routes/auth.routes');
@@ -12,7 +12,7 @@ const { default: OpenAI } = require('openai');
 const connectToMongo = require("./db");
 const socketio = require('socket.io');
 const cors = require("cors");
-const port = process.env.PORT || 5000; // Updated to use environment variable
+const port = process.env.PORT || 5000;
 //const messagesRouter = require('./routes/messages');
 const chatRoutes = require("./routes/chat.routes");
 
