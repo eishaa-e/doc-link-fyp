@@ -13,21 +13,39 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axiosInstance
-      .post("/auth/login", { email, password, role })
-      .then((response) => {
-        if (response.data.success) {
-          localStorage.setItem("authToken", response.data.authToken);
-          localStorage.setItem("role", role);
-          navigate("/");
-          window.location.reload();
-          Notifier.success("Login Successful!");
+    try {
+      const response = await axiosInstance.post("/auth/login", { email, password, role });
+
+      if (response.data.success) {
+        localStorage.setItem("authToken", response.data.authToken);
+        localStorage.setItem("role", role);
+
+        if (role === "doctor") {
+          const doctor = await getDoctor();
+          if (doctor) {
+            navigate(`/doctor/${doctor._id}`);
+            return;
+          }
         }
-      })
-      .catch((error) => {
-        Notifier.error("Invalid Credentials!");
-        console.error(error);
-      });
+
+        navigate("/");
+        Notifier.success("Login Successful!");
+      }
+    } catch (error) {
+      Notifier.error("Invalid Credentials!");
+      console.error(error);
+    }
+  };
+
+  const getDoctor = async () => {
+    try {
+      const response = await axiosInstance.get("/doctors/get-profile");
+      if (response) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error("Failed to fetch doctor profile:", error);
+    }
   };
 
   return (
