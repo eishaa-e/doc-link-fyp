@@ -24,11 +24,13 @@ function Login() {
           const doctor = await getDoctor();
           if (doctor) {
             navigate(`/doctor/${doctor._id}`);
+            window.location.reload();
             return;
           }
         }
 
         navigate("/");
+        window.location.reload();
         Notifier.success("Login Successful!");
       }
     } catch (error) {

@@ -6,13 +6,17 @@ import { Link, useNavigate } from "react-router-dom";
 
 const BrainTumorPrediction = () => {
   const [image, setImage] = useState(null);
-  const [prediction, setPrediction] = useState("");
+  const [predictions, setPredictions] = useState([]);
+  const [resultImage, setResultImage] = useState("");
+  const [boundingBoxes, setBoundingBoxes] = useState([]);
 
   const navigate = useNavigate();
 
   const onDrop = (acceptedFiles) => {
     setImage(acceptedFiles[0]);
-    setPrediction("");
+    setPredictions([]);
+    setResultImage("");
+    setBoundingBoxes([]);
   };
 
   const handleSubmit = async () => {
@@ -24,8 +28,10 @@ const BrainTumorPrediction = () => {
         "/medical-image/predict/brain-tumor",
         formData
       );
-      setPrediction(response.data.Brain);
-      console.log("response", response.data);
+      setPredictions(response.data.predictions);
+      // setResultImage(`http://localhost:5001/${response.data.resultImagePath}`);
+      setResultImage(response.data.resultImage);
+      setBoundingBoxes(response.data.predictions.map(pred => pred.box || null)); // Optional, depends on Flask response
     } catch (error) {
       console.error("Error making prediction", error);
     }
@@ -65,9 +71,8 @@ const BrainTumorPrediction = () => {
                 )}
               </div>
               {image && (
-                <p className="mt-4 text-gray-600">
-                  Selected file: {image.name}
-                </p>
+                <p className="mt-4 text-gray-600" title={image.name}>Selected
+                  file: {image.name.length > 25 ? image.name.slice(0, 25) + "..." : image.name}</p>
               )}
             </div>
             <button
@@ -79,16 +84,45 @@ const BrainTumorPrediction = () => {
           </div>
 
           <div
-            className="flex w-full min-h-[400px] bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
-            {image && (
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Uploaded Preview"
-                className="w-1/2 h-auto rounded-2xl mb-4"
-              />
+            className="flex w-full min-h-[400px] bg-white shadow-xl rounded-lg p-6 mb-8 flex-col justify-center items-center">
+            {resultImage && (
+              <div className="relative">
+                <img
+                  src={`data:image/jpeg;base64,${resultImage}`}
+                  alt="Prediction Result"
+                  className="w-full h-auto rounded-2xl mb-4"
+                />
+                {/* Optional: Draw Bounding Boxes */}
+                {boundingBoxes?.map((box, index) => (
+                  box && (
+                    <div
+                      key={index}
+                      style={{
+                        position: "absolute",
+                        top: `${box.y}px`,
+                        left: `${box.x}px`,
+                        width: `${box.width}px`,
+                        height: `${box.height}px`,
+                        border: "2px solid red",
+                        pointerEvents: "none"
+                      }}
+                    ></div>
+                  )
+                ))}
+              </div>
             )}
-            {prediction && (
-              <p className="text-lg font-bold">Prediction: {prediction}</p>
+            {predictions?.length > 0 && (
+              <div>
+                <h3 className="text-lg font-bold">Predictions:</h3>
+                <ul>
+                  {predictions?.map((prediction, index) => (
+                    <li key={index} className="text-gray-700">
+                      {prediction.label} - Confidence:{" "}
+                      {prediction.confidence.toFixed(2)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>
