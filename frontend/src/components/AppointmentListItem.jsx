@@ -13,8 +13,8 @@ const AppointmentListItem = ({ appointment, onUpdate, isPast }) => {
   };
   const closeDropdown = () => {
     setIsDropdownOpen(false);
-
   };
+
   const handleCancelAppointment = async () => {
     const data = {
       status: "CANCELLED"

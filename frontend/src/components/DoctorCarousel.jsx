@@ -21,7 +21,6 @@ const DoctorCarousel = ({ doctors }) => {
           1280: { slidesPerView: 4 }
         }}
         navigation={true}
-        // pagination={{ clickable: true }}
         modules={[Navigation, Pagination]}
         className="w-full max-w-6xl"
       >

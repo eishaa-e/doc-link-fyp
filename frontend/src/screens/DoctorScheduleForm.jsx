@@ -46,7 +46,7 @@ const DoctorScheduleForm = () => {
     "05:00 PM",
     "05:30 PM",
     "06:00 PM",
-    "6:30 PM",
+    "06:30 PM",
     "07:00 PM",
     "07:30 PM",
     "08:00 PM",
@@ -73,7 +73,6 @@ const DoctorScheduleForm = () => {
     "06:30 AM"
   ];
 
-  // Convert 12-hour time format to 24-hour format
   const convertTo24Hour = (time) => {
     const [timeString, modifier] = time.split(" ");
     let [hours, minutes] = timeString.split(":");
@@ -85,7 +84,6 @@ const DoctorScheduleForm = () => {
     return `${hours}:${minutes}`;
   };
 
-  // Pre-fill the slots from the API data
   const preFillSlots = (availableTimeSlots) => {
     const filledSlots = {};
     const filledSchedule = [];
@@ -106,7 +104,6 @@ const DoctorScheduleForm = () => {
     setSchedule(filledSchedule);
   };
 
-  // Add selected slot to the schedule
   const handleSlotSelection = (slot) => {
     if (!selectedDay) {
       alert("Please select a day first.");
@@ -147,7 +144,6 @@ const DoctorScheduleForm = () => {
     });
   };
 
-  // Remove selected slot from the schedule
   const removeSlot = (day, slot) => {
     setSelectedSlots((prev) => {
       const updatedSlots = prev[day]
@@ -206,7 +202,6 @@ const DoctorScheduleForm = () => {
         </h2>
 
         <div className="w-full flex justify-start items-start gap-6 p-10 bg-white rounded-xl shadow-xl shadow-teal-100">
-          {/* Days of the week selection */}
           <div className="flex justify-start flex-col gap-5 my-5 px-5 border-r-2 border-gray-300">
             <h2 className="text-2xl font-bold text-center">
               Select Day
@@ -228,7 +223,6 @@ const DoctorScheduleForm = () => {
               Pick time slots
               <hr className="w-1/5 h-1 bg-gray-400 mt-2" />
             </h2>
-            {/* Time slots selection */}
             {selectedDay && (
               <div className="w-full grid grid-cols-12 gap-3 mt-4">
                 {availableSlots.map((slot, index) => (
@@ -253,7 +247,6 @@ const DoctorScheduleForm = () => {
             Selected Slots
             <hr className="w-1/5 h-1 bg-gray-400 mt-2" />
           </h2>
-          {/* Selected slots display */}
           {Object.keys(selectedSlots).map((day) => (
             <div key={day} className="w-full mt-6">
               <h3 className="font-semibold text-lg">{day}</h3>

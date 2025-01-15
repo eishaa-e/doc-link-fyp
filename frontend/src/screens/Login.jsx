@@ -146,7 +146,6 @@ function Login() {
               Login
             </button>
 
-            {/* Add the Forget Password button */}
             <p className="text-sm text-center mt-2 font-light text-gray-800 dark:text-gray-400">
               <Link
                 to="/forget-password"

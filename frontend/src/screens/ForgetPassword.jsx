@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import logo from "../assets/icons/doc-link-icon.png"; // Logo for the application
-import loginImage from "../assets/forgetPass.png"; // Add an image related to forget password
-import { Link, useNavigate } from "react-router-dom"; // Ensure this line is included
+import logo from "../assets/icons/doc-link-icon.png";
+import loginImage from "../assets/forgetPass.png";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Notifier from "../services/Notifier"; // Assuming you have a Notifier for messages
+import Notifier from "../services/Notifier";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");

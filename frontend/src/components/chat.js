@@ -1,4 +1,3 @@
-// Chat.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -7,7 +6,6 @@ const Chat = ({ doctorId, patientId }) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Fetch chat messages
     axios
       .get(`/api/chat/messages/${doctorId}/${patientId}`)
       .then((response) => {
@@ -23,8 +21,8 @@ const Chat = ({ doctorId, patientId }) => {
       .post("/api/chat/send-message", {
         doctorId,
         patientId,
-        sender: "patient", // Assuming this is patient
-        message,
+        sender: "patient",
+        message
       })
       .then((response) => {
         setMessages(response.data.messages);

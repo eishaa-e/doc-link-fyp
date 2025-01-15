@@ -3,8 +3,8 @@ const Patient = require("../models/patient.model");
 const Doctor = require("../models/doctor.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer"); // Required for sending emails
-const crypto = require("crypto"); // Required for generating reset tokens
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 const { body, validationResult } = require("express-validator");
 const JWT_SECRET = "ThisIsAJWTSecretKey";
@@ -139,18 +139,16 @@ exports.forgetPassword = async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // Generate a password reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
 
-    // Configure nodemailer
     const transporter = nodemailer.createTransport({
-      service: "Gmail", // Use your email service
+      service: "Gmail",
       auth: {
-        user: process.env.EMAIL_USER, // Your email address
-        pass: process.env.EMAIL_PASS // Your email password or app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
       }
     });
 
@@ -174,14 +172,14 @@ exports.forgetPassword = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Reset link sent to your email" });
   } catch (error) {
-    console.error(error); // Log the error
+    console.error(error);
     return res.status(500).json({ error: error.message || "An error occurred" });
   }
 };
 
 exports.resetPassword = async (req, res) => {
-  const { token } = req.params; // Get token from URL params
-  const { password } = req.body; // Get new password from request body
+  const { token } = req.params;
+  const { password } = req.body;
 
   try {
     const user = await User.findOne({
@@ -196,8 +194,8 @@ exports.resetPassword = async (req, res) => {
     // Hash the new password
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
-    user.resetPasswordToken = undefined; // Clear the token
-    user.resetPasswordExpires = undefined; // Clear the expiration
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
     await user.save();
 
     res.status(200).json({ success: true, message: "Password has been reset successfully" });
@@ -209,11 +207,11 @@ exports.resetPassword = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  const userId = req.user?.id;  // Check if the user ID is correctly extracted
+  const userId = req.user?.id;
 
-  console.log("User ID:", userId);  // Debugging log
-  console.log("Old Password:", oldPassword);  // Debugging log
-  console.log("New Password:", newPassword);  // Debugging log
+  console.log("User ID:", userId);
+  console.log("Old Password:", oldPassword);
+  console.log("New Password:", newPassword);
 
   if (!userId) {
     return res.status(401).json({ success: false, message: "User not authenticated" });
@@ -236,7 +234,7 @@ exports.updatePassword = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Password updated successfully" });
   } catch (error) {
-    console.error("Error updating password:", error);  // Log the error to the console
+    console.error("Error updating password:", error);
     res.status(500).json({ error: error.message });
   }
 };

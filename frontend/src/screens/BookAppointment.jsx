@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import defaultProfileImg from "../assets/icons/user.jpg";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import CommonService from "../services/CommonService"; // Calendar styling
+import CommonService from "../services/CommonService";
 
 const BookAppointment = () => {
   const authToken = localStorage.getItem("authToken");
@@ -55,7 +55,6 @@ const BookAppointment = () => {
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDifference = today.getMonth() - birthDate.getMonth();
 
-    // If the birth date hasn't occurred yet this year, subtract 1 from the age
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
@@ -79,18 +78,16 @@ const BookAppointment = () => {
   const filterSlotsByDate = (date) => {
     const selectedDay = getDayOfWeek(date).toUpperCase().trim();
 
-    // Filter and sort slots by startTime in ascending order
     const filtered = availableSlots
       .filter((slot) => slot.dayOfWeek.toUpperCase().trim() === selectedDay)
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
 
-    setFilteredSlots(filtered); // Set filtered slots
+    setFilteredSlots(filtered);
   };
-
 
   const handleDateChange = (date) => {
     setAppointmentDate(date);
-    filterSlotsByDate(date);  // Filter the slots as per selected date
+    filterSlotsByDate(date);
   };
 
   const handleBookAppointment = async () => {
@@ -206,10 +203,8 @@ const BookAppointment = () => {
         </div>
       </div>
 
-      {/* Calendar and Slots Container */}
       <div className="grid grid-cols-2 gap-10 w-full max-w-6xl">
 
-        {/* Left Column: Calendar */}
         <div
           className="bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
           <h2 className="text-2xl font-bold mb-4">Select Appointment Date</h2>
@@ -221,7 +216,6 @@ const BookAppointment = () => {
           />
         </div>
 
-        {/* Right Column: Available Slots */}
         <div
           className="bg-white shadow-xl shadow-teal-100 rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
           <h2 className="text-2xl font-bold mb-4">Available Time Slots</h2>

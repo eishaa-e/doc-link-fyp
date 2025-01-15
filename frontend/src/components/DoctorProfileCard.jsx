@@ -1,8 +1,7 @@
-// DoctorProfileCard.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import defaultProfileImg from "../assets/icons/user.jpg";
-import ChatPage from "../screens/ChatPage"; // Import the ChatPage component
+import ChatPage from "../screens/ChatPage";
 
 const DoctorProfileCard = ({ doctor }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -75,7 +74,6 @@ const DoctorProfileCard = ({ doctor }) => {
             </div>
           </div>
 
-          {/*Buttons*/}
           <div className="flex flex-col items-center gap-5">
             <Link
               to={`/doctor/${_id}/book-appointment`}

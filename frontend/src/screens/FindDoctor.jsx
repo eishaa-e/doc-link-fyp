@@ -10,7 +10,7 @@ import Loader from "../components/Loader";
 const FindDoctor = () => {
   const location = useLocation();
   const initialSpecialization = location.state?.specialization || "";
-  const initialName = location.state?.name || ""; // Get the initial name from location
+  const initialName = location.state?.name || "";
   const [loading, setLoading] = useState(false);
 
   const [doctors, setDoctors] = useState([]);
@@ -18,7 +18,7 @@ const FindDoctor = () => {
     initialSpecialization
   );
   const [searchQuery, setSearchQuery] = useState(initialName);
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // For dialog box state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const specializations = DOCTOR_SPECIALIZATION;
 

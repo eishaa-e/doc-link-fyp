@@ -3,27 +3,26 @@ const router = express.Router();
 const patientController = require("../controllers/patient.controller");
 const { authenticateToken } = require("../middleware/auth.middleware");
 
-// Patient routes
 router.get(
   "/get-profile",
   authenticateToken,
-  patientController.getPatientProfile,
+  patientController.getPatientProfile
 );
 router.get("/", authenticateToken, patientController.getAllPatients);
 router.put(
   "/update-profile",
   authenticateToken,
-  patientController.updatePatientProfile,
+  patientController.updatePatientProfile
 );
 router.get(
   "/get-profile/:id",
   authenticateToken,
-  patientController.getPatientProfileById,
+  patientController.getPatientProfileById
 );
 router.put(
   "/update-profile-image",
   authenticateToken,
-  patientController.uploadProfileImage,
+  patientController.uploadProfileImage
 );
 
 module.exports = router;

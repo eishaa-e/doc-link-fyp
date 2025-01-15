@@ -29,9 +29,8 @@ const BrainTumorPrediction = () => {
         formData
       );
       setPredictions(response.data.predictions);
-      // setResultImage(`http://localhost:5001/${response.data.resultImagePath}`);
       setResultImage(response.data.resultImage);
-      setBoundingBoxes(response.data.predictions.map(pred => pred.box || null)); // Optional, depends on Flask response
+      setBoundingBoxes(response.data.predictions.map(pred => pred.box || null));
     } catch (error) {
       console.error("Error making prediction", error);
     }
@@ -92,7 +91,6 @@ const BrainTumorPrediction = () => {
                   alt="Prediction Result"
                   className="w-full h-auto rounded-2xl mb-4"
                 />
-                {/* Optional: Draw Bounding Boxes */}
                 {boundingBoxes?.map((box, index) => (
                   box && (
                     <div

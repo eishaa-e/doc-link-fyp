@@ -25,10 +25,8 @@ import ProtectedRoutes from "./services/ProtectedRoutes";
 import Chatbot from "./screens/Chatbot";
 import ChatPage from "./screens/ChatPage";
 import ChatIcon from "./components/ChatIcon";
-import ValidationService from "./services/ValidationService";
 
 function App() {
-  // const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
 
   const [isChatBotOpen, setIsChatBotOpen] = useState(false); // Lift the chatbot state up
@@ -47,13 +45,6 @@ function App() {
     feedbackRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // useEffect(() => {
-  //   const isTokenValidated = ValidationService.validateToken();
-  //   if (!isTokenValidated) {
-  //     navigate("/login");
-  //   }
-  // }, []);
-
   return (
     <div>
       <BrowserRouter>
@@ -66,10 +57,9 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/services"
                  element={<Services toggleChat={toggleBotChat} scrollToFeedback={scrollToFeedback} />} />
-          <Route path="/forget-password" element={<ForgetPassword />} /> {/* Add this route */}
+          <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/reset/:token" element={<ResetPassword />} />
-          <Route path="/doctor/update-password" element={<UpdatePassword />} />
-          <Route path="/patient/update-password" element={<UpdatePassword />} />
+
           {/*Protected Routes*/}
           <Route element={<ProtectedRoutes />}>
             <Route path="/find-doctor" element={<FindDoctor />} />
@@ -91,6 +81,8 @@ function App() {
               path="/doctor/schedule-form"
               element={<DoctorScheduleForm />}
             />
+            <Route path="/doctor/update-password" element={<UpdatePassword />} />
+            <Route path="/patient/update-password" element={<UpdatePassword />} />
 
             <Route
               path="/chat/:doctor_id"

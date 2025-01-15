@@ -1,7 +1,6 @@
-// DoctorsList.js
 import React, { useState } from "react";
-import DoctorProfileCard from "./DoctorProfileCard"; // Adjust the path as needed
-import ChatPage from "../screens/ChatPage"; // Import the ChatPage component
+import DoctorProfileCard from "./DoctorProfileCard";
+import ChatPage from "../screens/ChatPage";
 
 const DoctorsList = ({ doctors }) => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -23,11 +22,10 @@ const DoctorsList = ({ doctors }) => {
         <DoctorProfileCard
           key={doctor._id}
           doctor={doctor}
-          onMessageClick={openChat} // Pass down the function to open chat
+          onMessageClick={openChat}
         />
       ))}
 
-      {/* Chat Modal */}
       {isChatModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg w-96">

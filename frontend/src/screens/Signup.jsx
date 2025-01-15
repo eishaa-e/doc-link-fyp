@@ -20,6 +20,7 @@ const Signup = () => {
       Notifier.error("Passwords do not match!");
       return;
     }
+
     await axiosInstance
       .post("/auth/register", {
         email,
@@ -30,12 +31,13 @@ const Signup = () => {
         setErrorFlag(false);
         localStorage.setItem("authToken", response.data.authToken);
         localStorage.setItem("role", role);
+
         if (role === "doctor") {
           navigate("/doctor/profile-form");
-          Notifier.success("Doctor Login has been created successfully!");
+          Notifier.success("Doctor Account has been created successfully!");
         } else {
           navigate("/patient/profile-form");
-          Notifier.success("Patient Login has been created successfully!");
+          Notifier.success("Patient Account has been created successfully!");
         }
       })
       .catch((error) => {

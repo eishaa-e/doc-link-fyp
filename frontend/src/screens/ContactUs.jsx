@@ -41,7 +41,7 @@ const ContactUs = () => {
             </a>
           </div>
         </div>
-        {/* Contact Form Section */}
+
         <div className="w-full md:w-1/2 py-8 px-16">
           <h2 className="text-3xl font-bold mb-6 text-center ">Contact Us</h2>
           <p className="text-center mb-8">

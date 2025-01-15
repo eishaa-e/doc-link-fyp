@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/icons/doc-link-icon.png";
 import axiosInstance from "../services/axiosInterceptor";
-import Notifier from "../services/Notifier"; // Assuming you have a Notifier for messages
+import Notifier from "../services/Notifier";
 
 const UpdatePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const navigate = useNavigate();
 
-  // Get the authToken from localStorage (or another place you store it)
-  const authToken = localStorage.getItem("authToken"); // Ensure this matches where you're storing the token
+  const authToken = localStorage.getItem("authToken");
 
   const changePassword = async (e) => {
-    e.preventDefault(); // Prevent form submission from reloading the page
+    e.preventDefault();
 
-    // Check if new password matches confirmation
     if (newPassword !== confirmPassword) {
       setMessage("New password and confirm password do not match");
       Notifier.error("New password and confirm password do not match");
@@ -43,12 +41,11 @@ const UpdatePassword = () => {
 
       Notifier.success("Password updated successfully!");
 
-      // Redirect to profile page after a brief delay
       setTimeout(() => {
         navigate("/Home");
-      }, 2000); // 2-second delay before redirecting to profile
+      }, 2000);
     } catch (error) {
-      console.error("Error:", error);  // Log the error for debugging
+      console.error("Error:", error);
       Notifier.error("Something went wrong");
     }
   };

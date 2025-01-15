@@ -65,71 +65,21 @@ exports.getChatsForPatient = async (req, res) => {
   }
 };
 
-// // Send message after checking for an appointment
-// exports.checkAppointmentAndSendMessage = async (req, res) => {
-//     try {
-//         const { patient_id, doctor_id, message, sender } = req.body;
-//         console.log("Received message request:", req.body);
-
-//         // Uncomment this block if appointment verification is needed
-//         /*
-//         const appointment = await Appointment.findOne({
-//             patient_id,
-//             doctor_id,
-//             status: { $in: ["BOOKED", "ACCEPTED", "REQUESTED"] }
-//         });
-
-//         if (!appointment) {
-//             return res.status(400).json({ error: "No active appointment between patient and doctor." });
-//         }
-//         */
-
-//         let chat = await Chat.findOne({ patient_id, doctor_id });
-//         if (!chat) {
-//             chat = new Chat({ patient_id, doctor_id, messages: [] });
-//             console.log("Chat created:", chat);
-//         }
-
-//         const messageData = {
-//             sender,
-//             message,
-//             timestamp: new Date(),
-//             receiver: sender === 'patient' ? doctor_id : patient_id
-//         };
-
-//         chat.messages.push(messageData);
-//         await chat.save();
-
-//         console.log("Chat updated:", chat);
-//         console.log(patient_id, doctor_id);
-//         res.json(chat);
-//         console.log("Message sent:", messageData);
-
-
-//     } catch (error) {
-//         console.error("Error sending message:", error);
-//         res.status(500).json({ error: "Error sending message" });
-//     }
-// };
 exports.checkAppointmentAndSendMessage = async (req, res) => {
   try {
     const { patient_id, doctor_id, message, sender } = req.body;
 
-    // Check for required IDs
     if (!patient_id || !doctor_id) {
       return res.status(400).json({ error: "Patient and doctor IDs are required." });
     }
 
-    // Determine the receiver based on the sender role
     const receiver = sender.toString() === patient_id.toString() ? doctor_id : patient_id;
 
-    // Find or create a chat between the patient and doctor
     let chat = await Chat.findOne({ patient_id, doctor_id });
     if (!chat) {
       chat = new Chat({ patient_id, doctor_id, messages: [] });
     }
 
-    // Create a new message object
     const messageData = {
       sender,
       receiver,
@@ -137,11 +87,9 @@ exports.checkAppointmentAndSendMessage = async (req, res) => {
       timestamp: new Date()
     };
 
-    // Add message to chat's messages array
     chat.messages.push(messageData);
     await chat.save();
 
-    // Respond with the chat ID and message data
     res.json({ id: chat._id, message: messageData });
   } catch (error) {
     console.error("Error sending message:", error);
@@ -149,7 +97,6 @@ exports.checkAppointmentAndSendMessage = async (req, res) => {
   }
 };
 
-// Get messages between a specific patient and doctor
 exports.getMessages = async (req, res) => {
   const { patient_id, doctor_id } = req.params;
   console.log("Received get messages request:");
@@ -168,6 +115,7 @@ exports.getMessages = async (req, res) => {
     res.status(500).json({ error: "Error fetching messages" });
   }
 };
+
 // Fetch all chats related to a specific patient
 exports.getAllChats = async (req, res) => {
   const { patientId } = req.params;

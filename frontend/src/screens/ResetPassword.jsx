@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import logo from "../assets/icons/doc-link-icon.png"; // Logo for the application
-import resetPasswordImage from "../assets/reset.png"; // Add an image related to password reset
-import { useParams, Link, useNavigate } from "react-router-dom"; // Include useNavigate for navigation
+import logo from "../assets/icons/doc-link-icon.png";
+import resetPasswordImage from "../assets/reset.png";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Notifier from "../services/Notifier"; // Assuming you have a Notifier for messages
+import Notifier from "../services/Notifier";
 
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { token } = useParams(); // Assuming you pass the token as a URL parameter
+  const { token } = useParams();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

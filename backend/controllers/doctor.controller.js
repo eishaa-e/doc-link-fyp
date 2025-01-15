@@ -7,7 +7,7 @@ exports.getDoctorProfile = async (req, res) => {
   try {
     const doctor = await Doctor.findOne({ user_id: req.user.id }).populate(
       "user_id",
-      "email",
+      "email"
     );
 
     if (!doctor) return res.status(404).json({ message: "Doctor not found" });
@@ -29,7 +29,7 @@ exports.getAllDoctors = async (req, res) => {
     if (query.specialization) {
       searchCriteria.specialization = {
         $regex: query.specialization,
-        $options: "i",
+        $options: "i"
       };
     }
     if (query.city) {
@@ -64,7 +64,7 @@ exports.updateDoctorProfile = async (req, res) => {
     const updatedDoctor = await Doctor.findOneAndUpdate(
       { user_id: id },
       { ...req.body },
-      { new: true, upsert: true },
+      { new: true, upsert: true }
     );
 
     if (!updatedDoctor) {
@@ -89,19 +89,19 @@ exports.getDoctorProfileById = async (req, res) => {
     const feedbacksWithPatientInfo = await Promise.all(
       doctor.feedbacks.map(async (feedback) => {
         const patient = await Patient.findOne({
-          user_id: feedback.user_id,
+          user_id: feedback.user_id
         }).select("name");
 
         return {
           _id: feedback._id,
-          user_id: feedback.user_id, // User ID
-          name: patient ? patient.name : "Unknown", // Fetch patient name
-          email: doctor.user_id.email, // Email is already fetched from user
+          user_id: feedback.user_id,
+          name: patient ? patient.name : "Unknown",
+          email: doctor.user_id.email,
           rating: feedback.rating,
           comment: feedback.comment,
-          date: feedback.date,
+          date: feedback.date
         };
-      }),
+      })
     );
 
     const response = {
@@ -118,8 +118,8 @@ exports.getDoctorProfileById = async (req, res) => {
       specialization: doctor.specialization,
       profileImage: doctor.profileImage,
       availableTimeSlots: doctor.availableTimeSlots,
-      feedbacks: feedbacksWithPatientInfo, // Use the updated feedbacks
-      pmdcCertificate: doctor.pmdcCertificate,
+      feedbacks: feedbacksWithPatientInfo,
+      pmdcCertificate: doctor.pmdcCertificate
     };
 
     res.status(200).json(response);
@@ -149,7 +149,7 @@ exports.addFeedback = async (req, res) => {
       user_id: id,
       rating,
       comment,
-      date: new Date(),
+      date: new Date()
     };
 
     doctor.feedbacks.push(feedback);
@@ -157,7 +157,7 @@ exports.addFeedback = async (req, res) => {
 
     res.status(201).json({
       message: "Feedback added successfully",
-      feedback,
+      feedback
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -172,7 +172,7 @@ exports.uploadProfileImage = async (req, res) => {
     const updatedDoctor = await Doctor.findOneAndUpdate(
       { user_id: id },
       { profileImage },
-      { new: true },
+      { new: true }
     );
 
     if (!updatedDoctor) {
@@ -181,7 +181,7 @@ exports.uploadProfileImage = async (req, res) => {
 
     res.status(200).json({
       message: "Profile image updated successfully",
-      doctor: updatedDoctor,
+      doctor: updatedDoctor
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -190,23 +190,20 @@ exports.uploadProfileImage = async (req, res) => {
 
 exports.updateDoctorAvailability = async (req, res) => {
   try {
-    const { id } = req.user; // Get the doctor's user ID from the JWT token
-    const availabilitySlots = req.body; // Expect an array of time slots from the request body
+    const { id } = req.user;
+    const availabilitySlots = req.body;
 
-    // Check if the user is a doctor
     const doctor = await Doctor.findOne({ user_id: id });
     if (!doctor) {
       return res.status(404).json({ message: "Doctor not found" });
     }
 
-    // Only the doctor can update their own schedule
     if (req.user.role !== "doctor") {
       return res.status(403).json({
-        message: "You are not authorized to update this doctor's schedule",
+        message: "You are not authorized to update this doctor's schedule"
       });
     }
 
-    // Validate each time slot
     const validDays = [
       "SUNDAY",
       "MONDAY",
@@ -214,7 +211,7 @@ exports.updateDoctorAvailability = async (req, res) => {
       "WEDNESDAY",
       "THURSDAY",
       "FRIDAY",
-      "SATURDAY",
+      "SATURDAY"
     ];
     const invalidSlots = availabilitySlots.some((slot) => {
       return (
@@ -230,7 +227,6 @@ exports.updateDoctorAvailability = async (req, res) => {
         .json({ message: "Invalid day of the week or time slot" });
     }
 
-    // Update the doctor's available time slots
     doctor.availableTimeSlots = availabilitySlots;
     await doctor.save();
 
@@ -244,20 +240,19 @@ exports.updateDoctorAvailability = async (req, res) => {
 
 exports.getBookedSlots = async (req, res) => {
   const { doctorId } = req.params;
-  const currentTime = new Date(); // Get the current date and time
+  const currentTime = new Date();
 
   try {
-    // Find all booked appointments from the current time onward
     const appointments = await Appointment.find({
       doctor_id: doctorId,
-      date: { $gte: currentTime }, // Appointments from the current date onward
-      status: { $in: ["BOOKED", "REQUESTED"] }, // Consider booked and pending appointments
+      date: { $gte: currentTime },
+      status: { $in: ["BOOKED", "REQUESTED"] }
     });
 
     const bookedSlots = appointments.map((appointment) => ({
       date: appointment.date,
       time_slot: appointment.time_slot,
-      status: appointment.status,
+      status: appointment.status
     }));
 
     res.status(200).json({ bookedSlots });

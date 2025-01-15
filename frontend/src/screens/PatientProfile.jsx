@@ -45,11 +45,11 @@ const PatientProfile = () => {
 
       setUpcomingAppointments(upcoming.data.appointments);
       setUpcomingCount(upcoming.data.appointments.length);
+
       setPastAppointments(past.data.appointments);
       setPastCount(past.data.appointments.length);
-      setCancelledAppointments(cancelled.data.appointments);
 
-      setUpcomingCount(upcoming.data.appointments.length);
+      setCancelledAppointments(cancelled.data.appointments);
       setPastCount(past.data.appointments.length);
     } catch (err) {
       console.error("Error fetching appointments:", err);
@@ -59,7 +59,6 @@ const PatientProfile = () => {
   const handleUpdateAppointment = (updatedAppointment) => {
     const { status } = updatedAppointment;
 
-    // Remove the appointment from all categories
     setUpcomingAppointments((prev) =>
       prev.filter((appt) => appt._id !== updatedAppointment._id)
     );
@@ -70,7 +69,6 @@ const PatientProfile = () => {
       prev.filter((appt) => appt._id !== updatedAppointment._id)
     );
 
-    // Add the updated appointment to the appropriate category
     if (status === "BOOKED") {
       setUpcomingAppointments((prev) => [updatedAppointment, ...prev]);
     } else if (status === "CANCELLED") {
@@ -132,7 +130,6 @@ const PatientProfile = () => {
             >
               Update Profile
             </Link>
-            {/* New Update Password Button */}
             <Link
               to="/patient/update-password"
               className="text-center bg-teal-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-teal-800"
@@ -142,7 +139,6 @@ const PatientProfile = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-10">
-            {/* Other Profile Information */}
             <div>
               <p className="font-medium text-gray-500">Gender</p>
               <p className="font-semibold">{patient.gender?.toUpperCase()}</p>
@@ -172,10 +168,6 @@ const PatientProfile = () => {
             <div>
               <p className="text-gray-500">Registration date</p>
               <p className="font-semibold">{CommonService.formatDate(patient.registeredAt)}</p>
-            </div>
-            <div>
-              <p className="text-gray-500">Member status</p>
-              <p className="font-semibold">{patient.status}</p>
             </div>
           </div>
         </div>

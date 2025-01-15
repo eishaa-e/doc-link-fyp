@@ -106,7 +106,6 @@ const DoctorProfile = () => {
   const handleUpdateAppointment = (updatedAppointment) => {
     const { status } = updatedAppointment;
 
-    // Remove the appointment from its current list
     setRequestedAppointments((prev) =>
       prev.filter((appt) => appt._id !== updatedAppointment._id)
     );
@@ -120,7 +119,6 @@ const DoctorProfile = () => {
       prev.filter((appt) => appt._id !== updatedAppointment._id)
     );
 
-    // Add the updated appointment to the appropriate list
     if (status === "BOOKED") {
       setUpcomingAppointments((prev) => [updatedAppointment, ...prev]);
     } else if (status === "CANCELLED") {
@@ -287,7 +285,7 @@ const DoctorProfile = () => {
                 {currentUserRole === "patient" && (
                   <>
                     <Link
-                      onClick={() => setIsChatOpen(true)} // Open the chat modal
+                      onClick={() => setIsChatOpen(true)}
                       className="inline-flex items-center px-2 py-1 text-sm font-medium text-center text-white bg-teal-500 hover:bg-teal-800 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       title={"Message this doctor"}
                     >

@@ -27,13 +27,11 @@ const Carousal = () => {
       updateCarousel(newIndex);
     });
 
-    // Auto slide every 5 seconds
     const interval = setInterval(() => {
       const newIndex = (currentIndex + 1) % items.length;
       updateCarousel(newIndex);
     }, 5000);
 
-    // Cleanup
     return () => clearInterval(interval);
   }, []);
 

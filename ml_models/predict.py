@@ -16,14 +16,6 @@ kidney_stone_model = YOLO("kidney_stone_model.pt")
 brain_tumor_model = YOLO("brain_tumor_model.pt")
 
 
-def preprocess_image(image, input_shape):
-    image = image.convert("RGB")
-    image = image.resize(input_shape)
-    image = np.array(image) / 255.0
-    image = np.expand_dims(image, axis=0)
-    return image
-
-
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     return send_from_directory('static', filename)

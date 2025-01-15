@@ -29,9 +29,8 @@ const KidneyStonePrediction = () => {
         formData
       );
       setPredictions(response.data.predictions);
-      // setResultImage(`http://localhost:5001/${response.data.resultImagePath}`);
       setResultImage(response.data.resultImage);
-      setBoundingBoxes(response.data.predictions.map(pred => pred.box || null)); // Optional, depends on Flask response
+      setBoundingBoxes(response.data.predictions.map(pred => pred.box || null));
     } catch (error) {
       console.error("Error making prediction", error);
     }
@@ -49,7 +48,6 @@ const KidneyStonePrediction = () => {
         <hr className="w-2/12 h-1 bg-gray-400 mb-10" />
 
         <div className="flex w-full max-w-6xl justify-between items-start gap-10">
-          {/* Upload Section */}
           <div
             className="w-full min-h-[400px] bg-white shadow-xl rounded-lg p-6 mb-8 flex flex-col justify-center items-center">
             <div
@@ -82,7 +80,6 @@ const KidneyStonePrediction = () => {
             </button>
           </div>
 
-          {/* Results Section */}
           <div
             className="flex w-full min-h-[400px] bg-white shadow-xl rounded-lg p-6 mb-8 flex-col justify-center items-center">
             {resultImage && (
@@ -92,7 +89,6 @@ const KidneyStonePrediction = () => {
                   alt="Prediction Result"
                   className="w-full h-auto rounded-2xl mb-4"
                 />
-                {/* Optional: Draw Bounding Boxes */}
                 {boundingBoxes.map((box, index) => (
                   box && (
                     <div

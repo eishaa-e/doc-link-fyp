@@ -10,10 +10,8 @@ const PaginatedAppointments = ({
                                }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Calculate the total pages
   const totalPages = Math.ceil(appointments.length / itemsPerPage);
 
-  // Get the items for the current page
   const currentItems = appointments.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -37,7 +35,6 @@ const PaginatedAppointments = ({
         </div>
       )))}
 
-      {/* Pagination Controls */}
       <div className="flex justify-center mt-4">
         <button
           className={`px-4 py-2 mx-1 rounded-lg ${
