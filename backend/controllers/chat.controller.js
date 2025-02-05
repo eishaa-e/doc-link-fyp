@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 const Doctor = require('../models/doctor.model');
 const Patient = require('../models/patient.model');
 
+
 // Fetch all chats for a specific doctor with patient name and specialization
 exports.getChatsForDoctor = async (req, res) => {
     const doctorId = req.params.doctorId;
@@ -78,7 +79,27 @@ exports.getChatsForPatient = async (req, res) => {
         res.status(500).json({ error: "Error fetching chats for patient" });
     }
 };
+exports.sendImageMessage = async (req, res) => {
+    const { patient_id, doctor_id, sender } = req.body;
+    const image = req.file ? req.file.path : null;
 
+    if (!image) {
+        return res.status(400).send("Image file is required.");
+    }
+
+    try {
+        const chat = await Chat.findOneAndUpdate(
+            { patient_id, doctor_id },
+            { $push: { messages: { image, sender, receiver: doctor_id } } },
+            { new: true, upsert: true }
+        );
+
+        res.status(200).json(chat);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error sending image message.");
+    }
+};
 // // Send message after checking for an appointment
 // exports.checkAppointmentAndSendMessage = async (req, res) => {
 //     try {

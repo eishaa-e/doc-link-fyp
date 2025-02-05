@@ -30,7 +30,7 @@ const Chatbot = ({ isChatOpen, toggleChat }) => {
 
     setLoading(true);
     try {
-      const res = await axiosInstance.post("/chat", { query: prompt });
+      const res = await axiosInstance.post("http://127.0.0.1:8000/chat", { query: prompt });
       const botMessage = { type: "bot", content: res.data.response };
       setChatHistory((prev) => [...prev, botMessage]);
     } catch (error) {

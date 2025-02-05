@@ -34,6 +34,8 @@ app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use("/api/chat", chatRoutes); 
+app.use('/uploads', express.static('uploads'));
+
 
 
 // app.use('/messages', messagesRouter);

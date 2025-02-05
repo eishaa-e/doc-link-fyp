@@ -11,7 +11,7 @@ const ChatItem = ({ msg }) => {
   const generateSpeech = async (text) => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/generate-speech", {
+      const response = await fetch("http://127.0.0.1:8000/generate-speech", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text })

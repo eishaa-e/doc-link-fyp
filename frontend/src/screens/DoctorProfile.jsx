@@ -7,7 +7,7 @@ import DoctorFeedbackSlider from "../components/DoctorFeedbackSlider";
 import CommonService from "../services/CommonService";
 import AppointmentListItem from "../components/AppointmentListItem";
 import defaultProfileImg from "../assets/icons/user.jpg";
-import ChatPage from "./ChatPage"; // Import the ChatPage component
+import ChatPage from "./ChatPage";
 
 const DoctorProfile = () => {
   const { id } = useParams();
@@ -59,15 +59,10 @@ const DoctorProfile = () => {
     e.preventDefault();
     toggleFeedbackForm();
     await axiosInstance
-      .post(
-        `/doctors/${id}/feedback`,
-        { rating: feedback.rating, comment: feedback.comment },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      )
+      .post(`/doctors/${id}/feedback`, {
+        rating: feedback.rating,
+        comment: feedback.comment,
+      })
       .then((response) => {
         setFeedback({ rating: 0, comment: "" });
       })

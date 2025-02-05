@@ -72,20 +72,40 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
         console.error("Recipient ID not found.");
         return;
       }
-      console.log("Patient ID:", userId);
-      console.log("Doc", activeChat?.patient_id);
 
       await axiosInstance.post("/chat/send-message", {
         patient_id: senderRole === "doctor" ? activeChat?.patient_id : userId,
         doctor_id: senderRole === "doctor" ? userId : recipientId,
         message,
-        sender: userId
+        sender: userId,
       }).then((response) => {
         setChatHistory([...chatHistory, response.data.message]);
         setMessage("");
       });
     } catch (error) {
       console.error("Error sending message:", error);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("patient_id", userId);
+    formData.append("doctor_id", doctor_id);
+    formData.append("sender", userId);
+
+    try {
+      const response = await axiosInstance.post("/chat/send-image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setChatHistory([...chatHistory, ...response.data.messages]);
+    } catch (error) {
+      console.error("Error uploading image:", error);
     }
   };
 
@@ -114,12 +134,13 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                       onClick={() => {
                         handleChatClick(chat);
                       }}
-                      className={`m-1 p-2 cursor-pointer ${activeChat?.patient_id === chat.patient_id ? "border-b-2 border-l-2 shadow-md border-fuchsia-400 rounded-md bg-fuchsia-200" : ""}`}
+                      className={`m-1 p-2 cursor-pointer ${
+                        activeChat?.patient_id === chat.patient_id ? "border-b-2 border-l-2 shadow-md border-fuchsia-400 rounded-md bg-fuchsia-200" : ""
+                      }`}
                     >
-                      {/* Display patient name if doctor is logged in, otherwise display doctor name */}
-                      <p className="text-lg font-medium text-gray-700">{role === "doctor"
-                        ? (chat.patient_name || "Patient")
-                        : (chat.doctor_name || chat.doctor_id || "Doctor")}</p>
+                      <p className="text-lg font-medium text-gray-700">
+                        {role === "doctor" ? chat.patient_name || "Patient" : chat.doctor_name || "Doctor"}
+                      </p>
                     </div>
                   ))
                 ) : (
@@ -132,27 +153,24 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
               <div className="flex flex-col w-full bg-gray-100">
                 <div className="p-6 bg-fuchsia-300 text-white">
                   <h2 className="text-xl font-semibold text-gray-800">
-                    {role === "doctor" ? activeChat?.patient_name : (activeChat?.doctor_name || doctor_name || "Select a chat")}
+                    {role === "doctor" ? activeChat?.patient_name : activeChat?.doctor_name || doctor_name || "Select a chat"}
                   </h2>
                 </div>
                 <div className="p-6 h-[70vh] overflow-y-auto">
                   {chatHistory && chatHistory.length > 0 ? (
                     chatHistory.map((msg, index) => (
-                      <div
-                        key={index}
-                        className={`flex ${
-                          msg.sender === userId ? "justify-end" : "justify-start"
-                        } my-1`}
-                      >
-                        <div
-                          className={`max-w-[60%] px-4 py-2 rounded-lg text-black ${
-                            msg.sender === userId
-                              ? "bg-fuchsia-300"
-                              : "bg-fuchsia-200"
-                          }`}
-                        >
-                          <p>{msg.message}</p>
-                        </div>
+                      <div key={index} className={`flex ${msg.sender === userId ? "justify-end" : "justify-start"} mb-4`}>
+                        {msg.image ? (
+                          <img src={`http://localhost:5000/${msg.image}`} alt="Uploaded" className="max-w-xs rounded-lg" />
+                        ) : (
+                          <div
+                            className={`max-w-[60%] p-4 rounded-lg ${
+                              msg.sender === userId ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
+                            }`}
+                          >
+                            <p>{msg.message}</p>
+                          </div>
+                        )}
                       </div>
                     ))
                   ) : (
@@ -160,26 +178,29 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
                   )}
                 </div>
 
-                <form
-                  className="flex justify-center items-center p-4 border-t bg-gray-100"
-                  onSubmit={handleSendMessage}
-                >
+                <form className="flex items-center p-4 border-t bg-gray-100" onSubmit={handleSendMessage}>
                   <input
                     type="text"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Type your message..."
-                    className="flex-grow px-4 py-2 mx-2 text-gray-800 border rounded-lg outline-none"
+                    className="flex-grow p-2 border rounded-l-lg outline-none"
                   />
-                  <button
-                    type="submit"
-                    className="p-2 py-3 bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-400 flex items-center justify-center"
-                  >
+                  <label htmlFor="image-upload" className="cursor-pointer bg-purple-500 text-white px-3 py-2 rounded-md">
+                    Upload Image
+                  </label>
+                  <input
+                    type="file"
+                    id="image-upload"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    accept="image/*"
+                  />
+                  <button type="submit" className="p-2 py-3 bg-purple-500 text-white rounded-r-lg">
                     <FaPaperPlane />
                   </button>
                 </form>
               </div>
-
             </div>
           </div>
         </div>
@@ -190,10 +211,8 @@ const ChatPage = ({ isOpen, onClose, doctor_id = null, doctor_name, role = null 
       >
         {!isOpen ? <FaComments size={30} /> : <RxCross2 size={30} />}
       </button>
-
     </div>
-  )
-    ;
+  );
 };
 
 export default ChatPage;
